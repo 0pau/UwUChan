@@ -1,0 +1,11 @@
+:root {
+    --accent: #CD69BD;
+    --body: #000000;
+    --sidebar: #222222;
+    --main-bg: #333333;
+    --card-bg: #3A3A3A;
+    --text: #F2F2F2;
+    --disabled: #959595;
+    --borders: #757575;
+    --destructive: #C43B3B;
+}
