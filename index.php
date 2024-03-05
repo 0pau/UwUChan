@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UwUChan</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="icon" href="img/favicon.png">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 </head>
 <body>
