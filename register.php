@@ -9,27 +9,27 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 </head>
-<body prefer-dark="false" class="login-background">
+<body class="login-background">
     <div class="login-window">
-        <div class="login-window-head">
+        <header class="login-window-head">
             <div class="color-variants">
                 <img alt="UwUChan-embléma" class="login-window-logo light-variant" src="img/logo.svg">
                 <img alt="UwUChan-embléma" class="login-window-logo dark-variant" src="img/logo-dark.svg">
             </div>
             <h1 class="login-window-title">Regisztráció</h1>
             <p>Már van fiókod? <a href="login.php">Bejelentkezés</a></p>
-        </div>
+        </header>
         <form method="dialog">
             <label for="login-name">Felhasználónév</label>
-            <input name="login" id="login-name">
+            <input name="login" id="login-name" required>
             <label for="email">Email-cím</label>
-            <input name="email" id="email">
-            <label for="birthday">Születési dátum <abbr title="A születési dátum ismeretében meg tudjuk akadályozni, hogy az oldalra regisztrált 13 évnél idősebb kiskorúak az egészséges fejlődésüket veszélyeztető tartalmakkal találkozzanak.">Erre miért van szükség?</abbr></label>
-            <input name="birthday" id="birthday" type="date">
-            <label for="password">Jelszó</label>
-            <input type="password" name="pass" id="password">
+            <input name="email" id="email" required>
+            <label for="birthday">Születési dátum <a href="help#birthday" class="help-link">Erre miért van szükség?</a></label>
+            <input name="birthday" id="birthday" type="date" required>
+            <label for="password">Jelszó <a href="help#password" class="help-link">Milyen a jó jelszó?</a></label>
+            <input type="password" name="pass" id="password" required>
             <label for="password_again">Jelszó mégegyszer</label>
-            <input type="password" name="pass_again" id="password_again">
+            <input type="password" name="pass_again" id="password_again" required>
             <button class="cta">Regisztráció</button>
         </form>
     </div>

@@ -11,19 +11,19 @@
 </head>
 <body prefer-dark="false" class="login-background">
     <div class="login-window">
-        <div class="login-window-head">
+        <header class="login-window-head">
             <div class="color-variants">
                 <img alt="UwUChan-embléma" class="login-window-logo light-variant" src="img/logo.svg">
                 <img alt="UwUChan-embléma" class="login-window-logo dark-variant" src="img/logo-dark.svg">
             </div>
             <h1 class="login-window-title">Jelentkezz be</h1>
             <p>Nincs fiókod? <a href="register.php">Regisztráció</a></p>
-        </div>
+        </header>
         <form method="post">
             <label for="login-name">Felhasználónév</label>
-            <input name="login" id="login-name">
+            <input name="login" id="login-name" required>
             <label for="password">Jelszó</label>
-            <input type="password" name="pass" id="password">
+            <input type="password" name="pass" id="password" required>
             <button class="cta">Bejelentkezés</button>
         </form>
     </div>

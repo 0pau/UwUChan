@@ -3,6 +3,7 @@
 
 * {
     color: var(--text);
+    scroll-behavior: smooth;
 }
 
 body {
@@ -12,8 +13,49 @@ body {
     font-size: 14px;
 }
 
+body > main {
+    background-color: var(--main);
+    max-width: 1100px;
+    margin: 0px auto;
+    box-shadow: 0px 0px 35px #00000025;
+}
+
+section.help {
+    padding: 30px;
+}
+
+section.help hr {
+    color: var(--borders);
+    opacity: 0.25;
+}
+
+header:not(.login-window-head) {
+    background-color: var(--highlight);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0px;
+    border-bottom: 1px solid var(--borders);
+}
+
+header:not(.login-window-head) img.logo {
+    width: 125px;
+}
+
+article {
+    text-align: justify;
+}
+
+span.header-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--accent);
+}
+
 .login-background {
-    background-color: var(--main-bg);
+    background-color: var(--main);
     background-image: url("../img/login_bg.svg");
     background-size: 300px;
     background-attachment: fixed;
@@ -24,7 +66,7 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--main-bg);
+    background-color: var(--highlight);
     border: 1px var(--borders) solid;
     min-width: 350px;
     border-radius: 5px;
@@ -32,7 +74,7 @@ body {
     box-shadow: 0px 2px 50px #00000025;
 }
 
-.login-window .login-window-head {
+.login-window header {
     padding-bottom: 15px;
     border-bottom: 1px var(--borders) solid;
     text-align: center;
@@ -42,7 +84,7 @@ body {
     gap: 10px;
 }
 
-.login-window .login-window-head * {
+.login-window header * {
     margin: 0px;
 }
 
@@ -62,6 +104,10 @@ a:link, a:visited, abbr {
     text-decoration: none;
 }
 
+.help-link {
+    float: right;
+}
+
 .login-window form {
     display: flex;
     flex-direction: column;
@@ -75,10 +121,10 @@ a:link, a:visited, abbr {
 .login-window input {
     padding: 7.5px;
     border: 1px var(--borders) solid;
+    background-color: var(--highlight);
     border-radius: 5px;
     font-size: inherit;
     outline: none;
-    background-color: transparent;
 }
 
 .login-window input:focus {
@@ -93,12 +139,23 @@ a:link, a:visited, abbr {
 button {
     padding: 8px 12px;
     border-radius: 5px;
-    border: none;
     font-size: inherit;
     cursor: pointer;
+    border: 1px solid var(--borders);
+    background-color: var(--highlight);
+    box-shadow: 0px 1px 2px #00000025;
 }
 
 button.cta {
     background-color: var(--accent);
+    border-color: var(--accent);
     color: white;
+}
+
+section.contents > p {
+    margin-bottom: 0px;
+}
+
+section.contents > ul {
+    margin-top: 5px;
 }
