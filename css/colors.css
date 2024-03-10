@@ -9,9 +9,15 @@ body {
     --disabled: #6A6A6A;
     --borders: #D9D9D9;
     --destructive: #D20F0F;
+    --blue: #30419A;
+    --blue-transparent: #30419A26;
+    --green: #2E9425;
+    --green-transparent: #2E942526;
+    --orange: #9A5D30;
+    --orange-transparent: #9A5D3026;
 }
 
-body[prefer-dark="true"] {
+body.dark {
     --accent: #CD69BD;
     --accent-border: #CD69BD80;
     --accent-transparent: #CD69BD26;
@@ -22,16 +28,19 @@ body[prefer-dark="true"] {
     --disabled: #959595;
     --borders: #535353;
     --destructive: #C43B3B;
+    --blue: #6d7dc7;
+    --green: #5db755;
+    --orange: #b77b4f;
 }
 
 .color-variants .dark-variant {
     display: none;
 }
 
-body[prefer-dark="true"] .color-variants .dark-variant {
+body.dark .color-variants .dark-variant {
     display: block;
 }
 
-body[prefer-dark="true"] .color-variants .light-variant {
+body.dark .color-variants .light-variant {
     display: none;
 }
