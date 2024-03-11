@@ -29,33 +29,52 @@
                 <img src="img/default_user_avatar.png" alt="Profilkép">
             </div>
         </header>
-        <section>
-            <h1>Admin Központ</h1>
-            <div class="admin-dashboard">
-                <div class="dashboard-item blue">
-                    <p>Új bejelentések / Bírálatra váró tartalmak</p>
-                    <p>2 / 13</p>
+
+        <div class="main-flex">
+            <nav>
+                <div>
+                    <a href="."><span class="material-symbols-rounded">home</span>Hírfolyam</a>
+                    <a href="/"><span class="material-symbols-rounded">forum</span>Üzenetek</a>
+                    <a href="/" class="current"><span class="material-symbols-rounded">build</span>Admin Központ</a>
                 </div>
-                <div class="dashboard-item green">
-                    <p>Moderált tartalom</p>
-                    <p>51</p>
+                <div>
+                    <p class="nav-header">Követett üzenőfalak</p>
+                    <span>Jelenleg nem követsz egy üzenőfalat sem.</span>
                 </div>
-                <div class="dashboard-item orange">
-                    <p>Üzenőfal-létrehozási kérelmek</p>
-                    <p>3</p>
+                <div>
+                    <p class="nav-header">Információk, visszajelzés</p>
+                    <a href="help"><span class="material-symbols-rounded">help</span>Tudakozó</a>
+                    <a href="/"><span class="material-symbols-rounded">how_to_vote</span>Ötletdoboz</a>
                 </div>
-            </div>
-            <div class="tab-bar">
-                <button class="active">Bírálatra vár</button>
-                <button>Moderált elemek</button>
-                <button>Üzenőfal-kérelmek</button>
-            </div>
-            <div class="list">
-                <p>Listaelem 1.</p>
-                <p>Listaelem 2.</p>
-                <p>Listaelem 3.</p>
-            </div>
-        </section>
+            </nav>
+            <section>
+                <h1>Admin Központ</h1>
+                <div class="admin-dashboard">
+                    <div class="dashboard-item blue">
+                        <p>Új bejelentések / Bírálatra váró tartalmak</p>
+                        <p>2 / 13</p>
+                    </div>
+                    <div class="dashboard-item green">
+                        <p>Moderált tartalom</p>
+                        <p>51</p>
+                    </div>
+                    <div class="dashboard-item orange">
+                        <p>Üzenőfal-létrehozási kérelmek</p>
+                        <p>3</p>
+                    </div>
+                </div>
+                <div class="tab-bar">
+                    <button class="active">Bírálatra vár</button>
+                    <button>Moderált elemek</button>
+                    <button>Üzenőfal-kérelmek</button>
+                </div>
+                <div class="list">
+                    <p>Listaelem 1.</p>
+                    <p>Listaelem 2.</p>
+                    <p>Listaelem 3.</p>
+                </div>
+            </section>
+        </div>
     </main>
 </body>
 </html>
