@@ -243,6 +243,10 @@ section.contents > ul {
     border-bottom: 1px var(--borders) solid;
 }
 
+.list{
+    margin-bottom: 15px;
+}
+
 .tab-bar {
     display: flex;
     padding: 25px 45px;
@@ -252,7 +256,7 @@ section.contents > ul {
     top: -25px;
 }
 
-.tab-bar button {
+.tab-bar button, .tab-bar .button {
     background-color: var(--highlight);
     border: 1px var(--borders) solid;
     border-radius: 0px;
@@ -261,21 +265,21 @@ section.contents > ul {
     justify-content: center;
 }
 
-.tab-bar button.active {
+.tab-bar button.active, .tab-bar .button.active {
     background-color: var(--accent);
     color: white;
     border-color: var(--accent);
 }
 
-.tab-bar button:first-child {
+.tab-bar button:first-child, .tab-bar .button:first-child {
     border-radius: 5px 0px 0px 5px;
 }
 
-.tab-bar button:last-child {
+.tab-bar button:last-child, .tab-bar .button:last-child {
     border-radius: 0px 5px 5px 0px;
 }
 
-.tab-bar button:not(:first-child) {
+.tab-bar button:not(:first-child) .tab-bar .button:not(:first-child){
     border-left: none;
 }
 
@@ -330,7 +334,7 @@ nav a[href].current {
     background-color: var(--accent-transparent);
 }
 
-nav p {
+.nav-header{
     margin: 0px 0px 5px;
     opacity: 0.5;
     text-transform: uppercase;
@@ -419,4 +423,10 @@ nav p {
     text-align: center;
 }
 
+.card-header{
+    margin: 0px 0px 5px;
+    opacity: 0.5;
+    text-transform: uppercase;
+    font-size: 16px;
+}
 /********************************************************/
