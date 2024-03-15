@@ -1,0 +1,44 @@
+@media screen and (max-width: 700px) {
+
+    nav {
+        width: unset;
+        height: unset;
+        flex-direction: row;
+        display: flex;
+        justify-content: center;
+        border-right: unset;
+        border-top: 1px var(--borders) solid;
+    }
+
+    nav > div {
+        display: flex;
+        align-items: center;
+        margin: 0px;
+    }
+
+    nav a[href] .nav-item-title, .followed-boards, nav .nav-header {
+        display: none;
+    }
+
+    .main-flex {
+        flex-direction: column-reverse;
+    }
+
+    section {
+        padding: 15px;
+    }
+
+    section > h1 {
+        font-size: 24px;
+    }
+
+    .tab-bar {
+        padding: 25px 0px;
+        font-size: 12px;
+        top: -15px;
+    }
+
+    .admin-dashboard {
+        flex-direction: column;
+    }
+}

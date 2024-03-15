@@ -1,0 +1,10 @@
+article:target {
+    animation: 1.5s highlight forwards;
+}
+
+@keyframes highlight {
+    0% {background-color: transparent}
+    10% {background-color: var(--accent-transparent)}
+    90% {background-color: var(--accent-transparent)}
+    0% {background-color: transparent}
+}
