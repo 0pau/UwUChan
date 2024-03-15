@@ -8,6 +8,7 @@
         justify-content: center;
         border-right: unset;
         border-top: 1px var(--borders) solid;
+        z-index: 5;
     }
 
     nav > div {
@@ -16,8 +17,52 @@
         margin: 0px;
     }
 
-    nav a[href] .nav-item-title, .followed-boards, nav .nav-header {
+    .followed-boards {
+        order: 2;
+    }
+
+    nav a[href] .nav-item-title, nav .nav-header {
         display: none;
+    }
+
+    #board-expander {
+        display: block;
+    }
+
+    .followed-list {
+        position: absolute;
+        left: 0px;
+        background-color: var(--highlight);
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        z-index: 2;
+        bottom: 61px;
+        max-height: 300px;
+        overflow-y: auto;
+        transition: opacity 0.3s;
+        opacity: 0;
+        border-top: 1px var(--borders) solid;
+    }
+
+    .followed-list .nav-header {
+        display: block;
+    }
+
+    nav > .followed-boards .followed-list .nav-item-title {
+        display: block;
+    }
+
+    .followed-boards:has(#board-expander:focus-within) .followed-list {
+        opacity: 1;
+    }
+
+    #board-expander span {
+        transition: rotate 0.25s;
+    }
+
+    #board-expander:focus-within span {
+        rotate: 180deg;
     }
 
     .main-flex {
