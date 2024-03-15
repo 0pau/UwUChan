@@ -343,6 +343,15 @@ nav p {
     display: flex;
 }
 
+.nem-talalhato h1, .nem-talalhato img{
+    font-size: 100px;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
 
+.nem-talalhato p{
+    text-align: center;
+}
 
 /********************************************************/
