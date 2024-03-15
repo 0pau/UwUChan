@@ -258,6 +258,7 @@ section.contents > ul {
     border-radius: 0px;
     box-shadow: none;
     width: 100%;
+    justify-content: center;
 }
 
 .tab-bar button.active {
