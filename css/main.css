@@ -12,11 +12,11 @@
 }
 
 * {
-    color: var(--text);
     scroll-behavior: smooth;
 }
 
 body {
+    color: var(--text);
     cursor: url('../img/cursor.png'), auto;
 }
 
