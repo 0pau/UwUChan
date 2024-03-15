@@ -66,8 +66,14 @@ section {
     overflow-y: auto;
 }
 
-section > h1 {
+.section-head{
     margin: 0px 0px 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+section > h1, .section-head > h1 {
     font-size: 32px;
 }
 
@@ -336,6 +342,7 @@ nav p {
 .post-reactions{
     display: flex;
 }
+
 
 
 /********************************************************/
