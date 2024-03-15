@@ -66,7 +66,7 @@ section {
     overflow-y: auto;
 }
 
-.section-head{
+.section-head {
     margin: 0px 0px 25px;
     display: flex;
     align-items: center;
@@ -75,6 +75,7 @@ section {
 
 section > h1, .section-head > h1 {
     font-size: 32px;
+    margin: 0px;
 }
 
 section.help hr {
@@ -104,9 +105,12 @@ span.header-title {
     color: var(--accent);
 }
 
-a:link, a:visited, abbr {
-    color: var(--accent);
+a:link {
     text-decoration: none;
+}
+
+a:not(.button):link, a:not(.button):visited {
+    color: var(--accent);
     cursor: url('../img/cursor_hand.png'), pointer;
 }
 
@@ -119,19 +123,60 @@ input[type="text"], input[type="password"] {
 }
 
 button, .button {
-    padding: 8px 12px;
+    padding: 5px 12px;
     border-radius: 5px;
     font-size: inherit;
     cursor: url('../img/cursor_hand.png'), pointer;
     border: 1px solid var(--borders);
     background-color: var(--highlight);
     box-shadow: 0px 1px 2px #00000025;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text);
+    transition: background-color 0.25s;
 }
 
 button.cta, .button.cta {
     background-color: var(--accent);
     border-color: var(--accent);
     color: white;
+}
+
+button.flat, .button.flat {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+button:hover, .button:hover {
+    background-color: var(--borders);
+}
+
+button.cta:hover, .button.cta:hover {
+    background-color: var(--accent-border);
+}
+
+.button.dropdown {
+    gap: 10px;
+}
+
+.button.dropdown select {
+    font-size: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    color: inherit;
+    opacity: 0.45;
+    background-color: transparent;
+    width: auto;
+    padding: 0px;
+}
+
+.button.dropdown label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 section.contents > p {
@@ -254,7 +299,7 @@ nav a * {
     color: inherit;
 }
 
-nav a[href] {
+nav a[href]:link {
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -289,6 +334,21 @@ nav p {
     opacity: 0.5;
     text-transform: uppercase;
     font-size: 12px;
+}
+
+.go-up {
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent);
+    border: none;
+    border-radius: 100%;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
 }
 
 /********************************************************/
