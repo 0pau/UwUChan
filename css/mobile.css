@@ -1,3 +1,25 @@
+@media screen and (max-width: 900px) {
+    nav {
+        width: unset;
+    }
+
+    nav .nav-header {
+        display: none;
+    }
+
+    nav a[href] .nav-item-title, nav .nav-header {
+        display: none;
+    }
+
+    header:not(.mobile) {
+        display: none;
+    }
+
+    header.mobile {
+        display: flex;
+    }
+}
+
 @media screen and (max-width: 700px) {
 
     nav {
@@ -86,4 +108,33 @@
     .admin-dashboard {
         flex-direction: column;
     }
+
+    .section-head {
+        margin: 0px 0px 15px;
+    }
+
+    .section-head h1 {
+        font-size: 24px;
+    }
+
+    #viewModeSelector {
+        display: none;
+    }
+
+    .post-card {
+        background-color: transparent;
+        border-width: 0px 0px 1px 0px;
+        border-radius: 0px;
+        margin: 0px;
+    }
+
+    .post-images img {
+        width: 100px;
+        max-height: 75px;
+    }
+
+    .post-image-stack img:last-child {
+        max-width: 85px;
+    }
 }
+

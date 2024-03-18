@@ -29,6 +29,13 @@
                 <img src="img/default_user_avatar.png" alt="Profilkép">
             </div>
         </header>
+        <header class="mobile">
+            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo">
+            <a href="." class="flat button right"><span class="material-symbols-rounded">search</span></a>
+            <div class="user-profile-button">
+                <img src="img/default_user_avatar.png" alt="Profilkép">
+            </div>
+        </header>
         <div class="main-flex">
             <nav>
                 <div>
@@ -51,16 +58,16 @@
                 </div>
             </nav>
             <section>
-
                 <div class="section-head">
-                <h1>Hírfolyam</h1>
-                <div class="dropdown button right">
-                    <label for="view-selector"><span class="material-symbols-rounded">calendar_view_day</span>Nézet</label><select id="view-selector">
-                        <option>Kényelmes</option>
-                        <option>Kompakt</option>
-                    </select>
-                </div>
-                <a href="." class="button cta"><span class="material-symbols-rounded">history_edu</span>Új poszt írása</a>
+                    <h1>Hírfolyam</h1>
+                    <div class="dropdown button" id="viewModeSelector">
+                        <label for="view-selector"><span class="material-symbols-rounded">calendar_view_day</span></label>
+                        <select id="view-selector">
+                            <option>Kényelmes</option>
+                            <option>Kompakt</option>
+                        </select>
+                    </div>
+                    <a href="." class="button cta"><span class="material-symbols-rounded">history_edu</span>Új poszt írása</a>
                 </div>
 
                 <div class="post-card">
@@ -71,92 +78,54 @@
                         </a>
                         <span class="material-symbols-rounded">arrow_right</span>
                         <a href=".">
-                            <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="Profilkép">
+                            <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
                             <span>macskak</span>
                         </a>
-
                         <a class="right button flat" href="."><span class="material-symbols-rounded">emoji_flags</span></a>
                     </div>
-
                     <div class="post-content">
-                         <a class="post-images" href="."><img src="./img/blog_macska.png" alt="macska">
+                         <a class="post-images" href="."><img src="./img/blog_macska.jpg" alt="macska">
                                 <p>DSC_3829.jpg</p></a>
                         <div class="post-body">
-                            <p>“Doktor úr, ezek a fényre jönnek!”</p>
-                            <p>Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
+                            <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
+                            <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
                                 A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
                             <div class="post-reactions">
-                                <a class="button flat" href="."><span class="material-symbols-rounded">forum</span>
-                                18
-                                </a>
+                                <a class="button flat" href="."><span class="material-symbols-rounded">forum</span>18</a>
                                 <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
                                 <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="post-card">
                     <div class="post-card-head">
                         <a href=".">
                             <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            <span>randomUser52</span>
+                            <span>valaki423</span>
                         </a>
                         <span class="material-symbols-rounded">arrow_right</span>
                         <a href=".">
-                            <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="Profilkép">
-                            <span>macskak</span>
+                            <img class="user-profile-blog-avatar" src="img/minta_trip.jpg" alt="trip">
+                            <span>trip</span>
                         </a>
-
                         <a class="right button flat" href="."><span class="material-symbols-rounded">emoji_flags</span></a>
                     </div>
-
                     <div class="post-content">
-                        <a class="post-images" href="."><img src="./img/blog_macska.png" alt="macska">
-                            <p>DSC_3829.jpg</p></a>
-                        <div class="post-body">
-                            <p>“Doktor úr, ezek a fényre jönnek!”</p>
-                            <p>Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
-                                A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
-                            <div class="post-reactions">
-                                <a class="button flat" href="."><span class="material-symbols-rounded">forum</span>
-                                    18
-                                </a>
-                                <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
-                                <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
+                        <a class="post-images" href=".">
+                            <div class="post-image-stack">
+                                <img src="img/minta_kekes.jpg" alt="kekes">
+                                <img src="img/minta_kekes2.jpg" alt="kekes2">
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="post-card">
-                    <div class="post-card-head">
-                        <a href=".">
-                            <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            <span>randomUser52</span>
+                            <p>5 kép</p>
                         </a>
-                        <span class="material-symbols-rounded">arrow_right</span>
-                        <a href=".">
-                            <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="Profilkép">
-                            <span>macskak</span>
-                        </a>
-
-                        <a class="right button flat" href="."><span class="material-symbols-rounded">emoji_flags</span></a>
-                    </div>
-
-                    <div class="post-content">
-                        <a class="post-images" href="."><img src="./img/blog_macska.png" alt="macska">
-                            <p>DSC_3829.jpg</p></a>
                         <div class="post-body">
-                            <p>“Doktor úr, ezek a fényre jönnek!”</p>
-                            <p>Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
-                                A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
+                            <p class="post-title">A Kékestető</p>
+                            <p class="post-text">A napsütéses órák száma jóval az országos átlag feletti, meghaladja az évi kétezret; különösen magas a napsütéses órák száma szeptember–októberben és januártól március végéig. 2011-ben itt mérték az országban a legkevesebb napsütéses órát: ebben az évben mindössze 2198 napsütéses óra volt Kékestetőn.</p>
                             <div class="post-reactions">
-                                <a class="button flat" href="."><span class="material-symbols-rounded">forum</span>
-                                    18
-                                </a>
-                                <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
-                                <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
+                                <a class="button flat" href="."><span class="material-symbols-rounded">forum</span>0</a>
+                                <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>12</button>
+                                <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>3</button>
                             </div>
                         </div>
                     </div>
