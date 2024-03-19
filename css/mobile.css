@@ -59,12 +59,12 @@
         box-sizing: border-box;
         padding: 10px;
         z-index: 2;
-        bottom: 61px;
         max-height: 300px;
         overflow-y: auto;
         transition: opacity 0.3s;
         opacity: 0;
         border-top: 1px var(--borders) solid;
+        display: none;
     }
 
     .followed-list .nav-header {
@@ -75,8 +75,10 @@
         display: block;
     }
 
-    .followed-boards:has(#board-expander:focus-within) .followed-list {
+    .followed-boards:has(#board-expander:focus) .followed-list {
         opacity: 1;
+        display: block;
+        bottom: 61px;
     }
 
     #board-expander span {
@@ -123,9 +125,21 @@
 
     .post-card {
         background-color: transparent;
-        border-width: 0px 0px 1px 0px;
         border-radius: 0px;
+        border-width: 0px;
         margin: 0px;
+    }
+
+    .post-card:not(:last-child) {
+        border-width: 0px 0px 1px 0px;
+    }
+
+    .post-card-head {
+        padding: 10px 0px;
+    }
+
+    .post-content {
+        padding: 0px;
     }
 
     .post-images img {
@@ -135,6 +149,15 @@
 
     .post-image-stack img:last-child {
         max-width: 85px;
+    }
+
+    .post-reactions{
+        padding-bottom: 10px;
+    }
+
+    .go-up {
+        z-index: 5;
+        bottom: 42px;
     }
 }
 

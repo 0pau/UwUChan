@@ -21,16 +21,29 @@
             <p>Már van fiókod? <a href="login.html">Bejelentkezés</a></p>
         </header>
         <form method="dialog">
-            <label for="login-name">Felhasználónév</label>
-            <input type="text" name="login" id="login-name" required>
-            <label for="email">Email-cím</label>
-            <input type="text" name="email" id="email" required>
-            <label for="birthday">Születési dátum <a target="_blank" href="help#birthday" class="help-link">Erre miért van szükség?</a></label>
-            <input name="birthday" id="birthday" type="date" required>
-            <label for="password">Jelszó <a target="_blank" href="help#password" class="help-link">Milyen a jó jelszó?</a></label>
-            <input type="password" name="pass" id="password" required>
-            <label for="password_again">Jelszó mégegyszer</label>
-            <input type="password" name="pass_again" id="password_again" required>
+            <label>
+                <span>Felhasználónév</span>
+                <input type="text" name="login" id="login-name" required>
+            </label>
+            <label>
+                <span>Email-cím</span>
+                <input type="text" name="email" id="email" required>
+            </label>
+            <label>
+                <span>Születési dátum <a target="_blank" href="help#birthday" class="help-link">Erre miért van szükség?</a></span>
+                <input name="birthday" id="birthday" type="date" required>
+            </label>
+            <label>
+                <span>Jelszó <a target="_blank" href="help#password" class="help-link">Milyen a jó jelszó?</a></span>
+                <input type="password" name="pass" id="password" required>
+            </label>
+            <label>
+                <span>Jelszó mégegyszer</span>
+                <input type="password" name="pass_again" id="password_again" required>
+            </label>
+            <label class="horizontal">
+                <input type="checkbox" name="consent" id="consent" required>Elolvastam és elfogadom a <a href="help#post_rules">szabályzatot</a>
+            </label>
             <button class="cta">Regisztráció</button>
         </form>
     </div>

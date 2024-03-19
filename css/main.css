@@ -106,11 +106,17 @@ header:not(.login-window-head) img.logo {
 
 header.mobile {
     display: none;
-    padding: 10px 25px;
+    padding: 10px 15px;
+    gap: 10px;
 }
 
 header.mobile img.logo {
-    width: 50px;
+    width: 32px;
+}
+
+header.mobile .user-profile-button img {
+    width: 32px;
+    height: 32px;
 }
 
 span.header-title {
@@ -162,6 +168,10 @@ button.flat, .button.flat {
     border: none;
     background-color: transparent;
     box-shadow: none;
+}
+
+button.icon, .button.icon {
+    padding: 5px;
 }
 
 button:hover, .button:hover {
@@ -414,7 +424,7 @@ nav a[href].current {
     margin-left: auto;
 }
 
-.post-content{
+.post-content {
     display: flex;
     gap: 15px;
     padding: 0 15px;

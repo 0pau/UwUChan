@@ -50,7 +50,18 @@
 
 .login-window form label {
     margin-top: 15px;
-    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.login-window form label.horizontal {
+    flex-direction: row;
+    align-items: center;
+}
+
+.login-window form label:last-of-type {
+    margin-bottom: 15px;
 }
 
 .login-window input {
@@ -65,10 +76,6 @@
 .login-window input:focus {
     border-color: var(--accent);
     outline: 1px var(--accent) solid;
-}
-
-.login-window form > input:last-of-type {
-    margin-bottom: 15px;
 }
 
 @media screen and (max-width: 450px) {

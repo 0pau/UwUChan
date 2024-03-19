@@ -21,10 +21,17 @@
             <p>Nincs fiókod? <a href="register.html">Regisztráció</a></p>
         </header>
         <form method="post">
-            <label for="login-name">Felhasználónév</label>
-            <input type="text" name="login" id="login-name" required>
-            <label for="password">Jelszó</label>
-            <input type="password" name="pass" id="password" required>
+            <label>
+                <span>Felhasználónév</span>
+                <input type="text" name="login" id="login-name" required>
+            </label>
+            <label>
+                <span>Jelszó</span>
+                <input type="password" name="pass" id="password" required>
+            </label>
+            <label class="horizontal">
+                <input type="checkbox" name="remember"><span>Jegyezz meg</span>
+            </label>
             <button class="cta">Bejelentkezés</button>
         </form>
     </div>

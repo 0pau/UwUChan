@@ -14,11 +14,28 @@
 <body>
     <main>
         <header>
-            <div class="color-variants">
+            <div class="color-variants header-side-element">
                 <img alt="UwUChan-embléma" class="logo light-variant" src="../img/logo.svg">
                 <img alt="UwUChan-embléma" class="logo dark-variant" src="../img/logo-dark.svg">
             </div>
-            <span class="header-title">Tudakozó</span>
+            <div class="searchbar">
+                <span class="material-symbols-rounded">search</span>
+                <input type="text" placeholder="Keresés a sok UwU-ság között">
+            </div>
+            <div class="header-side-element user-profile-button">
+                <div>
+                    <p>Meow János</p>
+                    <p>173 pont</p>
+                </div>
+                <img src="../img/default_user_avatar.png" alt="Profilkép">
+            </div>
+        </header>
+        <header class="mobile">
+            <img alt="UwUChan-embléma" src="../img/logo-fill.svg" class="logo">
+            <a href="." class="flat button icon right"><span class="material-symbols-rounded">search</span></a>
+            <div class="user-profile-button">
+                <img src="../img/default_user_avatar.png" alt="Profilkép">
+            </div>
         </header>
         <div class="main-flex">
             <nav>
@@ -42,6 +59,7 @@
                 </div>
             </nav>
             <section class="help">
+                <h1>Tudakozó</h1>
                 <article class="contents">
                     <b>Tartalomjegyzék</b>
                     <p>Az UwUChan-ról</p>
