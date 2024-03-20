@@ -59,11 +59,14 @@ body > main {
 }
 
 section {
-    padding: 25px;
     height: 100%;
     width: 100%;
     box-sizing: border-box;
     overflow-y: auto;
+}
+
+section:not(.no-padding) {
+    padding: 25px;
 }
 
 .section-head {
@@ -337,7 +340,7 @@ nav a * {
     color: inherit;
 }
 
-nav a[href]:link, #board-expander {
+nav a[href]:link, nav a[href]:visited {
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -374,10 +377,6 @@ nav a[href].current {
     font-size: 12px;
 }
 
-#board-expander {
-    display: none;
-}
-
 .go-up {
     width: 40px;
     height: 40px;
@@ -401,11 +400,20 @@ nav a[href].current {
 }
 
 .post-card{
-    border: 1px solid #D9D9D9;;
+    border: 1px solid var(--borders);
     border-radius: 15px;
     margin-bottom: 20px;
     background-color: var(--highlight);
     display: block;
+}
+
+.post-view {
+    border-bottom: 1px solid var(--borders);
+    background-color: var(--highlight);
+}
+
+.post-view .post-reactions {
+    padding: 0px 10px 10px;
 }
 
 .post-card-head{
@@ -430,9 +438,10 @@ nav a[href].current {
     padding: 0 15px;
 }
 
-.post-body {
+.post-fragment {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .post-body p.post-title {
@@ -441,14 +450,25 @@ nav a[href].current {
     margin: 0;
 }
 
-.post-body p.post-text {
+.post-fragment a.post-body {
     height: 100%;
+    color: inherit;
 }
 
 .post-images{
     display: flex;
     align-items: center;
     flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.post-title-mobile {
+    display: none;
+}
+
+.post-images p {
+    margin: 0px;
 }
 
 .post-images img {
@@ -499,5 +519,45 @@ nav a[href].current {
     opacity: 0.5;
     text-transform: uppercase;
     font-size: 14px;
+}
+
+.my-comment-bar {
+    padding: 15px;
+    border-bottom: 1px var(--borders) solid;
+}
+
+.my-comment-bar > div {
+    display: flex;
+    background-color: var(--highlight);
+    border-radius: 5px;
+    border: 1px var(--borders) solid;
+}
+
+.my-comment-bar input {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 0px 10px;
+    outline: none;
+}
+
+.my-comment-bar:has(input:focus) > div {
+    border-color: var(--accent);
+    outline: 1px var(--accent) solid;
+}
+
+.no-comments-placeholder {
+    text-align: center;
+    padding: 30px;
+    opacity: 0.75;
+}
+
+.no-comments-placeholder p {
+    margin: 0px;
+}
+
+.no-comments-placeholder p:first-of-type {
+    font-weight: 600;
+    font-size: 18px;
 }
 /********************************************************/
