@@ -393,11 +393,15 @@ nav a[href].current {
     right: 25px;
 }
 
-/********************************************************/
+.right{
+    margin-left: auto;
+}
+
 .user-profile-blog-avatar {
     width: 24px;
     height: 24px;
-    border-radius: 50%;
+    border-radius: 100%;
+    object-fit: cover;
 }
 
 .post-card{
@@ -427,10 +431,6 @@ nav a[href].current {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.right{
-    margin-left: auto;
 }
 
 .post-content {
@@ -540,6 +540,7 @@ nav a[href].current {
     border: none;
     padding: 0px 10px;
     outline: none;
+    font-size: inherit;
 }
 
 .my-comment-bar:has(input:focus) > div {
@@ -561,4 +562,3 @@ nav a[href].current {
     font-weight: 600;
     font-size: 18px;
 }
-/********************************************************/

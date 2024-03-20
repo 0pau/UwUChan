@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profilom</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+<body>
+    <main>
+        <header>
+            <div class="color-variants header-side-element">
+                <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
+                <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
+            </div>
+            <div class="searchbar">
+                <span class="material-symbols-rounded">search</span>
+                <input placeholder="Keresés a sok UwU-ság között">
+            </div>
+            <div class="header-side-element user-profile-button">
+                <div>
+                    <p>Meow János</p>
+                    <p>173 pont</p>
+                </div>
+                <a href="profile.html"><img src="img/default_user_avatar.png" alt="Profilkép"></a>
+            </div>
+        </header>
+        <header class="mobile">
+            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo">
+            <a href="." class="flat button icon right"><span class="material-symbols-rounded">search</span></a>
+            <div class="user-profile-button">
+                <a href="profile.html"><img src="img/default_user_avatar.png" alt="Profilkép"></a>
+            </div>
+        </header>
+        <div class="main-flex">
+            <nav>
+                <div>
+                    <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                    <a href="kapcsolatok.html"><span class="material-symbols-rounded">contacts_product</span><span class="nav-item-title">Kapcsolatok</span></a>
+                    <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
+                </div>
+                <div class="followed-boards">
+                    <div class="followed-list">
+                        <p class="nav-header">Követett üzenőfalak</p>
+                        <a href="."><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                        <a href="."><img alt="uwuchan_admin" src="img/default_user_avatar.png"><span class="nav-item-title">uwuchan_admin</span></a>
+                    </div>
+                </div>
+                <div>
+                    <p class="nav-header">Információk, visszajelzés</p>
+                    <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                    <a href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
+                </div>
+            </nav>
+            <section>
+                <div class="section-head">
+                    <h1>Profilbeállítások</h1>
+                </div>
+                <div>
+                    <p class="card-header">Publikus beállítások</p>
+                    <div class="list">
+                        <a class="profile-setting-item">
+                            <span class="material-symbols-rounded">account_circle</span>
+                            <div>
+                                <p>Profilkép beállítása</p>
+                                <p>A profilképed megjelenik az általad feltöltött posztoknál és kommenteknél.</p>
+                            </div>
+                        </a>
+                        <a class="profile-setting-item">
+                            <span class="material-symbols-rounded">badge</span>
+                            <div>
+                                <p>Felhasználónév módosítása</p>
+                                <p>A felhasználóneved segít másoknak beazonosítani téged, illetve a bejelentkezéskor is azt kell megadnod.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <p class="card-header">Felület személyre szabása</p>
+                    <div class="list">
+                        <a class="profile-setting-item">
+                            <span class="material-symbols-rounded">clear_night</span>
+                            <div>
+                                <p>Sötét téma használata</p>
+                                <p>Megkönnyíti az olvasást sötét környezetben</p>
+                            </div>
+                            <input type="checkbox" id="darkmode-switch" onchange="switchTheme(this)">
+                        </a>
+                        <a class="profile-setting-item">
+                            <span class="material-symbols-rounded">explicit</span>
+                            <div>
+                                <p>Felnőtt tartalom szűrése</p>
+                                <p>A felnőtteknek szánt posztokat és üzenőfalakat a rendszer elrejti az oldalsávon, a feedben és a keresési találatoknál.</p>
+                            </div>
+                            <input type="checkbox" id="nsfw-switch">
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <p class="card-header">Fiók kezelése</p>
+                    <div class="list">
+                        <a class="profile-setting-item">
+                            <span class="material-symbols-rounded">mail</span>
+                            <div>
+                                <p>E-mail cím módosítása</p>
+                                <p>Amennyiben elvesztetted a régi postafiókodat, itt hozzáadhatsz egy újat.</p>
+                            </div>
+                        </a>
+                        <a class="profile-setting-item">
+                            <span class="material-symbols-rounded">calendar_month</span>
+                            <div>
+                                <p>Születési idő módosítása</p>
+                                <p>Ha valamilyen oknál fogva változott a születésed dátuma, itt tudod módosítani.</p>
+                            </div>
+                        </a>
+                        <a class="profile-setting-item destructive">
+                            <span class="material-symbols-rounded">delete</span>
+                            <div>
+                                <p>Fiók végleges törlése</p>
+                                <p>Ezzel minden adatodat töröljük a rendszerből. Az általad írt kommentek és üzenetek helyén a [törölt] felirat fog megjelenni.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+<script>
+    function switchTheme(itm) {
+        if (itm.checked) {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+    }
+</script>
+</html>

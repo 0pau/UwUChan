@@ -1,0 +1,57 @@
+.profile-setting-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 20px;
+}
+
+.profile-setting-item > div {
+    width: 100%;
+}
+
+.profile-setting-item input[type="checkbox"] {
+    appearance: none;
+    width: 42px;
+    height: 22px;
+    background-color: var(--body);
+    border: 1px var(--borders) solid;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    padding: 0px 2px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.profile-setting-item input[type="checkbox"]:before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 100%;
+    transition: 0.5s;
+}
+
+.profile-setting-item input[type="checkbox"]:checked {
+    background-color: var(--accent);
+}
+
+.profile-setting-item input[type="checkbox"]:checked:before {
+    margin-left: auto;
+}
+
+.profile-setting-item.destructive, .profile-setting-item.destructive .material-symbols-rounded {
+    color: var(--destructive);
+}
+
+.profile-setting-item .material-symbols-rounded {
+    color: var(--accent);
+}
+
+.profile-setting-item > div p {
+    margin: 0px;
+}
+
+.profile-setting-item > div p:first-child {
+    font-weight: 600;
+}
