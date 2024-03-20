@@ -1,0 +1,73 @@
+#new-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#new-post-form fieldset {
+    background-color: var(--highlight);
+    border: 1px var(--borders) solid;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#new-post-form .card-header {
+    margin: 5px 0px -5px;
+}
+
+#new-post-form #post-body-editor {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 5px;
+}
+
+#new-post-form #post-body-editor input[type="text"] {
+    background-color: transparent;
+    border-width: 0px 0px 1px 0px;
+    border-color: var(--borders);
+    border-style: solid;
+    padding: 7.5px 10px;
+    font-size: inherit;
+}
+
+#new-post-form #post-body-editor input:focus, #new-post-form #post-body-editor textarea:focus {
+    outline: 1px var(--accent) solid;
+}
+
+#new-post-form #post-body-editor textarea {
+    height: 200px;
+    border: none;
+    padding: 10px;
+    font-size: inherit;
+    resize: vertical;
+    background-color: transparent;
+    font-family: inherit;
+}
+
+#new-post-form fieldset.horizontal *:first-child {
+    width: 100%;
+}
+
+#new-post-form fieldset.horizontal {
+    flex-direction: row;
+    align-items: center;
+}
+
+#suggested-boards-input {
+    width: 300px;
+    max-width: 100%;
+    display: flex;
+    background-color: var(--highlight);
+    border: 1px var(--borders) solid;
+    border-radius: 5px;
+}
+
+#suggested-boards-input input {
+    padding: 10px;
+    width: 100%;
+    font-size: inherit;
+    border: none;
+    background-color: transparent;
+}

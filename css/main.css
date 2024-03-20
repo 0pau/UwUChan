@@ -137,8 +137,9 @@ a:not(.button):link, a:not(.button):visited {
     cursor: url('../img/cursor_hand.png'), pointer;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], textarea {
     cursor: url('../img/cursor_ibeam.png'), text;
+    color: var(--text);
 }
 
 .help-link {
