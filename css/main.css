@@ -18,6 +18,11 @@
 body {
     color: var(--text);
     cursor: url('../img/cursor.png'), auto;
+    transition: color 200ms;
+}
+
+nav, main, body, header {
+    transition: background-color 200ms, border 200ms;
 }
 
 *.disabled {
@@ -137,6 +142,12 @@ a:not(.button):link, a:not(.button):visited {
     cursor: url('../img/cursor_hand.png'), pointer;
 }
 
+.button-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 input[type="text"], input[type="password"], textarea {
     cursor: url('../img/cursor_ibeam.png'), text;
     color: var(--text);
@@ -183,7 +194,7 @@ button:hover, .button:hover {
 }
 
 button.cta:hover, .button.cta:hover {
-    background-color: var(--accent-border);
+    background-color: var(--accent-focus);
 }
 
 .button.dropdown {

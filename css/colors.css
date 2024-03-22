@@ -1,5 +1,6 @@
 body {
     --accent: #B342A1;
+    --accent-focus: #963787;
     --accent-border: #B342A180;
     --accent-transparent: #B342A126;
     --body: #E0E0E0;
@@ -19,6 +20,7 @@ body {
 
 body.dark {
     --accent: #CD69BD;
+    --accent-focus: #B951A8;
     --accent-border: #CD69BD80;
     --accent-transparent: #CD69BD26;
     --body: #171717;
@@ -27,10 +29,14 @@ body.dark {
     --text: #F2F2F2;
     --disabled: #959595;
     --borders: #535353;
-    --destructive: #C43B3B;
+    --destructive: #CE5353;
     --blue: #6d7dc7;
     --green: #5db755;
     --orange: #b77b4f;
+}
+
+.color-variants {
+    display: flex;
 }
 
 .color-variants .dark-variant {

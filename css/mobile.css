@@ -155,5 +155,14 @@
         z-index: 5;
         bottom: 42px;
     }
+
+    .button-box {
+        flex-direction: column;
+        width: 200px;
+    }
+
+    .button-box button {
+        width: 100%;
+    }
 }
 
