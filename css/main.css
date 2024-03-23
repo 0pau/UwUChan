@@ -70,7 +70,7 @@ section {
     overflow-y: auto;
 }
 
-section:not(.no-padding) {
+section:not(.no-padding), .section-inset {
     padding: 25px;
 }
 
@@ -432,13 +432,13 @@ nav a[href].current {
     padding: 0px 10px 10px;
 }
 
-.post-card-head{
+.card-head{
     display: flex;
     align-items: center;
     padding: 15px;
 }
 
-.post-card-head a{
+.card-head a{
     display: flex;
     align-items: center;
     gap: 10px;
@@ -510,7 +510,8 @@ nav a[href].current {
     max-width: 125px;
 }
 
-.post-reactions{
+.reaction-bar{
+    align-items: center;
     display: flex;
     padding-bottom: 15px;
 }

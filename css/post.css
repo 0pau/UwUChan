@@ -1,0 +1,19 @@
+.post-profile-messages-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.post-profile-message-sent-time{
+    color: #6A6A6A;
+}
+
+.post-comment-card p{
+    margin: 0px;
+    padding: 0px 10px 0px 52px;
+}
+
+.post-comments-head{
+        display: flex;
+        align-items: center;
+}
