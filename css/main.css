@@ -54,6 +54,7 @@ body > main {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .main-flex {
@@ -112,25 +113,8 @@ header:not(.login-window-head) img.logo {
     width: 125px;
 }
 
-header.mobile {
+header .mobile {
     display: none;
-    padding: 10px 15px;
-    gap: 10px;
-}
-
-header.mobile img.logo {
-    width: 32px;
-}
-
-header.mobile .user-profile-button img {
-    width: 32px;
-    height: 32px;
-}
-
-span.header-title {
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--accent);
 }
 
 a:link {
@@ -140,6 +124,10 @@ a:link {
 a:not(.button):link, a:not(.button):visited {
     color: var(--accent);
     cursor: url('../img/cursor_hand.png'), pointer;
+}
+
+.destructive, .destructive *, div .destructive .material-symbols-rounded {
+    color: var(--destructive);
 }
 
 .button-box {
@@ -259,6 +247,8 @@ section.contents > ul {
     justify-content: right;
     align-items: center;
     gap: 15px;
+    cursor: url('../img/cursor_hand.png'), pointer;
+    position: relative;
 }
 
 .user-profile-button > div {
@@ -573,4 +563,36 @@ nav a[href].current {
 .no-comments-placeholder p:first-of-type {
     font-weight: 600;
     font-size: 18px;
+}
+
+.session-options {
+    display: none;
+    width: 300px;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0px;
+    background-color: var(--highlight);
+    border: 1px var(--borders) solid;
+    z-index: 6;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px #00000025;
+    color: inherit;
+}
+
+.session-options a {
+    opacity: 1;
+}
+
+.user-profile-button:hover .session-options {
+    display: flex;
+    opacity: 1;
+}
+
+.session-option {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 15px;
+    justify-content: start;
 }

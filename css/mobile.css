@@ -11,12 +11,35 @@
         display: none;
     }
 
-    header:not(.mobile) {
+    .desktop {
         display: none;
     }
 
-    header.mobile {
-        display: flex;
+    body main header:not(.login-window-head) {
+        padding: 10px 15px;
+        gap: 10px;
+    }
+
+    header img.logo.mobile {
+        width: 32px;
+    }
+
+    header .mobile {
+        display: block;
+    }
+
+    .header-side-element {
+        width: auto;
+    }
+
+    .header-side-element > div {
+        display: none;
+    }
+
+
+    header .user-profile-button img {
+        width: 32px;
+        height: 32px;
     }
 }
 

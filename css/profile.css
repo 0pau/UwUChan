@@ -40,10 +40,6 @@
     margin-left: auto;
 }
 
-.profile-setting-item.destructive, .profile-setting-item.destructive .material-symbols-rounded {
-    color: var(--destructive);
-}
-
 .profile-setting-item .material-symbols-rounded {
     color: var(--accent);
 }

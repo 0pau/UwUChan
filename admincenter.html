@@ -14,30 +14,34 @@
 <body>
     <main>
         <header>
-            <div class="color-variants header-side-element">
+            <div class="color-variants header-side-element desktop">
                 <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
                 <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
             </div>
-            <div class="searchbar">
+            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
+            <div class="searchbar desktop">
                 <span class="material-symbols-rounded">search</span>
-                <input placeholder="Keresés a sok UwU-ság között">
+                <input type="text" placeholder="Keresés a sok UwU-ság között">
             </div>
+            <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
             <div class="header-side-element user-profile-button">
                 <div>
                     <p>Meow János</p>
                     <p>173 pont</p>
                 </div>
-                <a href="profile.html"><img src="img/default_user_avatar.png" alt="Profilkép"></a>
+                <img src="img/default_user_avatar.png" alt="Profilkép">
+                <div class="session-options">
+                    <a href="profile.html" class="session-option button flat">
+                        <span class="material-symbols-rounded">settings</span>
+                        Profilbeállítások
+                    </a>
+                    <a href="login.html" class="session-option button flat">
+                        <span class="material-symbols-rounded">logout</span>
+                        Kijelentkezés
+                    </a>
+                </div>
             </div>
         </header>
-        <header class="mobile">
-            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo">
-            <a href="." class="flat button icon right"><span class="material-symbols-rounded">search</span></a>
-            <div class="user-profile-button">
-                <a href="profile.html"><img src="img/default_user_avatar.png" alt="Profilkép"></a>
-            </div>
-        </header>
-
         <div class="main-flex">
             <nav>
                 <div>
@@ -99,19 +103,19 @@
                         <div class="card-head">
                             <a href=".">
                                 <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                <span>randomUser52</span>
+                                <span>orbiLoverXX</span>
                             </a>
                             <span class="material-symbols-rounded">arrow_right</span>
                             <a href="board.html">
                                 <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                <span>macskak</span>
+                                <span>politika</span>
                             </a>
                             <span class="right">#123456</span>
                         </div>
                         <div class="post-content">
                             <div class="post-fragment">
                                 <a href="post.html" class="post-body">
-                                    <p class="post-text">AKURVAANYÁD.GYURCÁ.NYJobbvótót???!!</p>
+                                    <p class="post-text">Mé' gyúcsány jóóób vóótt te libsi nyomi!!?</p>
                                 </a>
                                 <div class="reaction-bar">
                                     <span>Bejelentés oka: személyeskedés</span>
@@ -125,14 +129,14 @@
                         <div class="card-head">
                             <a href=".">
                                 <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                <span>randomUser52</span>
+                                <span>kaletaa</span>
                             </a>
                             <span class="right">#123456</span>
                         </div>
                         <div class="post-content">
                             <div class="post-fragment">
                                 <div class="reaction-bar">
-                                    <span>Bejelentés oka: személyeskedés</span>
+                                    <span>Bejelentés oka: pedofil tartalom terjesztése az oldalon</span>
                                     <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
                                     <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
                                 </div>
@@ -164,7 +168,7 @@
                                         A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
                                 </a>
                                 <div class="reaction-bar">
-                                    <span>Bejelentés oka: személyeskedés</span>
+                                    <span>Bejelentés oka: tiltott szó (szop)</span>
                                     <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
                                     <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
                                 </div>

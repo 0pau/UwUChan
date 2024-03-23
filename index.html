@@ -13,27 +13,32 @@
 <body>
     <main>
         <header>
-            <div class="color-variants header-side-element">
+            <div class="color-variants header-side-element desktop">
                 <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
                 <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
             </div>
-            <div class="searchbar">
+            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
+            <div class="searchbar desktop">
                 <span class="material-symbols-rounded">search</span>
                 <input type="text" placeholder="Keresés a sok UwU-ság között">
             </div>
+            <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
             <div class="header-side-element user-profile-button">
                 <div>
                     <p>Meow János</p>
                     <p>173 pont</p>
                 </div>
-                <a href="profile.html"><img src="img/default_user_avatar.png" alt="Profilkép"></a>
-            </div>
-        </header>
-        <header class="mobile">
-            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo">
-            <a href="." class="flat button icon right"><span class="material-symbols-rounded">search</span></a>
-            <div class="user-profile-button">
-                <a href="profile.html"><img src="img/default_user_avatar.png" alt="Profilkép"></a>
+                <img src="img/default_user_avatar.png" alt="Profilkép">
+                <div class="session-options">
+                    <a href="profile.html" class="session-option button flat">
+                        <span class="material-symbols-rounded">settings</span>
+                        Profilbeállítások
+                    </a>
+                    <a href="login.html" class="session-option button flat">
+                        <span class="material-symbols-rounded">logout</span>
+                        Kijelentkezés
+                    </a>
+                </div>
             </div>
         </header>
         <div class="main-flex">
@@ -61,7 +66,6 @@
                     <h1>Hírfolyam</h1>
                     <a href="submit.html" class="button cta"><span class="material-symbols-rounded">history_edu</span>Új poszt írása</a>
                 </div>
-
                 <div class="post-card">
                     <div class="card-head">
                         <a href=".">
@@ -83,7 +87,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="post-card">
                     <div class="card-head">
                         <a href=".">
