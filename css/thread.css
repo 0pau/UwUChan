@@ -1,0 +1,99 @@
+.thread-view {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.thread-toolbar {
+    padding: 10px;
+    background-color: var(--highlight);
+    display: flex;
+    align-items: center;
+}
+
+.thread-toolbar.top {
+    border-bottom: 1px var(--borders) solid;
+}
+
+.thread-toolbar.bottom {
+    border-top: 1px var(--borders) solid;
+    border-bottom: none;
+}
+
+.thread-toolbar .user-name {
+    width: 100%;
+    text-align: center;
+}
+
+.thread {
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 5px;
+    gap: 10px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.message.mine {
+    justify-content: end;
+    flex-direction: row-reverse;
+}
+
+.message .sent-at {
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.message:hover .sent-at {
+    opacity: 0.65;
+}
+
+.message .bubble {
+    padding: 10px;
+    display: block;
+    max-width: 250px;
+    z-index: 2;
+}
+
+.message.mine .bubble {
+    background-color: var(--accent);
+    border-radius: 10px 0px 10px 10px;
+    color: white;
+}
+
+.message:before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    z-index: 1;
+    position: absolute;
+}
+
+.message.mine:before {
+    background-color: var(--accent);
+    top: 10px;
+    right: 5px;
+    transform: skew(-45deg, 0deg);
+}
+
+.message.away .bubble {
+    background-color: var(--borders);
+    border-radius: 0px 10px 10px 10px;
+}
+
+.message.away:before {
+    background-color: var(--borders);
+    top: 10px;
+    left: 5px;
+    transform: skew(45deg, 0deg);
+}

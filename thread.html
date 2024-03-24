@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Kapcsolatok - UwUChan</title>
+    <title>Macskák - UwUChan</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/mobile.css">
-    <link rel="stylesheet" href="css/kapcsolatok.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/thread.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 </head>
 <body>
@@ -61,45 +62,24 @@
                 <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
             </div>
         </nav>
-        <section>
-            <div class="section-head">
-                <h1>Üzenetek</h1>
-                <div class="tab-bar compact">
-                    <a class="button hide-text-on-mobile active"><span class="material-symbols-rounded">chat</span><span>Üzenetek</span></a>
-                    <a class="button hide-text-on-mobile" href="baratok.html"><span class="material-symbols-rounded">group</span><span>Barátok</span></a>
+        <section class="no-padding thread-view">
+            <div class="thread-toolbar top">
+                <a title="Vissza az üzenetekre" class="button icon flat" href="kapcsolatok.html"><span class="material-symbols-rounded">arrow_back</span></a>
+                <span class="user-name">randomUser52</span>
+                <button title="Felhasználó titltása" class="right flat icon"><span class="material-symbols-rounded">block</span></button>
+            </div>
+            <div class="thread">
+                <div class="message mine">
+                    <span class="bubble">Tetszett a kiscicás posztod :)</span>
+                    <span class="sent-at">09:11</span>
+                </div>
+                <div class="message away">
+                    <span class="bubble">Ugye milyen aranyosak??</span>
+                    <span class="sent-at">11:20</span>
                 </div>
             </div>
-            <div class="list">
-                <div class="messages-card-head">
-                    <a href="">
-                        <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                    </a>
-                    <a href="thread.html" class="messages-card-preview">
-                        <span>randomUser52</span>
-                        <p>Ugye milyen aranyosak??</p>
-                    </a>
-                    <a title="Törlés" class="right button icon flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                </div>
-                <div class="messages-card-head">
-                    <a href="">
-                        <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                    </a>
-                    <div class="messages-card-preview">
-                        <span>teszt_user</span>
-                        <p>UwU!!!</p>
-                    </div>
-                    <a title="Törlés" class="right icon button flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                </div>
-                <div class="messages-card-head">
-                    <a href="">
-                        <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                    </a>
-                    <div class="messages-card-preview">
-                        <span>[törölt felhasználó]</span>
-                        <p>xdddd</p>
-                    </div>
-                    <a title="Törlés" class="right icon button flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                </div>
+            <div class="thread-toolbar bottom my-comment-bar">
+                <input type="text" placeholder="Ide írd az üzenetet" id="message" required><button class="flat"><span class="material-symbols-rounded">send</span></button>
             </div>
         </section>
     </div>

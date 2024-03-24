@@ -10,6 +10,15 @@
     <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <script>
+        function switchTheme(itm) {
+            if (itm.checked) {
+                document.body.classList.add("dark");
+            } else {
+                document.body.classList.remove("dark");
+            }
+        }
+    </script>
 </head>
 <body>
     <main>
@@ -52,8 +61,7 @@
                 <div class="followed-boards">
                     <div class="followed-list">
                         <p class="nav-header">Követett üzenőfalak</p>
-                        <a href="."><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
-                        <a href="."><img alt="uwuchan_admin" src="img/default_user_avatar.png"><span class="nav-item-title">uwuchan_admin</span></a>
+                        <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                     </div>
                 </div>
                 <div>
@@ -67,7 +75,36 @@
                     <h1>Profilbeállítások</h1>
                 </div>
                 <div>
-                    <p class="card-header">Publikus beállítások</p>
+                    <p class="card-header">Felület személyre szabása</p>
+                    <div class="list">
+                        <div class="profile-setting-item">
+                            <span class="material-symbols-rounded">clear_night</span>
+                            <div>
+                                <p>Sötét téma használata</p>
+                                <p>Megkönnyíti az olvasást sötét környezetben</p>
+                            </div>
+                            <input type="checkbox" id="darkmode-switch" onchange="switchTheme(this)">
+                        </div>
+                        <div class="profile-setting-item">
+                            <img src="img/cursor.png" alt="Kurzor">
+                            <div>
+                                <p>Cuki kurzor</p>
+                                <p>Számítógépen aranyos, UwUChan stílusúvá varázsolja a kurzorodat</p>
+                            </div>
+                            <input checked type="checkbox" id="cute-cursor-switch">
+                        </div>
+                        <div class="profile-setting-item">
+                            <span class="material-symbols-rounded">explicit</span>
+                            <div>
+                                <p>Felnőtt tartalom szűrése</p>
+                                <p>A felnőtteknek szánt posztokat és üzenőfalakat a rendszer elrejti az oldalsávon, a feedben és a keresési találatoknál.</p>
+                            </div>
+                            <input type="checkbox" id="nsfw-switch">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="card-header">Adataim</p>
                     <div class="list">
                         <a class="profile-setting-item">
                             <span class="material-symbols-rounded">account_circle</span>
@@ -79,58 +116,29 @@
                         <a class="profile-setting-item">
                             <span class="material-symbols-rounded">badge</span>
                             <div>
-                                <p>Felhasználónév módosítása</p>
-                                <p>A felhasználóneved segít másoknak beazonosítani téged, illetve a bejelentkezéskor is azt kell megadnod.</p>
+                                <p>Felhasználónév</p>
+                                <p>meowjancsi_</p>
                             </div>
                         </a>
-                    </div>
-                </div>
-                <div>
-                    <p class="card-header">Felület személyre szabása</p>
-                    <div class="list">
-                        <a class="profile-setting-item">
-                            <span class="material-symbols-rounded">clear_night</span>
-                            <div>
-                                <p>Sötét téma használata</p>
-                                <p>Megkönnyíti az olvasást sötét környezetben</p>
-                            </div>
-                            <input type="checkbox" id="darkmode-switch" onchange="switchTheme(this)">
-                        </a>
-                        <a class="profile-setting-item">
-                            <img src="img/cursor.png">
-                            <div>
-                                <p>Cuki kurzor</p>
-                                <p>Számítógépen aranyos, UwUChan stílusúvá varázsolja a kurzorodat</p>
-                            </div>
-                            <input checked type="checkbox" id="cute-cursor-switch">
-                        </a>
-                        <a class="profile-setting-item">
-                            <span class="material-symbols-rounded">explicit</span>
-                            <div>
-                                <p>Felnőtt tartalom szűrése</p>
-                                <p>A felnőtteknek szánt posztokat és üzenőfalakat a rendszer elrejti az oldalsávon, a feedben és a keresési találatoknál.</p>
-                            </div>
-                            <input type="checkbox" id="nsfw-switch">
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <p class="card-header">Fiók kezelése</p>
-                    <div class="list">
                         <a class="profile-setting-item">
                             <span class="material-symbols-rounded">mail</span>
                             <div>
-                                <p>E-mail cím módosítása</p>
-                                <p>Amennyiben elvesztetted a régi postafiókodat, itt hozzáadhatsz egy újat.</p>
+                                <p>E-mail cím</p>
+                                <p>meowjancsi3829@email.com</p>
                             </div>
                         </a>
                         <a class="profile-setting-item">
                             <span class="material-symbols-rounded">calendar_month</span>
                             <div>
-                                <p>Születési idő módosítása</p>
-                                <p>Ha valamilyen oknál fogva változott a születésed dátuma, itt tudod módosítani.</p>
+                                <p>Születési idő</p>
+                                <p>2000. 01. 01.</p>
                             </div>
                         </a>
+                    </div>
+                </div>
+                <div>
+                    <p class="card-header">Veszélyzóna</p>
+                    <div class="list">
                         <a class="profile-setting-item destructive">
                             <span class="material-symbols-rounded">delete</span>
                             <div>
@@ -144,13 +152,4 @@
         </div>
     </main>
 </body>
-<script>
-    function switchTheme(itm) {
-        if (itm.checked) {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
-        }
-    }
-</script>
 </html>

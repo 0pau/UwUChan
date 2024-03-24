@@ -52,14 +52,13 @@
             <div class="followed-boards">
                 <div class="followed-list">
                     <p class="nav-header">Követett üzenőfalak</p>
-                    <a href="."><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
-                    <a href="."><img alt="uwuchan_admin" src="img/default_user_avatar.png"><span class="nav-item-title">uwuchan_admin</span></a>
+                    <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                 </div>
             </div>
             <div>
                 <p class="nav-header">Információk, visszajelzés</p>
                 <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
-                <a href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
+                <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
             </div>
         </nav>
         <section>
@@ -78,13 +77,13 @@
                     <a href="">
                         <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                     </a>
-                    <div class="messages-card-name">
+                    <div class="messages-card-preview">
                         <span>randomUser52</span>
                         <p>Ugye milyen aranyosak??</p>
                     </div>
-                    <button class="flat icon right"><span class="material-symbols-rounded">done</span></button>
-                    <button class="flat icon"><span class="material-symbols-rounded">close</span></button>
-                    <button class="flat icon"><span class="material-symbols-rounded">block</span></button>
+                    <button title="Elfogadás" class="flat icon right"><span class="material-symbols-rounded">done</span></button>
+                    <button title="Elutasítás" class="flat icon"><span class="material-symbols-rounded">close</span></button>
+                    <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
                 </div>
             </div>
             <p class="card-header">Barátaim</p>
@@ -93,23 +92,23 @@
                 <a href="">
                     <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                 </a>
-                <div>
+                <div class="messages-card-preview">
                     <span>teszt_user</span>
                     <p>UwU!!!</p>
                 </div>
-                <button class="flat icon right"><span class="material-symbols-rounded">close</span></button>
-                <button class="flat icon"><span class="material-symbols-rounded">block</span></button>
+                <button title="Barát eltávolítása" class="flat icon right"><span class="material-symbols-rounded">close</span></button>
+                <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
             </div>
             <div class="messages-card-head">
                 <a href="">
                     <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                 </a>
-                <div>
+                <div class="messages-card-preview">
                     <span>[törölt felhasználó]</span>
                     <p>xdddd</p>
                 </div>
-                <button class="flat icon right"><span class="material-symbols-rounded">close</span></button>
-                <button class="flat icon"><span class="material-symbols-rounded">block</span></button>
+                <button title="Barát eltávolítása" class="flat icon right"><span class="material-symbols-rounded">close</span></button>
+                <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
             </div>
             </div>
         </section>

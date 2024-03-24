@@ -4,14 +4,21 @@
     border-radius: 50%;
 }
 
-.messages-card-head{
+.list .messages-card-head {
     display: flex;
     align-items: center;
     padding: 15px;
     gap: 15px;
 }
 
+.list .messages-card-head .messages-card-preview {
+    color: inherit;
+}
+
 .messages-card-head p{
     margin: 0;
+}
 
+.messages-card-preview span {
+    font-weight: 550;
 }

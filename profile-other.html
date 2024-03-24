@@ -1,14 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Kapcsolatok - UwUChan</title>
+    <title>Macskák - UwUChan</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/kapcsolatok.css">
+    <link rel="stylesheet" href="css/post.css">
+    <link rel="stylesheet" href="css/board.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 </head>
 <body>
@@ -46,7 +49,7 @@
         <nav>
             <div>
                 <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                <a href="kapcsolatok.html" class="current"><span class="material-symbols-rounded">contacts_product</span><span class="nav-item-title">Kapcsolatok</span></a>
+                <a href="kapcsolatok.html"><span class="material-symbols-rounded">contacts_product</span><span class="nav-item-title">Kapcsolatok</span></a>
                 <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
             </div>
             <div class="followed-boards">
@@ -61,44 +64,51 @@
                 <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
             </div>
         </nav>
-        <section>
-            <div class="section-head">
-                <h1>Üzenetek</h1>
-                <div class="tab-bar compact">
-                    <a class="button hide-text-on-mobile active"><span class="material-symbols-rounded">chat</span><span>Üzenetek</span></a>
-                    <a class="button hide-text-on-mobile" href="baratok.html"><span class="material-symbols-rounded">group</span><span>Barátok</span></a>
-                </div>
+        <section class="no-padding">
+            <div class="board-head">
+                <img alt="Profilkép" class="board-backdrop" src="./img/default_user_avatar.png">
+                <img alt="Profilkép" class="board-head-image" src="./img/default_user_avatar.png">
+                    <div class="board-head-details">
+                        <h1>randomUser52</h1>
+                    </div>
+                        <div class="board-buttons">
+                            <button>Barátkérelem küldése</button>
+                        </div>
             </div>
-            <div class="list">
-                <div class="messages-card-head">
-                    <a href="">
-                        <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                    </a>
-                    <a href="thread.html" class="messages-card-preview">
-                        <span>randomUser52</span>
-                        <p>Ugye milyen aranyosak??</p>
-                    </a>
-                    <a title="Törlés" class="right button icon flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                </div>
-                <div class="messages-card-head">
-                    <a href="">
-                        <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                    </a>
-                    <div class="messages-card-preview">
-                        <span>teszt_user</span>
-                        <p>UwU!!!</p>
+
+
+            <div class="section-inset">
+                <div class="post-card">
+                    <div class="card-head">
+                        <a href="profile-other.html">
+                            <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
+                            <span>randomUser52</span>
+                        </a>
+                        <span class="material-symbols-rounded">arrow_right</span>
+                        <a href="board.html">
+                            <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
+                            <span>macskak</span>
+                        </a>
+                        <a class="right button icon flat" href="."><span class="material-symbols-rounded">emoji_flags</span></a>
                     </div>
-                    <a title="Törlés" class="right icon button flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                </div>
-                <div class="messages-card-head">
-                    <a href="">
-                        <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                    </a>
-                    <div class="messages-card-preview">
-                        <span>[törölt felhasználó]</span>
-                        <p>xdddd</p>
+                    <div class="post-content">
+                        <a class="post-images" href=".">
+                            <img src="./img/blog_macska.jpg" alt="macska">
+                            <p>DSC_3829.jpg</p>
+                        </a>
+                        <div class="post-fragment">
+                            <a href="post.html" class="post-body">
+                                <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
+                                <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
+                                    A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
+                            </a>
+                            <div class="reaction-bar">
+                                <a class="button flat" href="."><span class="material-symbols-rounded">forum</span>18</a>
+                                <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
+                                <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
+                            </div>
+                        </div>
                     </div>
-                    <a title="Törlés" class="right icon button flat" href=""><span class="material-symbols-rounded">delete</span></a>
                 </div>
             </div>
         </section>
