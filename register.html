@@ -20,7 +20,7 @@
             <h1 class="login-window-title">Regisztráció</h1>
             <p>Már van fiókod? <a href="login.html">Bejelentkezés</a></p>
         </header>
-        <form method="dialog">
+        <form method="post">
             <label>
                 <span>Felhasználónév</span>
                 <input type="text" name="login" id="login-name" required>
@@ -46,7 +46,7 @@
                 <input type="password" name="pass_again" id="password_again" required>
             </label>
             <label class="horizontal">
-                <input type="checkbox" name="consent" id="consent" required>Elolvastam és elfogadom a <a href="help#post_rules" target="_blank">szabályzatot</a>
+                <input type="checkbox" name="consent" id="consent" required><span>Elolvastam és elfogadom a <a href="help#post_rules" target="_blank">szabályzatot</a></span>
             </label>
             <button class="cta">Regisztráció</button>
         </form>
