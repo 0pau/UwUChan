@@ -23,8 +23,8 @@
     padding: 0px 5px;
 }
 
-#new-post-form #post-body-editor input[type="text"] {
-    background-color: transparent;
+#new-post-form #post-body-editor input[type="text"],select {
+    background-color: var(--highlight);
     border-width: 0px 0px 1px 0px;
     border-color: var(--borders);
     border-style: solid;

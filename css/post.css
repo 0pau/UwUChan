@@ -13,7 +13,13 @@
     padding: 0px 10px 0px 52px;
 }
 
-.post-comments-head{
+
+.post-comments-head {
     display: flex;
     align-items: center;
+}
+
+
+.reaction-bar{
+    padding: 5px 15px ;
 }
