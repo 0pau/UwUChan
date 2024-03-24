@@ -44,17 +44,21 @@
     box-sizing: border-box;
 }
 
+.message .options {
+    display: flex;
+}
+
 .message.mine {
     justify-content: end;
     flex-direction: row-reverse;
 }
 
-.message .sent-at {
+.message .sent-at, .message .options {
     opacity: 0;
     transition: 0.3s;
 }
 
-.message:hover .sent-at {
+.message:hover .sent-at, .message:hover .options  {
     opacity: 0.65;
 }
 

@@ -25,6 +25,8 @@
     filter: blur(50px);
     z-index: 0;
     opacity: 0.5;
+    left: 0px;
+    top: 0px;
 }
 
 .board-head *:not(.board-backdrop){

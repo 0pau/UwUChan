@@ -13,6 +13,7 @@
 
 .list .messages-card-head .messages-card-preview {
     color: inherit;
+    width: 100%;
 }
 
 .messages-card-head p{
@@ -21,4 +22,10 @@
 
 .messages-card-preview span {
     font-weight: 550;
+}
+
+.time-since-last {
+    opacity: 0.75;
+    font-size: smaller;
+    flex-shrink: 0;
 }
