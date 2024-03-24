@@ -1,89 +1,83 @@
 <!doctype html>
 <html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Poszt írása - UwUChan</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/mobile.css">
-    <link rel="stylesheet" href="css/submit.css">
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-</head>
-<body>
-    <main>
-        <header>
-            <div class="color-variants header-side-element desktop">
-                <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
-                <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-            </div>
-            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-            <div class="searchbar desktop">
-                <span class="material-symbols-rounded">search</span>
-                <input type="text" placeholder="Keresés a sok UwU-ság között">
-            </div>
-            <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-            <div class="header-side-element user-profile-button">
-                <div>
-                    <p>Meow János</p>
-                    <p>173 pont</p>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Poszt írása - UwUChan</title>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/mobile.css">
+        <link rel="stylesheet" href="css/submit.css">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    </head>
+    <body>
+        <main>
+            <header>
+                <div class="color-variants header-side-element desktop">
+                    <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
+                    <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
                 </div>
-                <img src="img/default_user_avatar.png" alt="Profilkép">
-                <div class="session-options">
-                    <a href="profile.html" class="session-option button flat">
-                        <span class="material-symbols-rounded">settings</span>
-                        Profilbeállítások
-                    </a>
-                    <a href="login.html" class="session-option button flat">
-                        <span class="material-symbols-rounded">logout</span>
-                        Kijelentkezés
-                    </a>
+                <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
+                <div class="searchbar desktop">
+                    <span class="material-symbols-rounded">search</span>
+                    <input type="text" placeholder="Keresés a sok UwU-ság között">
                 </div>
-            </div>
-        </header>
-        <div class="main-flex">
-            <nav>
-                <div>
-                    <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                    <a href="kapcsolatok.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                    <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
-                </div>
-                <div class="followed-boards">
-                    <div class="followed-list">
-                        <p class="nav-header">Követett üzenőfalak</p>
-                        <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
+                <div class="header-side-element user-profile-button">
+                    <div>
+                        <p>Meow János</p>
+                        <p>173 pont</p>
+                    </div>
+                    <img src="img/default_user_avatar.png" alt="Profilkép">
+                    <div class="session-options">
+                        <a href="profile.html" class="session-option button flat"><span class="material-symbols-rounded">settings</span>Profilbeállítások</a>
+                        <a href="login.html" class="session-option button flat"><span class="material-symbols-rounded">logout</span>Kijelentkezés</a>
                     </div>
                 </div>
-                <div>
-                    <p class="nav-header">Információk, visszajelzés</p>
-                    <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
-                    <a href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
-                </div>
-            </nav>
-            <section>
-                <div class="section-head">
-                    <h1>Új poszt írása</h1>
-                </div>
-                <form id="new-post-form">
-                    <label class="card-header">Üzenőfal kiválasztása (Kötelező)</label>
-                    <div id="suggested-boards-input">
-                        <input required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni...">
+            </header>
+            <div class="main-flex">
+                <nav>
+                    <div>
+                        <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                        <a href="messages.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+                        <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
                     </div>
-                    <label class="card-header">A poszt tartalma (Kötelező)</label>
-                    <fieldset id="post-body-editor">
-                        <input required type="text" name="post-title" id="post-title" placeholder="Poszt címe">
-                        <textarea required name="post-text" id="post-text" placeholder="Poszt szövege"></textarea>
-                    </fieldset>
-                    <label class="card-header">Mellékletek</label>
-                    <fieldset class="horizontal">
-                        <label>Képek</label>
-                        <input type="file" name="images[]" id="image-uploader" accept="image/*" multiple>
-                    </fieldset>
-                    <button class="cta">Poszt feltöltése</button>
-                </form>
-            </section>
-        </div>
-    </main>
-</body>
+                    <div class="followed-boards">
+                        <div class="followed-list">
+                            <p class="nav-header">Követett üzenőfalak</p>
+                            <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="nav-header">Információk, visszajelzés</p>
+                        <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                        <a href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
+                    </div>
+                </nav>
+                <section>
+                    <div class="section-head">
+                        <h1>Új poszt írása</h1>
+                    </div>
+                    <form id="new-post-form">
+                        <label class="card-header">Üzenőfal kiválasztása (Kötelező)</label>
+                        <div id="suggested-boards-input">
+                            <input required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni...">
+                        </div>
+                        <label class="card-header">A poszt tartalma (Kötelező)</label>
+                        <fieldset id="post-body-editor">
+                            <input required type="text" name="post-title" id="post-title" placeholder="Poszt címe">
+                            <textarea required name="post-text" id="post-text" placeholder="Poszt szövege"></textarea>
+                        </fieldset>
+                        <label class="card-header">Mellékletek</label>
+                        <fieldset class="horizontal">
+                            <label>Képek</label>
+                            <input type="file" name="images[]" id="image-uploader" accept="image/*" multiple>
+                        </fieldset>
+                        <button class="cta">Poszt feltöltése</button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </body>
 </html>

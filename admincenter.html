@@ -1,183 +1,174 @@
 <!doctype html>
 <html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin Központ - UwUChan</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/mobile.css">
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-</head>
-<body>
-    <main>
-        <header>
-            <div class="color-variants header-side-element desktop">
-                <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
-                <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-            </div>
-            <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-            <div class="searchbar desktop">
-                <span class="material-symbols-rounded">search</span>
-                <input type="text" placeholder="Keresés a sok UwU-ság között">
-            </div>
-            <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-            <div class="header-side-element user-profile-button">
-                <div>
-                    <p>Meow János</p>
-                    <p>173 pont</p>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Admin Központ - UwUChan</title>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/mobile.css">
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    </head>
+    <body>
+        <main>
+            <header>
+                <div class="color-variants header-side-element desktop">
+                    <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
+                    <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
                 </div>
-                <img src="img/default_user_avatar.png" alt="Profilkép">
-                <div class="session-options">
-                    <a href="profile.html" class="session-option button flat">
-                        <span class="material-symbols-rounded">settings</span>
-                        Profilbeállítások
-                    </a>
-                    <a href="login.html" class="session-option button flat">
-                        <span class="material-symbols-rounded">logout</span>
-                        Kijelentkezés
-                    </a>
+                <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
+                <div class="searchbar desktop">
+                    <span class="material-symbols-rounded">search</span>
+                    <input type="text" placeholder="Keresés a sok UwU-ság között">
                 </div>
-            </div>
-        </header>
-        <div class="main-flex">
-            <nav>
-                <div>
-                    <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                    <a href="kapcsolatok.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                    <a href="admincenter.html" class="current"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
-                </div>
-                <div class="followed-boards">
-                    <div class="followed-list">
-                        <p class="nav-header">Követett üzenőfalak</p>
-                        <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
+                <div class="header-side-element user-profile-button">
+                    <div>
+                        <p>Meow János</p>
+                        <p>173 pont</p>
+                    </div>
+                    <img src="img/default_user_avatar.png" alt="Profilkép">
+                    <div class="session-options">
+                        <a href="profile.html" class="session-option button flat"><span class="material-symbols-rounded">settings</span>Profilbeállítások</a>
+                        <a href="login.html" class="session-option button flat"><span class="material-symbols-rounded">logout</span>Kijelentkezés</a>
                     </div>
                 </div>
-                <div>
-                    <p class="nav-header">Információk, visszajelzés</p>
-                    <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
-                    <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
-                </div>
-            </nav>
-            <section>
-                <div class="section-head">
-                    <h1>Admin Központ</h1>
-                </div>
-                <div class="admin-warning">
-                    <span class="material-symbols-rounded">emergency_home</span>
-                    <p>Egy rendszerüzenet ki van írva, melynek lejárati dátuma: 2024. 06. 04.</p>
-                    <div class="button-box">
-                        <button>Szerkesztés</button>
-                        <button>Eltávolítás</button>
+            </header>
+            <div class="main-flex">
+                <nav>
+                    <div>
+                        <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                        <a href="messages.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+                        <a href="admincenter.html" class="current"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
                     </div>
-                </div>
-                <div class="admin-dashboard">
-                    <div class="dashboard-item">
-                        <p>Összes felhasználó</p>
-                        <p>157</p>
-                    </div>
-                    <div class="dashboard-item blue">
-                        <p>Új bejelentések / Bírálatra váró tartalmak</p>
-                        <p>2 / 13</p>
-                    </div>
-                    <div class="dashboard-item green">
-                        <p>Moderált tartalom</p>
-                        <p>51</p>
-                    </div>
-                    <div class="dashboard-item orange">
-                        <p>Üzenőfal-létrehozási kérelmek</p>
-                        <p>3</p>
-                    </div>
-                </div>
-                <div class="tab-bar">
-                    <button class="active">Bírálatra vár</button>
-                    <button>Moderált elemek</button>
-                    <button>Üzenőfal-kérelmek</button>
-                </div>
-
-                <div id="reports">
-                    <div class="post-card">
-                        <div class="card-head">
-                            <a href="profile-other.html">
-                                <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                <span>randomUser52</span>
-                            </a>
-                            <span class="material-symbols-rounded">arrow_right</span>
-                            <a href="board.html">
-                                <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                <span>macskak</span>
-                            </a>
-                            <span class="right">#123456</span>
+                    <div class="followed-boards">
+                        <div class="followed-list">
+                            <p class="nav-header">Követett üzenőfalak</p>
+                            <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                         </div>
-                        <div class="post-content">
-                            <a class="post-images" href=".">
-                                <img src="./img/blog_macska.jpg" alt="macska">
-                                <p>DSC_3829.jpg</p>
-                            </a>
-                            <div class="post-fragment">
-                                <a href="post.html" class="post-body">
-                                    <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
-                                    <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
-                                        A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
+                    </div>
+                    <div>
+                        <p class="nav-header">Információk, visszajelzés</p>
+                        <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                        <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
+                    </div>
+                </nav>
+                <section>
+                    <div class="section-head">
+                        <h1>Admin Központ</h1>
+                    </div>
+                    <div class="admin-warning">
+                        <span class="material-symbols-rounded">emergency_home</span>
+                        <p>Egy rendszerüzenet ki van írva, melynek lejárati dátuma: 2024. 06. 04.</p>
+                        <div class="button-box">
+                            <button>Szerkesztés</button>
+                            <button>Eltávolítás</button>
+                        </div>
+                    </div>
+                    <div class="admin-dashboard">
+                        <div class="dashboard-item">
+                            <p>Összes felhasználó</p>
+                            <p>157</p>
+                        </div>
+                        <div class="dashboard-item blue">
+                            <p>Új bejelentések / Bírálatra váró tartalmak</p>
+                            <p>2 / 13</p>
+                        </div>
+                        <div class="dashboard-item green">
+                            <p>Moderált tartalom</p>
+                            <p>51</p>
+                        </div>
+                        <div class="dashboard-item orange">
+                            <p>Üzenőfal-létrehozási kérelmek</p>
+                            <p>3</p>
+                        </div>
+                    </div>
+                    <div class="tab-bar">
+                        <button class="active">Bírálatra vár</button>
+                        <button>Moderált elemek</button>
+                        <button>Üzenőfal-kérelmek</button>
+                    </div>
+                    <div id="reports">
+                        <div class="post-card">
+                            <div class="card-head">
+                                <a href="profile-other.html">
+                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
+                                    <span>randomUser52</span>
                                 </a>
-                                <div class="reaction-bar">
-                                    <span>Bejelentés oka: tiltott szó (szop)</span>
-                                    <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
-                                    <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-card">
-                        <div class="card-head">
-                            <a href=".">
-                                <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                <span>orbiLoverXX</span>
-                            </a>
-                            <span class="material-symbols-rounded">arrow_right</span>
-                            <a href="board.html">
-                                <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                <span>politika</span>
-                            </a>
-                            <span class="right">#123456</span>
-                        </div>
-                        <div class="post-content">
-                            <div class="post-fragment">
-                                <a href="post.html" class="post-body">
-                                    <p class="post-text">Mé' gyúcsány jóóób vóótt te libsi nyomi!!?</p>
+                                <span class="material-symbols-rounded">arrow_right</span>
+                                <a href="board.html">
+                                    <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
+                                    <span>macskak</span>
                                 </a>
-                                <div class="reaction-bar">
-                                    <span>Bejelentés oka: személyeskedés</span>
-                                    <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
-                                    <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
+                                <span class="right">#123456</span>
+                            </div>
+                            <div class="post-content">
+                                <a class="post-images" href=".">
+                                    <img src="./img/blog_macska.jpg" alt="macska">
+                                    <p>DSC_3829.jpg</p>
+                                </a>
+                                <div class="post-fragment">
+                                    <a href="post.html" class="post-body">
+                                        <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
+                                        <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról. A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
+                                    </a>
+                                    <div class="reaction-bar">
+                                        <span>Bejelentés oka: tiltott szó (szop)</span>
+                                        <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
+                                        <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-card">
+                            <div class="card-head">
+                                <a href=".">
+                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
+                                    <span>xd43783f</span>
+                                </a>
+                                <span class="material-symbols-rounded">arrow_right</span>
+                                <a href="board.html">
+                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="macskak">
+                                    <span>politika</span>
+                                </a>
+                                <span class="right">#123456</span>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-fragment">
+                                    <a href="post.html" class="post-body">
+                                        <p class="post-text">A k** anyukád!</p>
+                                    </a>
+                                    <div class="reaction-bar">
+                                        <span>Bejelentés oka: személyeskedés</span>
+                                        <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
+                                        <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-card">
+                            <div class="card-head">
+                                <a href=".">
+                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
+                                    <span>kaltika</span>
+                                </a>
+                                <span class="right">#123456</span>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-fragment">
+                                    <div class="reaction-bar">
+                                        <span>Bejelentés oka: pedofil tartalom terjesztése az oldalon</span>
+                                        <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
+                                        <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="post-card">
-                        <div class="card-head">
-                            <a href=".">
-                                <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                <span>kaletaa</span>
-                            </a>
-                            <span class="right">#123456</span>
-                        </div>
-                        <div class="post-content">
-                            <div class="post-fragment">
-                                <div class="reaction-bar">
-                                    <span>Bejelentés oka: pedofil tartalom terjesztése az oldalon</span>
-                                    <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
-                                    <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-        </div>
-    </main>
-</body>
+                </section>
+            </div>
+        </main>
+    </body>
 </html>

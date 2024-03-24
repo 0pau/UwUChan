@@ -514,14 +514,14 @@ nav a[href].current {
     padding-bottom: 15px;
 }
 
-.nem-talalhato h1, .nem-talalhato img{
+#not-found h1, #not-found img{
     font-size: 100px;
     display: block;
     margin: auto;
     text-align: center;
 }
 
-.nem-talalhato p{
+#not-found p{
     text-align: center;
 }
 
