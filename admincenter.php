@@ -1,3 +1,4 @@
+<?php session_start(); include "api/users.php"; include "api/acl.php"?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -13,49 +14,28 @@
     </head>
     <body>
         <main>
-            <header>
-                <div class="color-variants header-side-element desktop">
-                    <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
-                    <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-                </div>
-                <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-                <div class="searchbar desktop">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Keresés a sok UwU-ság között">
-                </div>
-                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-                <div class="header-side-element user-profile-button">
-                    <div>
-                        <p>Meow János</p>
-                        <p>173 pont</p>
-                    </div>
-                    <img src="img/default_user_avatar.png" alt="Profilkép">
-                    <div class="session-options">
-                        <a href="profile.html" class="session-option button flat"><span class="material-symbols-rounded">settings</span>Profilbeállítások</a>
-                        <a href="login.html" class="session-option button flat"><span class="material-symbols-rounded">logout</span>Kijelentkezés</a>
-                    </div>
-                </div>
-            </header>
+            <?php include "views/header.php" ?>
             <div class="main-flex">
                 <nav>
                     <div>
-                        <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="messages.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="admincenter.html" class="current"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
+                        <a href="index.php"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                        <a href="messages.php"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+                        <a href="admincenter.php" class="current"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
                     </div>
                     <div class="followed-boards">
                         <div class="followed-list">
                             <p class="nav-header">Követett üzenőfalak</p>
-                            <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                            <a href="board.php"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                         </div>
                     </div>
                     <div>
                         <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
                         <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
                     </div>
                 </nav>
                 <section>
+                    <?php if (getUserField("privilege") == 1) { ?>
                     <div class="section-head">
                         <h1>Admin Központ</h1>
                     </div>
@@ -70,7 +50,7 @@
                     <div class="admin-dashboard">
                         <div class="dashboard-item">
                             <p>Összes felhasználó</p>
-                            <p>157</p>
+                            <p><?php echo getUserCount() ?></p>
                         </div>
                         <div class="dashboard-item blue">
                             <p>Új bejelentések / Bírálatra váró tartalmak</p>
@@ -93,24 +73,24 @@
                     <div id="reports">
                         <div class="post-card">
                             <div class="card-head">
-                                <a href="profile-other.html">
+                                <a href="profile-other.php">
                                     <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                     <span>randomUser52</span>
                                 </a>
                                 <span class="material-symbols-rounded">arrow_right</span>
-                                <a href="board.html">
+                                <a href="board.php">
                                     <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
                                     <span>macskak</span>
                                 </a>
                                 <span class="right">#123456</span>
                             </div>
                             <div class="post-content">
-                                <a class="post-images" href=".">
+                                <a class="post-images" href="index.php">
                                     <img src="./img/blog_macska.jpg" alt="macska">
                                     <p>DSC_3829.jpg</p>
                                 </a>
                                 <div class="post-fragment">
-                                    <a href="post.html" class="post-body">
+                                    <a href="post.php" class="post-body">
                                         <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
                                         <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról. A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
                                     </a>
@@ -124,12 +104,12 @@
                         </div>
                         <div class="post-card">
                             <div class="card-head">
-                                <a href=".">
+                                <a href="index.php">
                                     <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                     <span>xd43783f</span>
                                 </a>
                                 <span class="material-symbols-rounded">arrow_right</span>
-                                <a href="board.html">
+                                <a href="board.php">
                                     <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="macskak">
                                     <span>politika</span>
                                 </a>
@@ -137,7 +117,7 @@
                             </div>
                             <div class="post-content">
                                 <div class="post-fragment">
-                                    <a href="post.html" class="post-body">
+                                    <a href="post.php" class="post-body">
                                         <p class="post-text">A k** anyukád!</p>
                                     </a>
                                     <div class="reaction-bar">
@@ -150,7 +130,7 @@
                         </div>
                         <div class="post-card">
                             <div class="card-head">
-                                <a href=".">
+                                <a href="index.php">
                                     <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                     <span>kaltika</span>
                                 </a>
@@ -167,6 +147,9 @@
                             </div>
                         </div>
                     </div>
+                    <?php } else { ?>
+                    <p>Az oldal megtekintéséhez rendszergazdai jogosultság szükséges.</p>
+                    <?php } ?>
                 </section>
             </div>
         </main>

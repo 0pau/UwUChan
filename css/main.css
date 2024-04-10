@@ -226,6 +226,7 @@ section.contents > ul {
 .header-side-element {
     width: 250px;
     flex-shrink: 0;
+    display: flex;
 }
 
 .searchbar {
@@ -275,6 +276,7 @@ section.contents > ul {
     width: 40px;
     height: 40px;
     border-radius: 100%;
+    object-fit: cover;
 }
 
 .list >*:not(:last-child) {

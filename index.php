@@ -1,3 +1,4 @@
+<?php session_start(); include "api/users.php" ?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -12,45 +13,23 @@
     </head>
     <body>
         <main>
-            <header>
-                <div class="color-variants header-side-element desktop">
-                    <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
-                    <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-                </div>
-                <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-                <div class="searchbar desktop">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Keresés a sok UwU-ság között">
-                </div>
-                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-                <div class="header-side-element user-profile-button">
-                    <div>
-                        <p>Meow János</p>
-                        <p>173 pont</p>
-                    </div>
-                    <img src="img/default_user_avatar.png" alt="Profilkép">
-                    <div class="session-options">
-                        <a href="profile.html" class="session-option button flat"><span class="material-symbols-rounded">settings</span>Profilbeállítások</a>
-                        <a href="login.html" class="session-option button flat"><span class="material-symbols-rounded">logout</span>Kijelentkezés</a>
-                    </div>
-                </div>
-            </header>
+            <?php include "views/header.php" ?>
             <div class="main-flex">
                 <nav>
                     <div>
-                        <a href="." class="current"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="messages.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
+                        <a href="index.html" class="current"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                        <a href="messages.php"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+                        <a href="admincenter.php"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
                     </div>
                     <div class="followed-boards">
                         <div class="followed-list">
                             <p class="nav-header">Követett üzenőfalak</p>
-                            <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                            <a href="board.php"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                         </div>
                     </div>
                     <div>
                         <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
                         <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
                     </div>
                 </nav>
@@ -61,7 +40,7 @@
                     </div>
                     <div class="post-card">
                         <div class="card-head">
-                            <a href=".">
+                            <a href="index.html">
                                 <img class="user-profile-blog-avatar" src="img/system_message_avatar.png" alt="Profilkép">
                                 <span>Rendszerüzenet</span>
                             </a>
@@ -82,30 +61,30 @@
                     </div>
                     <div class="post-card">
                         <div class="card-head">
-                            <a href="profile-other.html">
+                            <a href="profile-other.php">
                                 <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                 <span>randomUser52</span>
                             </a>
                             <span class="material-symbols-rounded">arrow_right</span>
-                            <a href="board.html">
+                            <a href="board.php">
                                 <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
                                 <span>macskak</span>
                             </a>
                             <a title="Bejelentés" class="right button icon flat" href="report.html"><span class="material-symbols-rounded">emoji_flags</span></a>
                         </div>
                         <div class="post-content">
-                             <a class="post-images" href=".">
+                             <a class="post-images" href="index.html">
                                  <img src="./img/blog_macska.jpg" alt="macska">
                                  <p>DSC_3829.jpg</p>
                              </a>
                             <div class="post-fragment">
-                                <a href="post.html" class="post-body">
+                                <a href="post.php" class="post-body">
                                     <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
                                     <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
                                         A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
                                 </a>
                                 <div class="reaction-bar">
-                                    <a class="button flat" href="post.html"><span class="material-symbols-rounded">forum</span>18</a>
+                                    <a class="button flat" href="post.php"><span class="material-symbols-rounded">forum</span>18</a>
                                     <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
                                     <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
                                 </div>
@@ -114,19 +93,19 @@
                     </div>
                     <div class="post-card">
                         <div class="card-head">
-                            <a href=".">
+                            <a href="index.html">
                                 <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                 <span>valaki423</span>
                             </a>
                             <span class="material-symbols-rounded">arrow_right</span>
-                            <a href=".">
+                            <a href="index.html">
                                 <img class="user-profile-blog-avatar" src="img/minta_trip.jpg" alt="trip">
                                 <span>trip</span>
                             </a>
-                            <a title="Bejelentés" class="right button icon flat" href="."><span class="material-symbols-rounded">emoji_flags</span></a>
+                            <a title="Bejelentés" class="right button icon flat" href="index.html"><span class="material-symbols-rounded">emoji_flags</span></a>
                         </div>
                         <div class="post-content">
-                            <a class="post-images" href=".">
+                            <a class="post-images" href="index.html">
                                 <div class="post-image-stack">
                                     <img src="img/minta_kekes.jpg" alt="kekes">
                                     <img src="img/minta_kekes2.jpg" alt="kekes2">
@@ -134,12 +113,12 @@
                                 <p>5 kép</p>
                             </a>
                             <div class="post-fragment">
-                                <a href="." class="post-body">
+                                <a href="index.html" class="post-body">
                                     <p class="post-title">A Kékestető</p>
                                     <p class="post-text">A napsütéses órák száma jóval az országos átlag feletti, meghaladja az évi kétezret; különösen magas a napsütéses órák száma szeptember–októberben és januártól március végéig. 2011-ben itt mérték az országban a legkevesebb napsütéses órát: ebben az évben mindössze 2198 napsütéses óra volt Kékestetőn.</p>
                                 </a>
                                 <div class="reaction-bar">
-                                    <a class="button flat" href="."><span class="material-symbols-rounded">forum</span>0</a>
+                                    <a class="button flat" href="index.html"><span class="material-symbols-rounded">forum</span>0</a>
                                     <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>12</button>
                                     <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>3</button>
                                 </div>

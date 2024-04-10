@@ -1,3 +1,4 @@
+<?php session_start(); include "api/users.php" ?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -13,64 +14,42 @@
     </head>
     <body>
         <main>
-            <header>
-                <div class="color-variants header-side-element desktop">
-                    <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
-                    <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-                </div>
-                <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-                <div class="searchbar desktop">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Keresés a sok UwU-ság között">
-                </div>
-                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-                <div class="header-side-element user-profile-button">
-                    <div>
-                        <p>Meow János</p>
-                        <p>173 pont</p>
-                    </div>
-                    <img src="img/default_user_avatar.png" alt="Profilkép">
-                    <div class="session-options">
-                        <a href="profile.html" class="session-option button flat"><span class="material-symbols-rounded">settings</span>Profilbeállítások</a>
-                        <a href="login.html" class="session-option button flat"><span class="material-symbols-rounded">logout</span>Kijelentkezés</a>
-                    </div>
-                </div>
-            </header>
+            <?php include "views/header.php" ?>
             <div class="main-flex">
                 <nav>
                     <div>
-                        <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="messages.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
+                        <a href="index.php"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                        <a href="messages.php"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+                        <a href="admincenter.php"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
                     </div>
                     <div class="followed-boards">
                         <div class="followed-list">
                             <p class="nav-header">Követett üzenőfalak</p>
-                            <a href="board.html" class="current"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                            <a href="board.php" class="current"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                         </div>
                     </div>
                     <div>
                         <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
                         <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
                     </div>
                 </nav>
                 <section class="no-padding">
                     <div class="post-view">
                         <div class="card-head">
-                            <a href="profile-other.html">
+                            <a href="profile-other.php">
                                 <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                 <span>randomUser52</span>
                             </a>
                             <span class="material-symbols-rounded">arrow_right</span>
-                            <a href="board.html">
+                            <a href="board.php">
                                 <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
                                 <span>macskak</span>
                             </a>
                         </div>
                         <div class="post-content">
                             <p class="post-title-mobile">“Doktor úr, ezek a fényre jönnek!”</p>
-                            <a class="post-images" href=".">
+                            <a class="post-images" href="index.php">
                                 <img src="./img/blog_macska.jpg" alt="macska">
                                 <p>DSC_3829.jpg</p>
                             </a>
@@ -82,7 +61,7 @@
                         </div>
                         <div class="reaction-bar">
                             <a class="button flat hide-text-on-mobile" href="report.html"><span class="material-symbols-rounded">emoji_flags</span><span>Bejelentés</span></a>
-                            <a class="button flat hide-text-on-mobile" href="."><span class="material-symbols-rounded">share</span><span>Megosztás</span></a>
+                            <a class="button flat hide-text-on-mobile" href="index.php"><span class="material-symbols-rounded">share</span><span>Megosztás</span></a>
                             <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>12</button>
                             <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>3</button>
                         </div>
@@ -95,7 +74,7 @@
                     <div id="comments" class="list">
                         <div class="post-comment-card">
                             <div class="card-head">
-                                <a href=".">
+                                <a href="index.php">
                                     <img class="post-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                     <span>abc123</span>
                                     <span class="post-profile-message-sent-time">15 perce</span>
@@ -103,14 +82,14 @@
                             </div>
                             <p>Jaj, egyem a kis szívüket!!</p>
                             <div class="reaction-bar">
-                                <a href="."><span class="post-comments">3 válasz</span></a>
+                                <a href="index.php"><span class="post-comments">3 válasz</span></a>
                                 <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">reply</span><span>Válasz</span></button>
                                 <button class="flat hide-text-on-mobile"><span class="material-symbols-rounded">flag</span><span>Bejelentés</span></button>
                             </div>
                         </div>
                         <div class="post-comment-card">
                             <div class="card-head">
-                                <a href=".">
+                                <a href="index.php">
                                     <img class="post-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                                     <span>abc123</span>
                                     <span class="post-profile-message-sent-time">15 perce</span>
@@ -118,7 +97,7 @@
                             </div>
                             <p>Jaj, egyem a kis szívüket!!</p>
                             <div class="reaction-bar">
-                                <a href="."><span class="post-comments">3 válasz</span></a>
+                                <a href="index.php"><span class="post-comments">3 válasz</span></a>
                                 <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">reply</span><span>Válasz</span></button>
                                 <button class="flat hide-text-on-mobile"><span class="material-symbols-rounded">flag</span><span>Bejelentés</span></button>
                             </div>

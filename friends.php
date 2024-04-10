@@ -1,3 +1,4 @@
+<?php session_start(); include "api/users.php"; include "api/acl.php"?>
 <!DOCTYPE html>
 <html lang="hu">
     <head>
@@ -13,45 +14,23 @@
     </head>
     <body>
         <main>
-            <header>
-                <div class="color-variants header-side-element desktop">
-                    <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
-                    <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-                </div>
-                <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-                <div class="searchbar desktop">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Keresés a sok UwU-ság között">
-                </div>
-                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-                <div class="header-side-element user-profile-button">
-                    <div>
-                        <p>Meow János</p>
-                        <p>173 pont</p>
-                    </div>
-                    <img src="img/default_user_avatar.png" alt="Profilkép">
-                    <div class="session-options">
-                        <a href="profile.html" class="session-option button flat"><span class="material-symbols-rounded">settings</span>Profilbeállítások</a>
-                        <a href="login.html" class="session-option button flat"><span class="material-symbols-rounded">logout</span>Kijelentkezés</a>
-                    </div>
-                </div>
-            </header>
+            <?php include "views/header.php" ?>
             <div class="main-flex">
                 <nav>
                     <div>
-                        <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="messages.html" class="current"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
+                        <a href="index.php"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                        <a href="messages.php" class="current"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+                        <a href="admincenter.php"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
                     </div>
                     <div class="followed-boards">
                         <div class="followed-list">
                             <p class="nav-header">Követett üzenőfalak</p>
-                            <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                            <a href="board.php"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                         </div>
                     </div>
                     <div>
                         <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
                         <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
                     </div>
                 </nav>
@@ -59,14 +38,14 @@
                     <div class="section-head">
                         <h1>Barátok</h1>
                         <div class="tab-bar compact">
-                            <a class="button hide-text-on-mobile" href="messages.html"><span class="material-symbols-rounded">chat</span><span>Üzenetek</span></a>
+                            <a class="button hide-text-on-mobile" href="messages.php"><span class="material-symbols-rounded">chat</span><span>Üzenetek</span></a>
                             <a class="button hide-text-on-mobile active"><span class="material-symbols-rounded">group</span><span>Barátok</span></a>
                         </div>
                     </div>
                     <p class="card-header">Beérkezett barátkérelmek</p>
                     <div class="list">
                         <div class="messages-card-head">
-                            <a href="profile-other.html">
+                            <a href="profile-other.php">
                                 <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
                             </a>
                             <div class="messages-card-preview">

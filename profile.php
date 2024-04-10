@@ -1,3 +1,4 @@
+<?php session_start(); include "api/users.php"; include "api/acl.php"?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -22,45 +23,23 @@
     </head>
     <body>
         <main>
-            <header>
-                <div class="color-variants header-side-element desktop">
-                    <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
-                    <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-                </div>
-                <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-                <div class="searchbar desktop">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Keresés a sok UwU-ság között">
-                </div>
-                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-                <div class="header-side-element user-profile-button">
-                    <div>
-                        <p>Meow János</p>
-                        <p>173 pont</p>
-                    </div>
-                    <img src="img/default_user_avatar.png" alt="Profilkép">
-                    <div class="session-options">
-                        <a href="profile.html" class="session-option button flat"><span class="material-symbols-rounded">settings</span>Profilbeállítások</a>
-                        <a href="login.html" class="session-option button flat"><span class="material-symbols-rounded">logout</span>Kijelentkezés</a>
-                    </div>
-                </div>
-            </header>
+            <?php include "views/header.php" ?>
             <div class="main-flex">
                 <nav>
                     <div>
-                        <a href="."><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="messages.html"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="admincenter.html"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
+                        <a href="index.php"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+                        <a href="messages.php"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+                        <a href="admincenter.php"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
                     </div>
                     <div class="followed-boards">
                         <div class="followed-list">
                             <p class="nav-header">Követett üzenőfalak</p>
-                            <a href="board.html"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
+                            <a href="board.php"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
                         </div>
                     </div>
                     <div>
                         <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="help"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+                        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
                         <a href="404.html" class="disabled"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
                     </div>
                 </nav>
@@ -68,7 +47,7 @@
                     <div class="section-head">
                         <h1>Profilbeállítások</h1>
                     </div>
-                    <div>
+                    <form action="api/save_settings.php" method="post">
                         <p class="card-header">Felület személyre szabása</p>
                         <div class="list">
                             <div class="profile-setting-item">
@@ -77,7 +56,7 @@
                                     <p>Sötét téma használata</p>
                                     <p>Megkönnyíti az olvasást sötét környezetben</p>
                                 </div>
-                                <input type="checkbox" id="darkmode-switch" onchange="switchTheme(this)">
+                                <input type="checkbox" id="darkmode-switch" name="darkmode">
                             </div>
                             <div class="profile-setting-item">
                                 <img src="img/cursor.png" alt="Kurzor">
@@ -85,7 +64,7 @@
                                     <p>Cuki kurzor</p>
                                     <p>Számítógépen aranyos, UwUChan stílusúvá varázsolja a kurzorodat</p>
                                 </div>
-                                <input checked type="checkbox" id="cute-cursor-switch">
+                                <input checked type="checkbox" id="cute-cursor-switch" name="cute_cursor">
                             </div>
                             <div class="profile-setting-item">
                                 <span class="material-symbols-rounded">explicit</span>
@@ -93,10 +72,14 @@
                                     <p>Felnőtt tartalom szűrése</p>
                                     <p>A felnőtteknek szánt posztokat és üzenőfalakat a rendszer elrejti az oldalsávon, a feedben és a keresési találatoknál.</p>
                                 </div>
-                                <input type="checkbox" id="nsfw-switch">
+                                <input type="checkbox" id="nsfw-switch" name="show_nsfw">
+                            </div>
+                            <div class="profile-setting-item">
+                                <span>A változtatások érvénybe léptetéséhez ne felejesd el elmenteni a beállításaidat -&gt;</span>
+                                <button class="right cta">Mentés</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <div>
                         <p class="card-header">Adataim</p>
                         <div class="list">
@@ -133,7 +116,7 @@
                     <div>
                         <p class="card-header">Veszélyzóna</p>
                         <div class="list">
-                            <a class="profile-setting-item destructive">
+                            <a class="profile-setting-item destructive" href="delete_self.php">
                                 <span class="material-symbols-rounded">delete</span>
                                 <div>
                                     <p>Fiók végleges törlése</p>

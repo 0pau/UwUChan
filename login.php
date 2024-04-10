@@ -1,3 +1,35 @@
+<?php
+    session_start();
+
+    if (isset($_SESSION["user"])) {
+        header("Location: index.php");
+    }
+
+    $error = login();
+
+    function login(): string {
+
+        if (isset($_POST["login"]) && isset($_POST["pass"])) {
+
+            if (!is_dir("data/users/".$_POST["login"])) {
+                return "Hibás felhasználónév, vagy jelszó";
+            }
+
+            $json = file_get_contents("data/users/".$_POST["login"]."/metadata.json");
+            $user = json_decode($json, JSON_UNESCAPED_UNICODE);
+            if (!password_verify($_POST["pass"], $user["password"])) {
+                return "Hibás felhasználónév, vagy jelszó";
+            }
+            $_SESSION["user"] = $_POST["login"];
+            header("Location: index.php");
+
+        }
+
+        return "";
+
+    }
+
+?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -5,7 +37,7 @@
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Regisztráció</title>
+        <title>Bejelentkezés</title>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/login.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
@@ -17,8 +49,8 @@
                     <img alt="UwUChan-embléma" class="login-window-logo light-variant" src="img/logo.svg">
                     <img alt="UwUChan-embléma" class="login-window-logo dark-variant" src="img/logo-dark.svg">
                 </div>
-                <h1 class="login-window-title">Regisztráció</h1>
-                <p>Már van fiókod? <a href="login.html">Bejelentkezés</a></p>
+                <h1 class="login-window-title">Jelentkezz be</h1>
+                <p>Nincs fiókod? <a href="register.php">Regisztráció</a></p>
             </header>
             <form method="post">
                 <label>
@@ -26,29 +58,18 @@
                     <input type="text" name="login" id="login-name" required>
                 </label>
                 <label>
-                    <span>Email-cím</span>
-                    <input type="text" name="email" id="email" required>
-                </label>
-                <label>
-                    <span>Profilkép</span>
-                    <input type="file" name="pfp" id="pfp" accept="image/*">
-                </label>
-                <label>
-                    <span>Születési dátum <a target="_blank" href="help#birthday" class="help-link">Erre miért van szükség?</a></span>
-                    <input name="birthday" id="birthday" type="date" required>
-                </label>
-                <label>
-                    <span>Jelszó <a target="_blank" href="help#password" class="help-link">Milyen a jó jelszó?</a></span>
+                    <span>Jelszó</span>
                     <input type="password" name="pass" id="password" required>
                 </label>
-                <label>
-                    <span>Jelszó mégegyszer</span>
-                    <input type="password" name="pass_again" id="password_again" required>
-                </label>
                 <label class="horizontal">
-                    <input type="checkbox" name="consent" id="consent" required><span>Elolvastam és elfogadom a <a href="help#post_rules" target="_blank">szabályzatot</a></span>
+                    <input type="checkbox" name="remember"><span>Jegyezz meg</span>
                 </label>
-                <button class="cta">Regisztráció</button>
+                <?php
+                    if ($error != "") {
+                        echo "<p id='login-error'>$error</p>";
+                    }
+                ?>
+                <button class="cta">Bejelentkezés</button>
             </form>
         </div>
     </body>
