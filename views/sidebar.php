@@ -19,7 +19,17 @@
         <div class="followed-list">
             <p class="nav-header">Követett üzenőfalak</p>
             <!--<a href="board.php"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>-->
-            <?php getMostRankedBoards() ?>
+            <?php
+                $boards = getMostRankedBoards();
+                $c = 0;
+                foreach ($boards as $board) {
+                    echo "<a href=\"board.php?n=$board->name\"><img alt=\"$board->name\" src=\"img/default_user_avatar.png\"><span class=\"nav-item-title\">$board->name</span></a>";
+                    if ($c == 5) {
+                        break;
+                    }
+                    $c++;
+                }
+            ?>
         </div>
         <?php } ?>
     </div>
