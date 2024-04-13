@@ -16,7 +16,7 @@
         <main>
             <?php include "views/header.php" ?>
             <div class="main-flex">
-                <?php  include "views/sidebar.php"?>
+                <?php include "views/sidebar.php"?>
                 <section>
                     <div class="section-head">
                         <h1>Barátok</h1>
