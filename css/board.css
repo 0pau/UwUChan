@@ -48,3 +48,8 @@
 .board-head .board-head-details *{
     margin: 0px;
 }
+
+#board-creation-date {
+    opacity: 0.45;
+    margin-top: 5px;
+}

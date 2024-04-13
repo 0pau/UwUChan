@@ -1,4 +1,31 @@
 <?php
+
+//repair_dirs();
+
+function repair_dirs() {
+    if (!is_dir("data")) {
+        mkdir("data");
+    }
+    if (!is_dir("data/users")) {
+        mkdir("data/users");
+    }
+    if (!is_dir("data/boards")) {
+        mkdir("data/boards");
+    }
+    if (!is_dir("data/threads")) {
+        mkdir("data/threads");
+    }
+    if (!is_dir("data/reports")) {
+        mkdir("data/reports");
+    }
+    if (!is_dir("data/requests")) {
+        mkdir("data/requests");
+    }
+    if (!is_dir("data/images")) {
+        mkdir("data/images");
+    }
+}
+
 function is_email_used($email): bool {
 
     if (!is_dir("data/users")) {
@@ -160,6 +187,36 @@ function saveBoardVisit($name) {
             break;
         }
     }
-    //json_encode($file)
+    $followed = json_encode($followed, JSON_UNESCAPED_UNICODE);
+    file_put_contents($file, $followed);
+}
 
+function followBoard($name, $root = ".") {
+    $file = $root."/data/users/".$_SESSION["user"]."/followed_boards.json";
+    $followed = file_get_contents($file);
+    $followed = json_decode($followed, false);
+
+    $newBoard = new stdClass();
+    $newBoard->name = $name;
+    $newBoard->visits = 0;
+    $followed[] = $newBoard;
+
+    $followed = json_encode($followed, JSON_UNESCAPED_UNICODE);
+    file_put_contents($file, $followed);
+}
+
+function unfollowBoard($name, $root = ".") {
+    $file = $root."/data/users/".$_SESSION["user"]."/followed_boards.json";
+    $followed = file_get_contents($file);
+    $followed = json_decode($followed, false);
+
+    for ($i = 0; $i < count($followed); $i++) {
+        if ($followed[$i]->name == $name) {
+            unset($followed[$i]);
+            break;
+        }
+    }
+
+    $followed = json_encode($followed, JSON_UNESCAPED_UNICODE);
+    file_put_contents($file, $followed);
 }

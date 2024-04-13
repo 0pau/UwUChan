@@ -371,6 +371,10 @@ nav a[href] img {
     border-radius: 100%;
 }
 
+nav a[href]#show-all-followed {
+    color: var(--accent);
+}
+
 nav a[href]:hover, #board-expander:hover {
     background-color: var(--main);
     border-color: var(--borders);

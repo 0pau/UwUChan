@@ -41,6 +41,10 @@
         width: 32px;
         height: 32px;
     }
+
+    nav a[href]#show-all-followed {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 700px) {

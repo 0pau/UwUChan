@@ -1,4 +1,7 @@
-<?php session_start(); include "api/users.php" ?>
+<?php
+    session_start();
+    include "api/users.php";
+?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -21,6 +24,12 @@
                         <h1>Hírfolyam</h1>
                         <a href="submit.php" class="button cta"><span class="material-symbols-rounded">history_edu</span>Új poszt írása</a>
                     </div>
+                    <?php
+                        include "api/system_messages.php";
+                        getSystemMessage();
+                    ?>
+                    <p>Majd itt lesz valami releváns kontent</p>
+                    <!--
                     <div class="post-card">
                         <div class="card-head">
                             <a href="index.html">
@@ -42,6 +51,8 @@
                             </div>
                         </div>
                     </div>
+                    -->
+                    <!--
                     <div class="post-card">
                         <div class="card-head">
                             <a href="profile-other.php">
@@ -108,6 +119,7 @@
                             </div>
                         </div>
                     </div>
+                    -->
                 </section>
             </div>
         </main>
