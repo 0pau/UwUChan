@@ -27,6 +27,8 @@
                     </div>
                     <p class="card-header">Beérkezett barátkérelmek</p>
                     <div class="list">
+                        <p>Nincs függőben lévő barátkérelmed</p>
+                        <!--
                         <div class="messages-card-head">
                             <a href="profile-other.php">
                                 <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
@@ -38,9 +40,12 @@
                             <button title="Elutasítás" class="flat icon"><span class="material-symbols-rounded">close</span></button>
                             <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
                         </div>
+                        -->
                     </div>
                     <p class="card-header">Barátaim</p>
                     <div class="list">
+                        <p>Nincsenek barátaid :(</p>
+                        <!--
                         <div class="messages-card-head">
                             <a href="">
                                 <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
@@ -70,6 +75,7 @@
                             </div>
                             <button title="Barát eltávolítása" class="flat icon right"><span class="material-symbols-rounded">close</span></button>
                             <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
+                       -->
                         </div>
                     </div>
                 </section>

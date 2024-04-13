@@ -26,6 +26,8 @@
                         </div>
                     </div>
                     <div class="list">
+                        <p>Nincs egy üzeneted sem</p>
+                        <!--
                         <div class="messages-card-head">
                             <a href="profile-other.php">
                                 <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
@@ -59,6 +61,7 @@
                             <span class="time-since-last">15 napja</span>
                             <a title="Törlés" class="right icon button flat" href=""><span class="material-symbols-rounded">delete</span></a>
                         </div>
+                        ->>
                     </div>
                 </section>
             </div>
