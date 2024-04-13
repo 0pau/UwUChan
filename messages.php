@@ -26,40 +26,34 @@
                         </div>
                     </div>
                     <div class="list">
-                        <div class="messages-card-head">
-                            <a href="profile-other.php">
-                                <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            </a>
-                            <a href="thread.php" class="messages-card-preview">
-                                <span>randomUser52</span>
-                                <p>Ugye milyen aranyosak??</p>
-                            </a>
-                            <span class="time-since-last">2 perce</span>
-                            <a title="Törlés" class="right button icon flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                        </div>
-                        <div class="messages-card-head">
-                            <a href="">
-                                <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            </a>
-                            <div class="messages-card-preview">
-                                <span>teszt_user</span>
-                                <p>UwU!!!</p>
-                            </div>
-                            <span class="time-since-last">1 napja</span>
-                            <a title="Törlés" class="right icon button flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                        </div>
-                        <div class="messages-card-head">
-                            <a href="">
-                                <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            </a>
-                            <div class="messages-card-preview">
-                                <span>[törölt felhasználó]</span>
-                                <p>xdddd</p>
-                            </div>
-                            <span class="time-since-last">15 napja</span>
-                            <a title="Törlés" class="right icon button flat" href=""><span class="material-symbols-rounded">delete</span></a>
-                        </div>
-                    </div>
+
+                        <?php
+                        $file_path = 'data/users/'.$_SESSION["user"].'/friends.json';
+                        $default_profile_picture = '/img/default_user_avatar.png';
+                        $message_count = 0;
+                        if (file_exists($file_path)) {
+                            $json_tomb = json_decode(file_get_contents($file_path), true);
+                            foreach ($json_tomb as $barat) {
+                                if ($barat['relationship'] === 1) {
+                                    echo "<div class='messages-card-head'>
+                                            <a href='profile-other.php'>
+                                                <img class='user-profile-messages-avatar' src='$default_profile_picture' alt='Profilkép'>
+                                            </a>
+                                            <a href='thread.php' class='messages-card-preview'>
+                                                <span>" . $barat['username'] . "</span>
+                                                <p>Az üzenet: Ugye milyen aranyosak??</p>
+                                            </a>
+                                                <span class='time-since-last'>2 perce</span>
+                                            <a title='Törlés' class='right button icon flat' href=''><span class='material-symbols-rounded'>delete</span></a>
+                                            </div>";
+                                        $message_count++;
+                                }
+                            }
+                            if ($message_count === 0) {
+                                echo "<p>Nincs egy üzeneted sem</p>";
+                            }
+                        }
+                        ?>
                 </section>
             </div>
         </main>
