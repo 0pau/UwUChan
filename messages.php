@@ -29,7 +29,7 @@
 
                         <?php
                         $file_path = 'data/users/'.$_SESSION["user"].'/friends.json';
-                        $default_profile_picture = '/img/default_user_avatar.png';
+                        $default_profile_picture = 'img/default_user_avatar.png';
                         $message_count = 0;
                         if (file_exists($file_path)) {
                             $json_tomb = json_decode(file_get_contents($file_path), true);
