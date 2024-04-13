@@ -18,7 +18,7 @@
                 return "A felhasználó már létezik";
             }
 
-            if (preg_match("/^[a-z]+@[a-z]+\.[a-z]{2,5}$/", $_POST["email"]) == 0) {
+            if (preg_match("/^[a-z0-9]+@[a-z0-9]+\.[a-z]{2,5}$/", $_POST["email"]) == 0) {
                 return "Hibás email-cím";
             }
 
@@ -51,7 +51,7 @@
             $new_user->uwuness = 0;
             $new_user->isUsingDarkMode = false;
             $new_user->isUsingCuteCursor = true;
-            $new_user->filterNSFW = true;
+            $new_user->isNSFWAllowed = false;
             $new_user->profilePictureFilename = "";
             $new_user->lockedUntil = -1;
             $new_user->lockReason = "not_locked";

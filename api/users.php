@@ -22,6 +22,9 @@ function user_exists($name): bool {
 }
 
 function create_user($user, $file): bool {
+    if (!is_dir("data")) {
+        mkdir("data");
+    }
     if (!is_dir("data/users")) {
         mkdir("data/users");
     }
@@ -45,12 +48,23 @@ function create_user($user, $file): bool {
     return true;
 }
 
-function getUserField($field) {
+function getUserField($field, $root = ".") {
     if (isset($_SESSION["user"])) {
-        $json = file_get_contents("data/users/".$_SESSION["user"]."/metadata.json");
-        return json_decode($json, JSON_UNESCAPED_UNICODE)[$field];
+        $json = file_get_contents($root."/data/users/".$_SESSION["user"]."/metadata.json");
+        return json_decode($json, false)->$field;
     }
     return null;
+}
+
+function changeUserField($field, $value, $root = ".") {
+
+    $file = $root."/data/users/".$_SESSION["user"]."/metadata.json";
+    $userdata = file_get_contents($file);
+    $userdata = json_decode($userdata, false);
+    $userdata->$field = $value;
+
+    $newdata = json_encode($userdata, JSON_UNESCAPED_UNICODE);
+    file_put_contents($file, $newdata);
 }
 
 function getUserProfilePicture($name) {
@@ -76,4 +90,33 @@ function getUserCount() : int {
     }
 
     return $s;
+}
+
+function getFollowedCount($root = ".") : int {
+
+    if (!isset($_SESSION["user"])) {
+        return 0;
+    }
+
+    $file = $root."/data/users/".$_SESSION["user"]."/followed_boards.json";
+    $followed = file_get_contents($file);
+    $followed = json_decode($followed, false);
+
+    return count($followed);
+}
+
+function getMostRankedBoards($root = ".") {
+
+    if (!isset($_SESSION["user"])) {
+        return [];
+    }
+
+    $file = $root."/data/users/".$_SESSION["user"]."/followed_boards.json";
+    $followed = file_get_contents($file);
+    $followed = json_decode($followed, false);
+
+    foreach ($followed as $item) {
+        echo $item->name;
+    }
+
 }

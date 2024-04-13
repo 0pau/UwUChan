@@ -11,43 +11,17 @@
         <link rel="stylesheet" href="css/mobile.css">
         <link rel="stylesheet" href="css/profile.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-        <script>
-            function switchTheme(itm) {
-                if (itm.checked) {
-                    document.body.classList.add("dark");
-                } else {
-                    document.body.classList.remove("dark");
-                }
-            }
-        </script>
     </head>
-    <body>
+    <body class="<?php include "api/theme.php"?>">
         <main>
             <?php include "views/header.php" ?>
             <div class="main-flex">
-                <nav>
-                    <div>
-                        <a href="index.php"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="messages.php"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="admincenter.php"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
-                    </div>
-                    <div class="followed-boards">
-                        <div class="followed-list">
-                            <p class="nav-header">Követett üzenőfalak</p>
-                            <a href="board.php"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
-                        <a href="404.html" class="disabled"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
-                    </div>
-                </nav>
+                <?php include "views/sidebar.php"?>
                 <section>
                     <div class="section-head">
                         <h1>Profilbeállítások</h1>
                     </div>
-                    <form action="api/save_settings.php" method="post">
+                    <form action="api/modify_settings.php" method="post">
                         <p class="card-header">Felület személyre szabása</p>
                         <div class="list">
                             <div class="profile-setting-item">
@@ -56,7 +30,7 @@
                                     <p>Sötét téma használata</p>
                                     <p>Megkönnyíti az olvasást sötét környezetben</p>
                                 </div>
-                                <input type="checkbox" id="darkmode-switch" name="darkmode">
+                                <input type="checkbox" id="darkmode-switch" name="darkmode" <?php if (getUserField("isUsingDarkMode")) echo "checked" ?>>
                             </div>
                             <div class="profile-setting-item">
                                 <img src="img/cursor.png" alt="Kurzor">
@@ -64,7 +38,7 @@
                                     <p>Cuki kurzor</p>
                                     <p>Számítógépen aranyos, UwUChan stílusúvá varázsolja a kurzorodat</p>
                                 </div>
-                                <input checked type="checkbox" id="cute-cursor-switch" name="cute_cursor">
+                                <input checked type="checkbox" id="cute-cursor-switch" name="cute_cursor" <?php if (getUserField("isUsingCuteCursor")) echo "checked" ?>>
                             </div>
                             <div class="profile-setting-item">
                                 <span class="material-symbols-rounded">explicit</span>
@@ -72,7 +46,7 @@
                                     <p>Felnőtt tartalom szűrése</p>
                                     <p>A felnőtteknek szánt posztokat és üzenőfalakat a rendszer elrejti az oldalsávon, a feedben és a keresési találatoknál.</p>
                                 </div>
-                                <input type="checkbox" id="nsfw-switch" name="show_nsfw">
+                                <input type="checkbox" id="nsfw-switch" name="show_nsfw" <?php if (getUserField("isNSFWAllowed")) echo "checked" ?>>
                             </div>
                             <div class="profile-setting-item">
                                 <span>A változtatások érvénybe léptetéséhez ne felejesd el elmenteni a beállításaidat -&gt;</span>

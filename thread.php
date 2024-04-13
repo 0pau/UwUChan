@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="css/thread.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     </head>
-    <body>
+    <body class="<?php include "api/theme.php"?>">
         <main>
             <?php include "views/header.php" ?>
             <div class="main-flex">

@@ -12,28 +12,11 @@
         <link rel="stylesheet" href="css/messages.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     </head>
-    <body>
+    <body class="<?php include "api/theme.php"?>">
         <main>
             <?php include "views/header.php" ?>
             <div class="main-flex">
-                <nav>
-                    <div>
-                        <a href="index.php"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="messages.php" class="current"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="admincenter.php"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
-                    </div>
-                    <div class="followed-boards">
-                        <div class="followed-list">
-                            <p class="nav-header">Követett üzenőfalak</p>
-                            <a href="board.php"><img alt="macskak" src="img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
-                        <a class="disabled" href="404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
-                    </div>
-                </nav>
+                <?php include "views/sidebar.php"?>
                 <section>
                     <div class="section-head">
                         <h1>Barátok</h1>

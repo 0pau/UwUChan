@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="css/login.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     </head>
-    <body class="login-background">
+    <body class="login-background <?php include "api/theme.php"?>">
         <form class="login-window" method="post">
             <input type="hidden" name="confirmed" value="1">
             <header class="login-window-head">
