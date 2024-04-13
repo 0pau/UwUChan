@@ -25,58 +25,77 @@
                             <a class="button hide-text-on-mobile active"><span class="material-symbols-rounded">group</span><span>Barátok</span></a>
                         </div>
                     </div>
+
+                    <?php
+                    $file_path = 'data/users/'.$_SESSION["user"].'/friends.json';
+                    $default_profile_picture = '/img/default_user_avatar.png';
+
+                    if (file_exists($file_path)) {
+                        $json_tomb = json_decode(file_get_contents($file_path), true);
+
+                        $baratok = [];
+                        $baratkerelmek = [];
+                        foreach ($json_tomb as $barat) {
+                            if ($barat['relationship'] == 1) {
+                                $baratok[] = $barat;
+                            } elseif ($barat['relationship'] == 0) {
+                                $baratkerelmek[] = $barat;
+                            }
+                        }
+                    }
+                    ?>
+
                     <p class="card-header">Beérkezett barátkérelmek</p>
                     <div class="list">
-                        <p>Nincs függőben lévő barátkérelmed</p>
-                        <!--
-                        <div class="messages-card-head">
-                            <a href="profile-other.php">
-                                <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            </a>
-                            <div class="messages-card-preview">
-                                <span>kalitka</span>
-                            </div>
-                            <button title="Elfogadás" class="flat icon right"><span class="material-symbols-rounded">done</span></button>
-                            <button title="Elutasítás" class="flat icon"><span class="material-symbols-rounded">close</span></button>
-                            <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
-                        </div>
-                        -->
+                        <?php
+                        if (!empty($baratkerelmek)) {
+                            foreach ($baratkerelmek as $barat) {
+                                $profilkep = isset($barat['profile_picture']) ? $barat['profile_picture'] : $default_profile_picture;
+                                $felhasznalonev = $barat['username'];
+                            echo "<div class=\"messages-card-head\">
+                                        <a href=\"profile-other.php\">
+                                        <img class=\"user-profile-messages-avatar\" src=\"$profilkep\" alt=\"Profilkép\">
+                                        </a>
+                                    <div class=\"messages-card-preview\">
+                                        <span>$felhasznalonev</span>
+                                    </div>
+                                        <button title=\"Elfogadás\" class=\"flat icon right\"><span class=\"material-symbols-rounded\">done</span></button>
+                                        <button title=\"Elutasítás\" class=\"flat icon\"><span class=\"material-symbols-rounded\">close</span></button>
+                                        <button title=\"Letiltás\" class=\"flat icon\"><span class=\"material-symbols-rounded\">block</span></button>
+                                    </div>";
+                            }
+                        }
+                        else {
+                            echo "Nincs függőben lévő barátkérelmed.";
+                        }
+                        ?>
+
                     </div>
                     <p class="card-header">Barátaim</p>
                     <div class="list">
-                        <p>Nincsenek barátaid :(</p>
-                        <!--
-                        <div class="messages-card-head">
-                            <a href="">
-                                <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            </a>
-                            <div class="messages-card-preview">
-                                <span>randomUser52</span>
-                            </div>
-                            <button title="Barát eltávolítása" class="flat icon right"><span class="material-symbols-rounded">close</span></button>
-                            <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
-                        </div>
-                        <div class="messages-card-head">
-                            <a href="">
-                                <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            </a>
-                            <div class="messages-card-preview">
-                                <span>teszt_user</span>
-                            </div>
-                            <button title="Barát eltávolítása" class="flat icon right"><span class="material-symbols-rounded">close</span></button>
-                            <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
-                        </div>
-                        <div class="messages-card-head">
-                            <a href="">
-                                <img class="user-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                            </a>
-                            <div class="messages-card-preview">
-                                <span>[törölt felhasználó]</span>
-                            </div>
-                            <button title="Barát eltávolítása" class="flat icon right"><span class="material-symbols-rounded">close</span></button>
-                            <button title="Letiltás" class="flat icon"><span class="material-symbols-rounded">block</span></button>
-                       -->
-                        </div>
+
+                        <?php
+                        if (!empty($baratok)) {
+                            foreach ($baratok as $barat) {
+                                $profilkep = isset($barat['profile_picture']) ? $barat['profile_picture'] : $default_profile_picture;
+                                $felhasznalonev = $barat['username'];
+                                echo "
+                                    <div class=\"messages-card-head\">
+                                        <a href=\"\">
+                                        <img class=\"user-profile-messages-avatar\" src=\"$profilkep\" alt=\"Profilkép\">
+                                        </a>
+                                    <div class=\"messages-card-preview\">
+                                        <span>$felhasznalonev</span>
+                                    </div>
+                                        <button title=\"Barát eltávolítása\" class=\"flat icon right\"><span class=\"material-symbols-rounded\">close</span></button>
+                                        <button title=\"Letiltás\" class=\"flat icon\"><span class=\"material-symbols-rounded\">block</span></button>
+                                    </div>";
+                            }
+                        }
+                        else {
+                            echo "<p>Nincs egy barátod sem.</p>";
+                        }
+                        ?>
                     </div>
                 </section>
             </div>
