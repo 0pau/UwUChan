@@ -17,8 +17,11 @@
 
 body {
     color: var(--text);
-    cursor: url('../img/cursor.png'), auto;
     transition: color 200ms;
+}
+
+body.cute {
+    cursor: url('../img/cursor.png'), auto;
 }
 
 nav, main, body, header {
@@ -31,6 +34,9 @@ nav, main, body, header {
 
 *.disabled, *.disabled * {
     pointer-events: none;
+}
+
+body.cute *.disabled, body.cute *.disabled * {
     cursor: url('../img/cursor_forbidden.png'), not-allowed;
 }
 
@@ -123,6 +129,9 @@ a:link {
 
 a:not(.button):link, a:not(.button):visited {
     color: var(--accent);
+}
+
+body.cute a:not(.button):link, body.cute a:not(.button):visited {
     cursor: url('../img/cursor_hand.png'), pointer;
 }
 
@@ -137,8 +146,11 @@ a:not(.button):link, a:not(.button):visited {
 }
 
 input[type="text"], input[type="password"], textarea {
-    cursor: url('../img/cursor_ibeam.png'), text;
     color: var(--text);
+}
+
+body.cute input[type="text"], body.cute input[type="password"], body.cute textarea {
+    cursor: url('../img/cursor_ibeam.png'), text;
 }
 
 .help-link {
@@ -149,7 +161,6 @@ button, .button {
     padding: 5px 12px;
     border-radius: 5px;
     font-size: inherit;
-    cursor: url('../img/cursor_hand.png'), pointer;
     border: 1px solid var(--borders);
     background-color: var(--highlight);
     box-shadow: 0px 1px 2px #00000025;
@@ -159,6 +170,11 @@ button, .button {
     gap: 5px;
     color: var(--text);
     transition: background-color 0.25s;
+    cursor: pointer;
+}
+
+body.cute button, body.cute .button {
+    cursor: url('../img/cursor_hand.png'), pointer;
 }
 
 button.cta, .button.cta {
@@ -256,8 +272,12 @@ section.contents > ul {
     justify-content: right;
     align-items: center;
     gap: 15px;
-    cursor: url('../img/cursor_hand.png'), pointer;
     position: relative;
+    cursor: pointer;
+}
+
+body.cute .user-profile-button {
+    cursor: url('../img/cursor_hand.png'), pointer;
 }
 
 .user-profile-button > div {
@@ -477,6 +497,7 @@ nav a[href].current {
     flex-direction: column;
     gap: 10px;
     margin-bottom: 10px;
+    max-width: 150px;
 }
 
 .post-title-mobile {
@@ -485,6 +506,11 @@ nav a[href].current {
 
 .post-images p {
     margin: 0px;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .post-images img {
@@ -493,25 +519,42 @@ nav a[href].current {
     object-fit: cover;
     border-radius: 5px;
     position: relative;
+    transition: 0.3s;
 }
 
 .post-image-stack {
-    margin-top: 8px;
-    position: relative;
+    position: unset;
+    text-align: center;
 }
 
-.post-image-stack img:first-child {
+.post-image-stack img:nth-child(1) {
     z-index: 3;
+    display: block;
+    rotate: 5deg;
 }
 
-.post-image-stack img:last-child {
+.post-image-stack img:not(:first-child) {
     z-index: 1;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
+    rotate: -5deg;
+    margin-top: -100%;
+    position: relative;
     opacity: 0.5;
-    max-width: 125px;
+}
+
+.post-image-stack img:not(:nth-child(1)):not(:nth-child(2)) {
+    max-width: 100%;
+    opacity: 0;
+}
+
+.post-image-stack:hover img {
+    rotate: 0deg;
+}
+
+.post-image-stack:hover img:not(:first-child) {
+    margin-top: 5px;
+    left: 0;
+    transform: translateY(0%);
+    opacity: 1;
 }
 
 .reaction-bar{

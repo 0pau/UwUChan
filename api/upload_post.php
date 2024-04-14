@@ -3,6 +3,7 @@
     session_start();
 
     include "boards.php";
+    include "util.php";
 
     if (!isset($_SESSION["user"])) {
         die("Nincs hozzáférésed ehhez a végponthoz, sorry :3");
@@ -37,7 +38,25 @@
     $post->likes = 0;
     $post->dislikes = 0;
     $post->posted_at = time();
-    $post->images = [];
+
+    $images = [];
+    if (count($_FILES["images"]["name"])) {
+        for ($i = 0; $i < count($_FILES["images"]["name"]); $i++) {
+
+            $img = new stdClass();
+            $img->title = $_FILES["images"]["name"][$i];
+            $fileSeparated = explode(".", $img->title);
+            $ext = end($fileSeparated);
+
+            $filenames = saveImageWithThumbnail($ext, $_FILES["images"]["tmp_name"][$i], "..");
+            $img->original = $filenames[0];
+            $img->thumbnail = $filenames[1];
+
+            $images[] = $img;
+        }
+    }
+
+    $post->images = $images;
     $post->comments = [];
 
     $data = json_encode($post, JSON_UNESCAPED_UNICODE);
@@ -50,5 +69,4 @@
 
     file_put_contents("../data/boards/$board/$number.json", $data);
 
-    //TODO: Redirect user to the new post:
     header("Location: ../post.php?n=$board/$number");

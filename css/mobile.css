@@ -157,6 +157,10 @@
         padding: 0px;
     }
 
+    .post-card .post-images {
+        width: 100px;
+    }
+
     .post-view .post-images {
         margin-bottom: 0px;
     }
@@ -170,10 +174,6 @@
     .post-card .post-images img {
         width: 100px;
         max-height: 75px;
-    }
-
-    .post-image-stack img:last-child {
-        max-width: 85px;
     }
 
     .post-view .post-content .post-text {

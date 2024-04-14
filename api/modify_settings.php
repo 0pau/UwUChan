@@ -18,9 +18,15 @@
         changeUserField("isUsingCuteCursor", false, "..");
     }
     if (isset($_POST["show_nsfw"])) {
-        changeUserField("isNSFWAllowed", true, "..");
+        changeUserField("filterNSFW", true, "..");
     } else {
-        changeUserField("isNSFWAllowed", false, "..");
+        changeUserField("filterNSFW", false, "..");
+    }
+    if (isset($_POST["boards"])) {
+        $boardlist = $_POST["boards"];
+        foreach ($boardlist as $board) {
+            followBoard($board, "..");
+        }
     }
 
     $referer = $_SERVER["HTTP_REFERER"];

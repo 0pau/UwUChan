@@ -7,3 +7,7 @@
     } else {
         echo "light";
     }
+
+    if (isset($_SESSION["user"]) && getUserField("isUsingCuteCursor")) {
+        echo " cute";
+    }

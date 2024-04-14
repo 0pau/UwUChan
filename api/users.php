@@ -192,6 +192,11 @@ function saveBoardVisit($name) {
 }
 
 function followBoard($name, $root = ".") {
+
+    if (isBoardFollowed($name, $root)) {
+        return;
+    }
+
     $file = $root."/data/users/".$_SESSION["user"]."/followed_boards.json";
     $followed = file_get_contents($file);
     $followed = json_decode($followed, false);

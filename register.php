@@ -51,7 +51,7 @@
             $new_user->uwuness = 0;
             $new_user->isUsingDarkMode = false;
             $new_user->isUsingCuteCursor = true;
-            $new_user->isNSFWAllowed = false;
+            $new_user->filterNSFW = false;
             $new_user->profilePictureFilename = "";
             $new_user->lockedUntil = -1;
             $new_user->lockReason = "not_locked";

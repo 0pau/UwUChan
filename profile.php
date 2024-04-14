@@ -38,7 +38,7 @@
                                     <p>Cuki kurzor</p>
                                     <p>Számítógépen aranyos, UwUChan stílusúvá varázsolja a kurzorodat</p>
                                 </div>
-                                <input checked type="checkbox" id="cute-cursor-switch" name="cute_cursor" <?php if (getUserField("isUsingCuteCursor")) echo "checked" ?>>
+                                <input type="checkbox" id="cute-cursor-switch" name="cute_cursor" <?php if (getUserField("isUsingCuteCursor")) echo "checked" ?>>
                             </div>
                             <div class="profile-setting-item">
                                 <span class="material-symbols-rounded">explicit</span>
@@ -46,10 +46,10 @@
                                     <p>Felnőtt tartalom szűrése</p>
                                     <p>A felnőtteknek szánt posztokat és üzenőfalakat a rendszer elrejti az oldalsávon, a feedben és a keresési találatoknál.</p>
                                 </div>
-                                <input type="checkbox" id="nsfw-switch" name="show_nsfw" <?php if (getUserField("isNSFWAllowed")) echo "checked" ?>>
+                                <input type="checkbox" id="nsfw-switch" name="show_nsfw" <?php if (getUserField("filterNSFW")) echo "checked" ?>>
                             </div>
                             <div class="profile-setting-item">
-                                <span>A változtatások érvénybe léptetéséhez ne felejesd el elmenteni a beállításaidat -&gt;</span>
+                                <span>A változtatások érvénybe léptetéséhez ne felejsd el elmenteni a beállításaidat -&gt;</span>
                                 <button class="right cta">Mentés</button>
                             </div>
                         </div>

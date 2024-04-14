@@ -30,7 +30,7 @@ if (isset($_GET["board"])) {
                     <div class="section-head">
                         <h1>Új poszt írása</h1>
                     </div>
-                    <form id="new-post-form" method="POST" action="api/upload_post.php">
+                    <form id="new-post-form" method="POST" action="api/upload_post.php" enctype="multipart/form-data">
                         <label class="card-header">Üzenőfal kiválasztása (Kötelező)</label>
                         <div id="suggested-boards-input">
                             <input name="board-name" required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni..." value="<?php echo $target_board ?>">
@@ -45,6 +45,7 @@ if (isset($_GET["board"])) {
                             <label>Képek</label>
                             <input type="file" name="images[]" id="image-uploader" accept="image/*" multiple>
                         </fieldset>
+                        <p>A képek összmérete nem haladhatja meg a 8 MB-ot, valamint egy kép legfeljebb csak 2 MB-os lehet.</p>
                         <button class="cta">Poszt feltöltése</button>
                     </form>
                 </section>

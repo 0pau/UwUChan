@@ -1,5 +1,4 @@
 <?php
-
     function getPostCard($which, $root = ".") : bool {
 
         $file = $root."/data/boards/$which.json";
@@ -26,10 +25,25 @@
             </div>
             <div class=\"post-content\">";
             if (count($post->images)) {
-                echo "<a class=\"post-images\" href=\"index.php\">
-                    <img src=\"./img/blog_macska.jpg\" alt=\"macska\">
-                    <p>DSC_3829.jpg</p>
+                if (count($post->images) == 1) {
+                    $th = "$root/data/images/".$post->images[0]->thumbnail;
+                    $title = $post->images[0]->title;
+                    echo "<a class=\"post-images\" href=\"index.php\">
+                    <img src=\"$th\" alt=\"$title\">
+                    <p>$title</p>
                 </a>";
+                } else {
+                    echo "<div class=\"post-images\"><div class=\"post-image-stack\">";
+
+                    foreach ($post->images as $image) {
+                        $th = "$root/data/images/".$image->thumbnail;
+                        $title = $image->title;
+                        echo "<img src=\"$th\" alt=\"$title\">";
+                    }
+                    $count = count($post->images);
+
+                    echo "</div><p>$count kép</p></div>";
+                }
             }
             echo "<div class=\"post-fragment\">
                             <a href=\"post.php\" class=\"post-body\">

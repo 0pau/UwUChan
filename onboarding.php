@@ -62,14 +62,14 @@
                                 <div>
                                     <p>Cuki kurzor</p>
                                 </div>
-                                <input checked type="checkbox" id="cute-cursor-switch" name="cute_cursor" <?php if (getUserField("isUsingCuteCursor")) echo "checked" ?>>
+                                <input type="checkbox" id="cute-cursor-switch" name="cute_cursor" <?php if (getUserField("isUsingCuteCursor")) echo "checked" ?>>
                             </div>
                             <div class="profile-setting-item">
                                 <span class="material-symbols-rounded">explicit</span>
                                 <div>
                                     <p>Felnőtt tartalom szűrése</p>
                                 </div>
-                                <input type="checkbox" id="nsfw-switch" name="show_nsfw" <?php if (getUserField("isNSFWAllowed")) echo "checked" ?>>
+                                <input type="checkbox" id="nsfw-switch" name="show_nsfw" <?php if (getUserField("filterNSFW")) echo "checked" ?>>
                             </div>
                         </div>
                     </div>
