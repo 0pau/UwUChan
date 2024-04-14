@@ -54,6 +54,7 @@
                             <p><?php echo $board_meta->bio ?></p>
                             <p id="board-creation-date">Létrehozva: <?php echo $created_at ?></p>
                         </div>
+                        <?php if (isset($_SESSION["user"])) { ?>
                         <form method="post" action="api/user_actions.php">
                             <input type="hidden" name="board" value="<?php echo $board_name ?>">
                             <input type="hidden" name="action" value="toggle-follow">
@@ -63,6 +64,7 @@
                             <button>Követés</button>
                             <?php }?>
                         </form>
+                        <?php }?>
                     </div>
                     <div class="section-inset">
                         <div class="section-head">
@@ -71,6 +73,32 @@
                         <?php
                             if ($board_meta->post_count == 0) {
                                 include "views/no_post_placeholder.html";
+                            } else {
+
+                                include "api/posts.php";
+
+                                $last_id = $board_meta->post_count;
+                                $shown_count = 0;
+                                $is_last = false;
+
+                                error_reporting(E_ALL);
+
+                                while ($shown_count < 20 && !$is_last) {
+
+                                    if (getPostCard("$board_name/$last_id")) {
+                                        $shown_count++;
+                                    }
+                                    $last_id--;
+
+                                    if ($last_id == 0) {
+                                        $is_last = true;
+                                    }
+                                }
+
+                                if (!$is_last) {
+                                    echo "LAPOZÓ HELYE";
+                                }
+
                             }
                         ?>
                         <!--

@@ -64,7 +64,9 @@
 
             if (create_user($new_user, $filelist)) {
                 echo "Sikeres regisztráció! Hamarosan átirányításra kerülsz...";
-                header("Location: reg_success.html");
+                session_start();
+                $_SESSION["user"] = $new_user->nickname;
+                header("Location: onboarding.php");
             }
 
         }
@@ -108,11 +110,11 @@
                     <input type="file" name="pfp" id="pfp" accept="image/*">
                 </label>
                 <label>
-                    <span>Születési dátum <a target="_blank" href="help/index.html#birthday" class="help-link">Erre miért van szükség?</a></span>
+                    <span>Születési dátum <a target="_blank" href="help.php#birthday" class="help-link">Erre miért van szükség?</a></span>
                     <input name="birthday" id="birthday" type="date" required>
                 </label>
                 <label>
-                    <span>Jelszó <a target="_blank" href="help/index.html#password" class="help-link">Milyen a jó jelszó?</a></span>
+                    <span>Jelszó <a target="_blank" href="help.php#password" class="help-link">Milyen a jó jelszó?</a></span>
                     <input type="password" name="pass" id="password" required>
                 </label>
                 <label>
@@ -120,7 +122,7 @@
                     <input type="password" name="pass_again" id="password_again" required>
                 </label>
                 <label class="horizontal">
-                    <input type="checkbox" name="consent" id="consent" required><span>Elolvastam és elfogadom a <a href="help#post_rules" target="_blank">szabályzatot</a></span>
+                    <input type="checkbox" name="consent" id="consent" required><span>Elolvastam és elfogadom a <a href="help.php#post_rules" target="_blank">szabályzatot</a></span>
                 </label>
                 <?php
                     if ($error != "") {

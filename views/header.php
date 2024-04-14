@@ -1,4 +1,6 @@
-<?php include_once "api/users.php"?>
+<?php
+    include_once "api/users.php"
+?>
 <header>
     <div class="color-variants header-side-element desktop">
         <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">

@@ -22,8 +22,9 @@
                     <?php if (getUserField("privilege") == 1) { ?>
                     <div class="thread-toolbar top">
                         <b>Admin Központ</b>
-                        <a title="Rendszerüzenet szerkesztése" class="button icon flat right"><span class="material-symbols-rounded">stylus_note</span></a>
-                        <a title="Üzenőfal létrehozása" class="button icon flat"><span class="material-symbols-rounded">add</span></a>
+                        <a title="Módosíthatod az éppen kiírt rendszerüzenetet" class="button icon flat right hide-text-on-mobile"><span class="material-symbols-rounded">edit_note</span><span>Rendszerüzenet</span></a>
+                        <a title="Adminok listája" class="button icon flat hide-text-on-mobile"><span class="material-symbols-rounded">supervisor_account</span><span>Adminok</span></span></a>
+                        <a title="Üzenőfalak kezelése" class="button icon flat hide-text-on-mobile"><span class="material-symbols-rounded">dashboard</span><span>Üzenőfalak</span></span></a>
                     </div>
                     <div class="section-inset">
                         <?php

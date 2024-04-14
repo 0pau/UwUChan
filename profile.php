@@ -68,21 +68,21 @@
                                 <span class="material-symbols-rounded">badge</span>
                                 <div>
                                     <p>Felhasználónév</p>
-                                    <p>meowjancsi_</p>
+                                    <p><?php echo getUserField("nickname"); ?></p>
                                 </div>
                             </a>
                             <a class="profile-setting-item">
                                 <span class="material-symbols-rounded">mail</span>
                                 <div>
                                     <p>E-mail cím</p>
-                                    <p>meowjancsi3829@email.com</p>
+                                    <p><?php echo getUserField("email"); ?></p>
                                 </div>
                             </a>
                             <a class="profile-setting-item">
                                 <span class="material-symbols-rounded">calendar_month</span>
                                 <div>
                                     <p>Születési idő</p>
-                                    <p>2000. 01. 01.</p>
+                                    <p><?php echo str_replace("-", ". ", getUserField("birthday")); ?></p>
                                 </div>
                             </a>
                         </div>
@@ -95,6 +95,18 @@
                                 <div>
                                     <p>Fiók végleges törlése</p>
                                     <p>Ezzel minden adatodat töröljük a rendszerből. Az általad írt kommentek és üzenetek helyén a [törölt] felirat fog megjelenni.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="card-header">Debug</p>
+                        <div class="list">
+                            <a class="profile-setting-item" href="onboarding.php">
+                                <span class="material-symbols-rounded">select_window</span>
+                                <div>
+                                    <p>Onboarding futtatása</p>
+                                    <p>A regisztráció után megjelenő beállításvarázslót futtatja.</p>
                                 </div>
                             </a>
                         </div>

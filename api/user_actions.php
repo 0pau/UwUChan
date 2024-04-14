@@ -3,12 +3,12 @@
     include "users.php";
     if (!isset($_SESSION["user"])) {
         header("HTTP/1.1 403 Forbidden");
-        echo "Ehhez a végponthoz nincs hozzáférésed, sorry :3";
+        die("Ehhez a végponthoz nincs hozzáférésed, sorry :3");
     }
 
     if (!isset($_POST["action"])) {
         header("HTTP/1.1 400 Bad Request");
-        echo "Hibás kérés!";
+        die("Hibás kérés!");
     }
 
     switch ($_POST["action"]) {

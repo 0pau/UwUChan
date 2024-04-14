@@ -1,3 +1,8 @@
+<?php
+    session_start();
+    include "api/users.php";
+    include "api/boards.php";
+?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -6,61 +11,18 @@
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>UwUChan tudakozó</title>
-        <link rel="stylesheet" href="../css/main.css">
-        <link rel="stylesheet" href="../css/mobile.css">
-        <link rel="stylesheet" href="../css/help-anim.css">
-        <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/mobile.css">
+        <link rel="stylesheet" href="css/help-anim.css">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     </head>
-    <body>
+    <body class="<?php include "api/theme.php"?>">
         <main>
-            <header>
-                <div class="color-variants header-side-element desktop">
-                    <img alt="UwUChan-embléma" class="logo light-variant" src="../img/logo.svg">
-                    <img alt="UwUChan-embléma" class="logo dark-variant" src="../img/logo-dark.svg">
-                </div>
-                <img alt="UwUChan-embléma" src="../img/logo-fill.svg" class="logo mobile">
-                <div class="searchbar desktop">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Keresés a sok UwU-ság között">
-                </div>
-                <a href="." class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
-                <div class="header-side-element user-profile-button">
-                    <div>
-                        <p>Meow János</p>
-                        <p>173 pont</p>
-                    </div>
-                    <img src="../img/default_user_avatar.png" alt="Profilkép">
-                    <div class="session-options">
-                        <a href="../profile.php" class="session-option button flat">
-                            <span class="material-symbols-rounded">settings</span>
-                            Profilbeállítások
-                        </a>
-                        <a href="../login.php" class="session-option button flat">
-                            <span class="material-symbols-rounded">logout</span>
-                            Kijelentkezés
-                        </a>
-                    </div>
-                </div>
-            </header>
+            <?php include "views/header.php" ?>
             <div class="main-flex">
-                <nav>
-                    <div>
-                        <a href="../index.php"><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
-                        <a href="../messages.php"><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
-                        <a href="../admincenter.php"><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
-                    </div>
-                    <div class="followed-boards">
-                        <p class="nav-header">Követett üzenőfalak</p>
-                        <a href="../board.php"><img alt="macskak" src="../img/minta_macsek.jpg"><span class="nav-item-title">macskak</span></a>
-                    </div>
-                    <div>
-                        <p class="nav-header">Információk, visszajelzés</p>
-                        <a href="index.html" class="current"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
-                        <a class="disabled" href="../404.html"><span class="material-symbols-rounded">how_to_vote</span><span class="nav-item-title">Ötletdoboz</span></a>
-                    </div>
-                </nav>
+                <?php include "views/sidebar.php" ?>
                 <section class="help">
-                    <h1>Tudakozó</h1>
+                    <h1 id="top">Tudakozó</h1>
                     <article class="contents">
                         <b>Tartalomjegyzék</b>
                         <p>Az UwUChan-ról</p>
@@ -152,7 +114,7 @@
                         <p>A bejelentésről a poszt feltöltője értesítést kap, valamint a meghozott ítéletről is. Az értesítésre válaszolva a szerző fellebezhet, illetve bizonyíthatja, hogy nem követett el szabálysértést a bejelentést követő 5 napban.</p>
                     </article>
                 </section>
-                <a href="." class="button go-up cta"><span class="material-symbols-rounded">arrow_upward</span></a>
+                <a href="#top" class="button go-up cta"><span class="material-symbols-rounded">arrow_upward</span></a>
             </div>
         </main>
     </body>

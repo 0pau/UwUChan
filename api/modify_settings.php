@@ -1,11 +1,11 @@
 <?php
-    include "users.php";
     session_start();
 
     if (!isset($_SESSION["user"])) {
         header("HTTP/1.1 403 Forbidden");
-        echo "Ehhez a végponthoz nincs hozzáférésed, sorry :3";
+        die("Ehhez a végponthoz nincs hozzáférésed, sorry :3");
     }
+    include "users.php";
 
     if (isset($_POST["darkmode"])) {
         changeUserField("isUsingDarkMode", true, "..");
@@ -24,4 +24,10 @@
     }
 
     $referer = $_SERVER["HTTP_REFERER"];
-    header("Location: ".$referer);
+
+
+    if (str_contains($referer, "onboarding.php")) {
+        header("Location: ../index.php");
+    } else {
+        header("Location: " . $referer);
+    }

@@ -1,8 +1,9 @@
-.profile-setting-item {
+.profile-setting-item, a.profile-setting-item:link, a.profile-setting-item:visited {
     display: flex;
     align-items: center;
     padding: 15px;
     gap: 20px;
+    color: var(--text);
 }
 
 .profile-setting-item > div {

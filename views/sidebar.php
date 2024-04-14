@@ -1,4 +1,5 @@
 <?php
+
     $page = $_SERVER["REQUEST_URI"];
     $page = explode("/", $page);
     $page = end($page);
@@ -14,7 +15,9 @@
 <nav>
     <div>
         <a href="index.php" <?php if ($page == "index") echo "class=\"current\"" ?>><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
+        <?php if (isset($_SESSION["user"])) { ?>
         <a href="messages.php" <?php if ($page == "messages" || $page == "friends" || $page == "thread") echo "class=\"current\"" ?>><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+        <?php } ?>
         <?php if (isset($_SESSION["user"]) && getUserField("privilege") == 1) { ?>
         <a href="admincenter.php" <?php if ($page == "admincenter") echo "class=\"current\"" ?>><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
         <?php } ?>
@@ -36,7 +39,7 @@
                     }
 
                     echo "<a $selected href=\"board.php?n=$board->name\"><img alt=\"$board->name\" src=\"$icon\"><span class=\"nav-item-title\">$board->name</span></a>";
-                    if ($c == 4) {
+                    if ($c == 2) {
                         break;
                     }
                     $c++;
@@ -48,6 +51,6 @@
     </div>
     <div>
         <p class="nav-header">Információk, visszajelzés</p>
-        <a href="help/index.html"><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
+        <a href="help.php" <?php if ($page == "help") echo "class=\"current\"" ?>><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>
     </div>
 </nav>

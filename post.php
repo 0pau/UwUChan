@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="reaction-bar">
-                            <a class="button flat hide-text-on-mobile" href="report.html"><span class="material-symbols-rounded">emoji_flags</span><span>Bejelentés</span></a>
+                            <a class="button flat hide-text-on-mobile" href="report.php"><span class="material-symbols-rounded">emoji_flags</span><span>Bejelentés</span></a>
                             <a class="button flat hide-text-on-mobile" href="index.php"><span class="material-symbols-rounded">share</span><span>Megosztás</span></a>
                             <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>12</button>
                             <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>3</button>

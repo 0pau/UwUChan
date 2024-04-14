@@ -212,7 +212,7 @@ function unfollowBoard($name, $root = ".") {
 
     for ($i = 0; $i < count($followed); $i++) {
         if ($followed[$i]->name == $name) {
-            unset($followed[$i]);
+            array_splice($followed, $i, 1);
             break;
         }
     }

@@ -1,0 +1,116 @@
+.login-window.onboarding {
+    max-width: 850px;
+    max-height: 550px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    opacity: 0;
+    animation: onboarding-anim 0.6s 0.2s forwards;
+}
+
+.onboarding-content h1 {
+    margin-bottom: 0px;
+    font-size: 22px;
+}
+
+.onboarding-illustration {
+    width: 75%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+.onboarding-illustration img {
+    width: 100%;
+}
+
+.onboarding-content {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.onboarding-content form {
+    height: 100%;
+}
+
+.onboarding-content form .form-content {
+    height: 100%;
+}
+
+.onboarding .button-box {
+    width: 100%;
+    flex-direction: row;
+    justify-content: end;
+}
+
+div.profile-setting-item, .board-item {
+    padding: 10px 5px;
+}
+
+.board-item {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.login-window.onboarding form .board-item label {
+    margin: 0px;
+    width: 100%;
+}
+
+.login-window.onboarding form .board-item input {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+}
+
+.login-window.onboarding form .board-item input:before {
+    content: "Követés";
+    color: var(--accent);
+}
+
+.login-window.onboarding form .board-item input:checked:before {
+    content: "Követed";
+    color: var(--disabled);
+}
+
+@keyframes onboarding-anim {
+    from {margin-top: -40px; opacity: 0}
+    to {margin-top: 0px; opacity: 1}
+}
+
+@media screen and (max-width: 850px) {
+    .login-window.onboarding {
+        max-width: unset;
+        max-height: unset;
+        flex-direction: column;
+        padding: 0px;
+        opacity: 1;
+        animation: unset;
+    }
+
+    .onboarding-illustration {
+        width: 100%;
+        height: 35%;
+        padding: 30px;
+    }
+
+    .onboarding-illustration img {
+        width: unset;
+        height: 100%;
+    }
+
+    .onboarding-content {
+        padding: 15px;
+    }
+}

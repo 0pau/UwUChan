@@ -12,6 +12,20 @@ function getBoardInfo($name, $root = ".") : ?stdClass {
     return json_decode($meta, false);
 }
 
+function saveBoardInfo($name, $boardInfo, $root = ".") {
+
+    if (!is_dir($root."/data/boards/".$name)) {
+        return null;
+    }
+    if (!file_exists($root."/data/boards/".$name."/metadata.json")) {
+        return null;
+    }
+
+    $data = json_encode($boardInfo, JSON_UNESCAPED_UNICODE);
+
+    file_put_contents($root."/data/boards/".$name."/metadata.json", $data);
+}
+
 function boardExists($name, $root = ".") : bool {
     return is_dir($root."/data/boards/".$name);
 }
