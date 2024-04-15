@@ -1,10 +1,15 @@
 <?php
+    include_once "boards.php";
+
     function getPostCard($which, $root = ".") : bool {
 
         $file = $root."/data/boards/$which.json";
         if (!file_exists($file)) {
             return false;
         }
+
+        $board = explode("/", $which);
+        $board_name = $board[0];
 
         $post = file_get_contents($file);
         $post = json_decode($post, false);
@@ -13,14 +18,15 @@
         <div class=\"post-card\">
             <div class=\"card-head\">
                 <a href=\"profile-other.php?n=$post->author\">
-                    <img class=\"user-profile-blog-avatar\" src=\"img/default_user_avatar.png\" alt=\"Profilkép\">
+                    <img class=\"user-profile-blog-avatar\" src=\"".getUserProfilePicture($post->author)."\" alt=\"$post->author profilképe\">
                     <span>$post->author</span>
                 </a>
                 <span class=\"material-symbols-rounded\">arrow_right</span>
-                <a href=\"board.html\">
-                    <img class=\"user-profile-blog-avatar\" src=\"img/minta_macsek.jpg\" alt=\"macskak\">
-                    <span>macskak</span>
+                <a href=\"board.php?n=$board_name\">
+                    <img class=\"user-profile-blog-avatar\" src=\"".getBoardIcon($board_name)."\" alt=\"$board_name\">
+                    <span>$board_name</span>
                 </a>
+                <span class='posted-at-text'>".gmdate("m. d. H:i", $post->posted_at)."</span>
                 <a class=\"right button icon flat\" href=\"$root/report.php?w=$which\"><span class=\"material-symbols-rounded\">emoji_flags</span></a>
             </div>
             <div class=\"post-content\">";
@@ -46,7 +52,7 @@
                 }
             }
             echo "<div class=\"post-fragment\">
-                            <a href=\"post.php\" class=\"post-body\">
+                            <a href=\"post.php?n=$which\" class=\"post-body\">
                                 <p class=\"post-title\">$post->title</p>
                                 <p class=\"post-text\">$post->body</p>
                             </a>

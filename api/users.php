@@ -44,8 +44,8 @@ function is_email_used($email): bool {
     return false;
 }
 
-function user_exists($name): bool {
-    return (file_exists("data/users/".$name));
+function user_exists($name, $root = "."): bool {
+    return (file_exists("$root/data/users/".$name));
 }
 
 function create_user($user, $file): bool {
@@ -75,9 +75,15 @@ function create_user($user, $file): bool {
     return true;
 }
 
-function getUserField($field, $root = ".") {
-    if (isset($_SESSION["user"])) {
-        $json = file_get_contents($root."/data/users/".$_SESSION["user"]."/metadata.json");
+function getUserField($field, $root = ".", $name = "\\") {
+
+    $n = $name;
+    if ($name == "\\") {
+        $n = $_SESSION["user"];
+    }
+
+    if (user_exists($n, $root)) {
+        $json = file_get_contents("$root/data/users/$n/metadata.json");
         return json_decode($json, false)->$field;
     }
     return null;
@@ -96,8 +102,8 @@ function changeUserField($field, $value, $root = ".") {
 
 function getUserProfilePicture($name) {
     if (user_exists($name)) {
-        if (getUserField("profilePictureFilename") != "") {
-            return "data/images/" . getUserField("profilePictureFilename");
+        if (getUserField("profilePictureFilename", ".", $name) != "") {
+            return "data/images/" . getUserField("profilePictureFilename", ".", $name);
         }
     }
     return "img/default_user_avatar.png";
@@ -224,4 +230,26 @@ function unfollowBoard($name, $root = ".") {
 
     $followed = json_encode($followed, JSON_UNESCAPED_UNICODE);
     file_put_contents($file, $followed);
+}
+
+function getUserPosts($name, $root = ".") {
+
+    $file = "$root/data/users/$name/posts.json";
+    if (!file_exists($file)) {
+        return [];
+    }
+
+    $data = file_get_contents($file);
+    return json_decode($data, false);
+
+}
+
+function savePostToUser($name, $post_id, $root = ".") {
+    $file = "$root/data/users/$name/posts.json";
+
+    $data = getUserPosts($name, $root);
+    $data[] = $post_id;
+
+    $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+    file_put_contents($file, $data);
 }

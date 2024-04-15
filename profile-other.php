@@ -1,4 +1,18 @@
-<?php session_start(); include "api/users.php" ?>
+<?php
+    session_start(); include "api/users.php";
+
+    if (!isset($_GET["n"])) {
+        include "404.html";
+        die();
+    }
+
+    if (!user_exists($_GET["n"])) {
+        include "404.html";
+        die();
+    }
+
+    $posts = getUserPosts($_GET["n"]);
+?>
 <!doctype html>
 <html lang="hu">
     <head>
@@ -19,48 +33,27 @@
                 <?php include "views/sidebar.php"?>
                 <section class="no-padding">
                     <div class="board-head">
-                        <img alt="Profilkép" class="board-backdrop" src="./img/default_user_avatar.png">
-                        <img alt="Profilkép" class="board-head-image" src="./img/default_user_avatar.png">
+                        <img alt="Profilkép" class="board-backdrop" src="<?php echo getUserProfilePicture($_GET["n"]) ?>">
+                        <img alt="Profilkép" class="board-head-image" src="<?php echo getUserProfilePicture($_GET["n"]) ?>">
                         <div class="board-head-details">
-                            <h1>randomUser52</h1>
+                            <h1><?php echo $_GET["n"] ?></h1>
                         </div>
                         <div class="board-buttons">
                             <button>Barátkérelem küldése</button>
                         </div>
                     </div>
                     <div class="section-inset">
-                        <div class="post-card">
-                            <div class="card-head">
-                                <a href="profile-other.html">
-                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                    <span>randomUser52</span>
-                                </a>
-                                <span class="material-symbols-rounded">arrow_right</span>
-                                <a href="board.php">
-                                    <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                    <span>macskak</span>
-                                </a>
-                                <a class="right button icon flat" href="index.php"><span class="material-symbols-rounded">emoji_flags</span></a>
+                        <?php if (count($posts) == 0) { ?>
+                            <div class="no-comments-placeholder">
+                                <span class="material-symbols-rounded">asterisk</span>
+                                <p>Ennek a felhasználónak nincsenek posztjai.</p>
                             </div>
-                            <div class="post-content">
-                                <a class="post-images" href="index.php">
-                                    <img src="./img/blog_macska.jpg" alt="macska">
-                                    <p>DSC_3829.jpg</p>
-                                </a>
-                                <div class="post-fragment">
-                                    <a href="post.php" class="post-body">
-                                        <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
-                                        <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
-                                            A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
-                                    </a>
-                                    <div class="reaction-bar">
-                                        <a class="button flat" href="index.php"><span class="material-symbols-rounded">forum</span>18</a>
-                                        <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
-                                        <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php } else {
+                            include_once "api/posts.php";
+                            foreach ($posts as $post) {
+                                getPostCard($post);
+                            }
+                        }?>
                     </div>
                 </section>
             </div>

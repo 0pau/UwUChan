@@ -1,6 +1,7 @@
 <?php
 
     session_start();
+    include_once "users.php";
 
     include "boards.php";
     include "util.php";
@@ -40,8 +41,12 @@
     $post->posted_at = time();
 
     $images = [];
-    if (count($_FILES["images"]["name"])) {
+    if (count($_FILES["images"]["name"]) != 0) {
         for ($i = 0; $i < count($_FILES["images"]["name"]); $i++) {
+
+            if ($_FILES["images"]["name"][$i] == "") {
+                continue;
+            }
 
             $img = new stdClass();
             $img->title = $_FILES["images"]["name"][$i];
@@ -66,6 +71,9 @@
     $boardInfo->post_count = $number;
 
     saveBoardInfo($board, $boardInfo, "..");
+    savePostToUser($_SESSION["user"], "$board/$number", "..");
+
+    changeUserField("uwuness", getUserField("uwuness", "..")+1, "..");
 
     file_put_contents("../data/boards/$board/$number.json", $data);
 

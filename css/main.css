@@ -456,6 +456,11 @@ nav a[href].current {
     padding: 0px 10px 10px;
 }
 
+.post-card .posted-at-text, .post-view .posted-at-text {
+    margin-left: 10px;
+    opacity: 0.65;
+}
+
 .card-head{
     display: flex;
     align-items: center;
