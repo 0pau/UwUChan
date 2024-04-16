@@ -10,9 +10,12 @@
 
 .post-comment-card p{
     margin: 0px;
-    padding: 0px 10px 0px 52px;
+    padding: 0px 10px 0px 57px;
 }
 
+.post-comment-card.highlight {
+    background-color: var(--accent-transparent);
+}
 
 .post-comments-head {
     display: flex;
@@ -21,5 +24,17 @@
 
 
 .reaction-bar{
-    padding: 5px 15px ;
+    padding: 5px 15px;
+}
+
+.comment-thread {
+    padding: 0px 30px;
+}
+
+.comment-thread .post-comment-card {
+    border-left: 1px var(--borders) solid;
+}
+
+#comments {
+    padding-bottom: 20px;
 }

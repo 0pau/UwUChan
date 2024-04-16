@@ -591,7 +591,28 @@ nav a[href].current {
     border-bottom: 1px var(--borders) solid;
 }
 
-.my-comment-bar > div {
+.my-comment-bar #reply-indicator {
+    display: none;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.my-comment-bar #reply-indicator.active {
+    display: flex;
+}
+
+.my-comment-bar #reply-indicator p {
+    margin: 0px;
+}
+
+.my-comment-bar #cancel-reply {
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    color: var(--accent);
+}
+
+.my-comment-bar > div.reply-input {
     display: flex;
     background-color: var(--highlight);
     border-radius: 5px;
@@ -607,7 +628,7 @@ nav a[href].current {
     font-size: inherit;
 }
 
-.my-comment-bar:has(input:focus) > div {
+.my-comment-bar:has(input:focus) > div.reply-input {
     border-color: var(--accent);
     outline: 1px var(--accent) solid;
 }

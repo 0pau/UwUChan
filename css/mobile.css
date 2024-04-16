@@ -203,8 +203,16 @@
         padding: 0px 15px;
     }
 
-    #comments.list .post-comment-card p{
-        padding: 0px 10px 0px 37px;
+    #comments .post-comment-card p{
+        padding: 0px 10px 0px 45px;
+    }
+
+    #comments .comment-thread {
+        padding: 0px 15px;
+    }
+
+    .post-comment-card {
+        padding: 0px 10px;
     }
 }
 

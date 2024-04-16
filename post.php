@@ -1,5 +1,7 @@
 <?php
-    session_start(); include "api/users.php";
+    session_start();
+    include "api/users.php";
+    include "api/comments.php";
 
     $post_meta = "";
 
@@ -31,6 +33,26 @@
         <link rel="stylesheet" href="css/mobile.css">
         <link rel="stylesheet" href="css/post.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <script>
+
+            var currentlyHighlighted = "";
+            function showReplyUI(id, username) {
+                hideReplyUI();
+                document.getElementById("replyIDField").value = id;
+                document.getElementById("reply-indicator-username").innerHTML = username;
+                document.getElementById(id).classList.add("highlight");
+                document.getElementById("reply-indicator").classList.add("active");
+                currentlyHighlighted = id;
+            }
+
+            function hideReplyUI() {
+                if (currentlyHighlighted != "") {
+                    document.getElementById("replyIDField").value = "";
+                    document.getElementById("reply-indicator").classList.remove("active");
+                    document.getElementById(currentlyHighlighted).classList.remove("highlight");
+                }
+            }
+        </script>
     </head>
     <body class="<?php include "api/theme.php"?>">
         <main>
@@ -45,7 +67,7 @@
                                 <span><?php echo $post_meta->author ?></span>
                             </a>
                             <span class="posted-at-text"><?php
-                                echo gmdate("Y. m. d. H:i")
+                                echo gmdate("Y. m. d. H:i", $post_meta->posted_at)
                                 ?></span>
                         </div>
                         <div class="post-content">
@@ -83,19 +105,30 @@
                             <button class="flat"><span class="material-symbols-rounded" >thumb_down</span><?php echo $post_meta->dislikes; ?></button>
                         </div>
                     </div>
-                    <form class="my-comment-bar">
-                        <div>
-                            <input type="text" placeholder="Ide írd a hozzászólásod" required><button class="flat"><span class="material-symbols-rounded">send</span></button>
+                    <form class="my-comment-bar" action="api/post_comment.php" method="POST">
+                        <input type="hidden" name="where" value="<?php echo $_GET["n"] ?>">
+                        <input type="hidden" name="replyID" value="" id="replyIDField">
+                        <div id="reply-indicator">
+                            <p class="disabled" id="reply-indicator-text">Válasz neki: <span id="reply-indicator-username">username</span></p>
+                            <span onclick="hideReplyUI()" class="material-symbols-rounded right" id="cancel-reply">cancel</span>
+                        </div>
+                        <div class="reply-input">
+                            <input type="text" placeholder="Ide írd a hozzászólásod" name="text" required><button class="flat"><span class="material-symbols-rounded">send</span></button>
                         </div>
                     </form>
-                    <div id="comments" class="list">
+                    <div id="comments" class="">
                         <?php if (count($post_meta->comments) == 0) { ?>
                         <div class="no-comments-placeholder">
                             <span class="material-symbols-rounded">asterisk</span>
                             <p>Egyelőre nincsenek hozzászólások.</p>
                             <p>Légy te az első hozzászóló!</p>
                         </div>
-                        <?php } ?>
+                        <?php } else {
+                            $comments = getComments($_GET["n"]);
+                            foreach ($comments as $comment) {
+                                printComment($comment);
+                            }
+                        }?>
                         <!--
                         <div class="post-comment-card">
                             <div class="card-head">
