@@ -52,3 +52,62 @@
 .profile-setting-item > div p:first-child {
     font-weight: 600;
 }
+
+.tab-bar {
+    z-index: 1;
+}
+
+#pfp-change-ui {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#pfp-change-ui .button-box {
+    margin-left: auto;
+    padding: 0px;
+}
+
+#pfp-change-ui img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.image-upload-button {
+    position: relative;
+}
+
+.image-upload-button input {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.profile-detail-item {
+    max-width: 450px;
+    width: 100%;
+    padding: 5px 0px 15px 15px;
+    box-sizing: border-box;
+}
+
+.profile-detail-item input {
+    padding: 8px;
+    border: 1px var(--borders) solid;
+    background-color: var(--highlight);
+    border-radius: 5px;
+    font-size: inherit;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    color: var(--text);
+}
+
+.profile-detail-item input:focus {
+    border-color: var(--accent);
+    outline: 1px var(--accent) solid;
+}

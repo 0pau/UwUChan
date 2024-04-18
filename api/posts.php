@@ -1,7 +1,8 @@
 <?php
     include_once "boards.php";
+    include_once "users.php";
 
-    function getPostCard($which, $root = ".") : bool {
+    function getPostCard($which, $isPreview = false, $root = ".") : bool {
 
         $file = $root."/data/boards/$which.json";
         if (!file_exists($file)) {
@@ -44,25 +45,47 @@
                     foreach ($post->images as $image) {
                         $th = "$root/data/images/".$image->thumbnail;
                         $title = $image->title;
-                        echo "<img src=\"$th\" alt=\"$title\">";
+                        echo "<a href=\"data/images/$image->original\"><img src=\"$th\" alt=\"$title\"></a>";
                     }
                     $count = count($post->images);
 
                     echo "</div><p>$count kép</p></div>";
                 }
             }
+            $l = "accentFg";
+            $d = $l;
+            if (isset($_SESSION["user"])) {
+                if (isPostLiked($which, $root) == -1) {
+                    $l = "";
+                }
+                if (isPostDisliked($which, $root) == -1) {
+                    $d = "";
+                }
+            } else {
+                $l = "";
+                $d = "";
+            }
+
             echo "<div class=\"post-fragment\">
                             <a href=\"post.php?n=$which\" class=\"post-body\">
                                 <p class=\"post-title\">$post->title</p>
                                 <p class=\"post-text\">$post->body</p>
-                            </a>
-                            <div class=\"reaction-bar\">
-                                <a class=\"button flat\" href=\"post.php\"><span class=\"material-symbols-rounded\">forum</span>".count($post->comments)."</a>
-                                <button class=\"flat right\"><span class=\"material-symbols-rounded\">thumb_up</span>$post->likes</button>
-                                <button class=\"flat\"><span class=\"material-symbols-rounded\" >thumb_down</span>$post->dislikes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>";
+                            </a>";
+            if (!$isPreview) {
+                echo "<div class=\"reaction-bar\">
+                                <a class=\"button flat disabled\" href=\"post.php\"><span class=\"material-symbols-rounded\">forum</span>" . count($post->comments) . "</a>
+                                <form class=\"right\" action=\"api/post_actions.php\" method=\"POST\">
+                                    <input type=\"hidden\" name=\"action\" value=\"like\">
+                                    <input type=\"hidden\" name=\"data\" value=\"$which\">
+                                    <button class=\"flat $l\"><span class=\"material-symbols-rounded\">thumb_up</span>$post->likes</button>
+                                </form>
+                                <form action=\"api/post_actions.php\" method=\"POST\">
+                                    <input type=\"hidden\" name=\"action\" value=\"dislike\">
+                                    <input type=\"hidden\" name=\"data\" value=\"$which\">
+                                    <button class=\"flat $d\"><span class=\"material-symbols-rounded\" >thumb_down</span>$post->dislikes</button>
+                                </form>
+                            </div>";
+            }
+            echo "</div></div></div>";
         return true;
     }

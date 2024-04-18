@@ -97,7 +97,7 @@
     }
 
     .tab-bar {
-        padding: 25px 0px;
+        padding: 25px 15px;
         font-size: 12px;
         top: -15px;
     }
@@ -195,8 +195,13 @@
         width: 200px;
     }
 
-    .button-box button {
+    #pfp-change-ui .button-box {
+        margin: auto;
+    }
+
+    .button-box button, .button-box .button {
         width: 100%;
+        box-sizing: border-box;
     }
 
     #comments.list{
@@ -213,6 +218,10 @@
 
     .post-comment-card {
         padding: 0px 10px;
+    }
+
+    .button-box a {
+        width: 100%;
     }
 }
 

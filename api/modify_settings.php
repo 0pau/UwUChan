@@ -7,6 +7,8 @@
     }
     include "users.php";
 
+    $referer = $_SERVER["HTTP_REFERER"];
+
     if (isset($_POST["darkmode"])) {
         changeUserField("isUsingDarkMode", true, "..");
     } else {
@@ -29,7 +31,6 @@
         }
     }
 
-    $referer = $_SERVER["HTTP_REFERER"];
 
 
     if (str_contains($referer, "onboarding.php")) {

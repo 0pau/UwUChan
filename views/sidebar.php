@@ -45,7 +45,7 @@
                     $c++;
                 }
             ?>
-            <a href="." id="show-all-followed">Összes megjelenítése</a>
+            <a href="follow-list.php" id="show-all-followed">Összes megjelenítése</a>
         </div>
         <?php } ?>
     </div>

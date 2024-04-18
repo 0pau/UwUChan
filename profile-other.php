@@ -38,9 +38,11 @@
                         <div class="board-head-details">
                             <h1><?php echo $_GET["n"] ?></h1>
                         </div>
+                        <?php if (isset($_SESSION["user"])) { ?>
                         <div class="board-buttons">
                             <button>Barátkérelem küldése</button>
                         </div>
+                        <?php } ?>
                     </div>
                     <div class="section-inset">
                         <?php if (count($posts) == 0) { ?>

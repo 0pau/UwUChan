@@ -28,7 +28,7 @@
                 if (!isset($_GET["w"])) {
                     die("<p>Nincs megadva a bejelenteni kívánt tartalom.</p>");
                 } else {
-                    getPostCard($_GET["w"]);
+                    getPostCard($_GET["w"], true);
                 }
             ?>
           <label class="card-header">Szabályszegés kiválasztása</label>

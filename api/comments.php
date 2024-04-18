@@ -28,6 +28,8 @@
         $data = json_encode($data, JSON_UNESCAPED_UNICODE);
         file_put_contents("$root/data/boards/$where.json", $data);
 
+        saveCommentToUser($where, $newComment->id, $root);
+
         return true;
     }
 
@@ -54,11 +56,25 @@
         return $data->comments;
     }
 
+    function saveComments($where, $object, $root = ".") {
+        $file = "$root/data/boards/$where.json";
+        $data = file_get_contents($file);
+        $data = json_decode($data, false);
+        $data->comments = $object;
+        $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+        file_put_contents($file, $data);
+    }
+
     function printComment($comment) {
-        echo
-            "<div class=\"post-comment-card\" id=\"".$comment->id."\">
-                <div class=\"card-head\">
-                    <a href=\"index.php\">
+
+        $l = "href=\"profile-other.php?n=$comment->username\"";
+        if ($comment->username == "") {
+            $l = "";
+            $comment->username = "[törölt]";
+        }
+
+        echo "<div class=\"post-comment-card\" id=\"".$comment->id."\">
+                <div class=\"card-head\"><a $l>
                         <img class=\"post-profile-messages-avatar\" src=\"".getUserProfilePicture($comment->username)."\" alt=\"Profilkép\">
                         <span>$comment->username</span>
                         <span class=\"post-profile-message-sent-time\">".gmdate("Y. m. d. H:i", $comment->posted_at)."</span>

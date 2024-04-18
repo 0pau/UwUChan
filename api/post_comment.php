@@ -3,6 +3,7 @@
     session_start();
 
     include "comments.php";
+    include "users.php";
 
     if (!isset($_SESSION["user"])) {
         die("Nincs hozzáférésed ehhez a végponthoz, sorry :3");

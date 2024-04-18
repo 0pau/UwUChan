@@ -2,7 +2,7 @@
     session_start();
 
     if (isset($_SESSION["user"])) {
-        header("Location: help.php");
+        header("Location: index.php");
     }
 
     $error = login();
@@ -40,37 +40,45 @@
         <title>Bejelentkezés</title>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/onboarding.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     </head>
     <body class="login-background">
-        <div class="login-window">
-            <header class="login-window-head">
+        <div class="login-window onboarding">
+            <div class="onboarding-illustration">
+                <img src="img/login_illustration.svg" alt="Illusztráció">
+            </div>
+            <div class="onboarding-content">
                 <div class="color-variants">
                     <img alt="UwUChan-embléma" class="login-window-logo light-variant" src="img/logo.svg">
                     <img alt="UwUChan-embléma" class="login-window-logo dark-variant" src="img/logo-dark.svg">
                 </div>
                 <h1 class="login-window-title">Jelentkezz be</h1>
                 <p>Nincs fiókod? <a href="register.php">Regisztráció</a></p>
-            </header>
-            <form method="post">
-                <label>
-                    <span>Felhasználónév</span>
-                    <input type="text" name="login" id="login-name" required>
-                </label>
-                <label>
-                    <span>Jelszó</span>
-                    <input type="password" name="pass" id="password" required>
-                </label>
-                <label class="horizontal">
-                    <input type="checkbox" name="remember"><span>Jegyezz meg</span>
-                </label>
-                <?php
-                    if ($error != "") {
-                        echo "<p id='login-error'>$error</p>";
-                    }
-                ?>
-                <button class="cta">Bejelentkezés</button>
-            </form>
+                <form method="post">
+                    <div class="form-content">
+                        <label>
+                            <span>Felhasználónév</span>
+                            <input type="text" name="login" id="login-name" required>
+                        </label>
+                        <label>
+                            <span>Jelszó</span>
+                            <input type="password" name="pass" id="password" required>
+                        </label>
+                        <label class="horizontal">
+                            <input type="checkbox" name="remember"><span>Jegyezz meg</span>
+                        </label>
+                        <?php
+                        if ($error != "") {
+                            echo "<p id='login-error'>$error</p>";
+                        }
+                        ?>
+                    </div>
+                    <div class="button-box">
+                        <button class="cta">Bejelentkezés</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </body>
 </html>

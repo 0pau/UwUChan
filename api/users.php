@@ -68,6 +68,7 @@ function create_user($user, $file): bool {
     $json_data = json_encode($user, JSON_UNESCAPED_UNICODE);
     file_put_contents($dir."/metadata.json", $json_data);
     file_put_contents($dir."/threads.json", "[]");
+    file_put_contents($dir."/comments.json", "[]");
     file_put_contents($dir."/followed_boards.json", "[]");
     file_put_contents($dir."/owned_boards.json", "[]");
     file_put_contents($dir."/friends.json", "[]");
@@ -101,10 +102,13 @@ function changeUserField($field, $value, $root = ".") {
 }
 
 function getUserProfilePicture($name) {
-    if (user_exists($name)) {
+
+    if ($name != "" && user_exists($name)) {
         if (getUserField("profilePictureFilename", ".", $name) != "") {
             return "data/images/" . getUserField("profilePictureFilename", ".", $name);
         }
+    } else {
+        return "img/unknown.png";
     }
     return "img/default_user_avatar.png";
 }
@@ -160,6 +164,17 @@ function rankcmp($a, $b) {
         return -1;
     }
     return 0;
+}
+
+function getFollowedBoards($root = ".") {
+    if (!isset($_SESSION["user"])) {
+        return [];
+    }
+
+    $file = $root."/data/users/".$_SESSION["user"]."/followed_boards.json";
+    $followed = file_get_contents($file);
+    return json_decode($followed, false);
+
 }
 
 function isBoardFollowed($name, $root = ".") : bool {
@@ -244,6 +259,14 @@ function getUserPosts($name, $root = ".") {
 
 }
 
+function getUserComments($name, $root = ".") {
+    $file = "$root/data/users/$name/comments.json";
+
+    $data = file_get_contents($file);
+    $data = json_decode($data, false);
+    return $data;
+}
+
 function savePostToUser($name, $post_id, $root = ".") {
     $file = "$root/data/users/$name/posts.json";
 
@@ -253,3 +276,117 @@ function savePostToUser($name, $post_id, $root = ".") {
     $data = json_encode($data, JSON_UNESCAPED_UNICODE);
     file_put_contents($file, $data);
 }
+
+function saveCommentToUser($where, $comment_id, $root = ".") {
+    $file = "$root/data/users/".$_SESSION["user"]."/comments.json";
+
+    $data = getUserComments($_SESSION["user"], $root);
+    $data[] = "$where@$comment_id";
+
+    $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+    file_put_contents($file, $data);
+}
+
+function isPostLiked($which, $root = ".") {
+    $liked_posts = getUserField("liked_posts", $root);
+    if ($liked_posts == null) {
+        return -1;
+    }
+
+    $v = array_search($which, $liked_posts);
+
+    if ($v === false) {
+        return -1;
+    } else {
+        return $v;
+    }
+}
+
+function isPostDisliked($which, $root = ".") {
+    $liked_posts = getUserField("disliked_posts", $root);
+    if ($liked_posts == null) {
+        return -1;
+    }
+
+    $v = array_search($which, $liked_posts);
+
+    if ($v === false) {
+        return -1;
+    } else {
+        return $v;
+    }
+}
+
+function interactWithPost($where, $action, $root = ".") {
+    $post_list = getUserField($action."d_posts", $root);
+    if ($post_list == null) {
+        $post_list = [];
+    }
+
+    if ($action == "like") {
+        $found = isPostLiked($where, $root);
+        if (isPostDisliked($where, $root) != -1) {
+            interactWithPost($where, "dislike", $root);
+        }
+    } else {
+        $found = isPostDisliked($where, $root);
+        if (isPostLiked($where, $root) != -1) {
+            interactWithPost($where, "like", $root);
+        }
+    }
+    $increment = 1;
+    if ($found == -1) {
+        $post_list[] = $where;
+    } else {
+        array_splice($post_list, $found, 1);
+        $increment = -1;
+    }
+
+    changeUserField($action."d_posts", $post_list, $root);
+    $file = "$root/data/boards/$where.json";
+    $data = file_get_contents($file);
+    $data = json_decode($data, false);
+    if ($action == "like") {
+        $data->likes += $increment;
+    } else {
+        $data->dislikes += $increment;
+    }
+    $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+    file_put_contents($file, $data);
+}
+
+function changeUserName($newName, $root = ".") {
+
+    $currentName = $_SESSION["user"];
+
+    $postList = getUserPosts($_SESSION["user"], $root);
+
+    //Szerző átírása minden poszt metaadatában az új névre
+    foreach ($postList as $post) {
+        $file = "$root/data/boards/$post.json";
+        $data = file_get_contents($file);
+        $data = json_decode($data, false);
+        $data->author = $newName;
+        $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+        file_put_contents($file, $data);
+    }
+
+    $commentList = getUserComments($_SESSION["user"], $root);
+
+    //Szerző átírása minden egyes kommentben az új névre
+    foreach ($commentList as $comment) {
+        $comment = explode("@", $comment);
+        $comment = $comment[0];
+        $file = "$root/data/boards/$comment.json";
+        $data = file_get_contents($file);
+        $data = str_replace("\"username\":\"$currentName\"", "\"username\":\"$newName\"", $data);
+        file_put_contents($file, $data);
+    }
+
+    changeUserField("nickname", $newName);
+    rename("$root/data/users/$currentName", "$root/data/users/$newName");
+
+    $_SESSION["user"] = $newName;
+
+}
+

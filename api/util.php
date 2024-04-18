@@ -39,3 +39,38 @@ function saveImageWithThumbnail($ext, $tmpFileName, $root = ".") {
 
     return [$original, $original];
 }
+
+function checkEmail($address): bool|string {
+    $address = trim($address);
+    if (preg_match("/^[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z]{2,5}$/", $_POST["email"]) != 0) {
+        return $address;
+    }
+    return false;
+}
+
+function checkBirthday($birthday) : bool|string {
+    $today = strtotime(date("Y-m-d"));
+    $birthday = strtotime($birthday);
+
+    if ($today-$birthday >= (13*365*24*60*60)) {
+        return gmdate("Y-m-d", $birthday);
+    }
+
+    return false;
+}
+
+function checkUsername($username) : bool|string {
+    $username = trim($username);
+    if (preg_match("/[A-Za-z0-9_.-]{3,32}/", $username) != 0) {
+        return $username;
+    }
+    return false;
+}
+
+function checkPassword($password) : bool|string {
+    $password = trim($password);
+    if (preg_match("/^[A-Za-z0-9#&@.,:?\"+_-]{8,64}$/", $password) != 0) {
+        return $password;
+    }
+    return false;
+}

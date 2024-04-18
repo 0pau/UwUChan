@@ -22,7 +22,9 @@
                 <section>
                     <div class="section-head">
                         <h1>Hírfolyam</h1>
+                        <?php if (isset($_SESSION["user"])) { ?>
                         <a href="submit.php" class="button cta"><span class="material-symbols-rounded">history_edu</span>Új poszt írása</a>
+                        <?php } ?>
                     </div>
                     <?php
                         include "api/system_messages.php";

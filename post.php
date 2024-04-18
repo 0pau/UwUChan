@@ -76,7 +76,7 @@
                                 if (count($post_meta->images) == 1) {
                                     $th = "data/images/".$post_meta->images[0]->thumbnail;
                                     $title = $post_meta->images[0]->title;
-                                    echo "<a class=\"post-images\" href=\"index.php\">
+                                    echo "<a class=\"post-images\" href=\"data/images/".$post_meta->images[0]->original."\">
                                                 <img src=\"$th\" alt=\"$title\">
                                                 <p>$title</p>
                                             </a>";
@@ -86,7 +86,7 @@
                                     foreach ($post_meta->images as $image) {
                                         $th = "data/images/".$image->thumbnail;
                                         $title = $image->title;
-                                        echo "<img src=\"$th\" alt=\"$title\">";
+                                        echo "<a href=\"data/images/$image->original\"><img src=\"$th\" alt=\"$title\"></a>";
                                     }
                                     $count = count($post_meta->images);
 
@@ -101,8 +101,16 @@
                         <div class="reaction-bar">
                             <a class="button flat hide-text-on-mobile" href="report.php?w=<?php echo $_GET["n"]?>"><span class="material-symbols-rounded">emoji_flags</span><span>Bejelentés</span></a>
                             <a class="button flat hide-text-on-mobile" href="index.php"><span class="material-symbols-rounded">share</span><span>Megosztás</span></a>
-                            <button class="flat right"><span class="material-symbols-rounded">thumb_up</span><?php echo $post_meta->likes; ?></button>
-                            <button class="flat"><span class="material-symbols-rounded" >thumb_down</span><?php echo $post_meta->dislikes; ?></button>
+                            <form class="right" action="api/post_actions.php" method="POST">
+                                <input type="hidden" name="action" value="like">
+                                <input type="hidden" name="data" value="<?php echo $_GET["n"]; ?>">
+                                <button class="flat <?php if (isPostLiked($_GET["n"]) != -1) echo "accentFg" ?>"><span class="material-symbols-rounded">thumb_up</span><?php echo $post_meta->likes; ?></button>
+                            </form>
+                            <form action="api/post_actions.php" method="POST">
+                                <input type="hidden" name="action" value="dislike">
+                                <input type="hidden" name="data" value="<?php echo $_GET["n"]; ?>">
+                                <button class="flat <?php if (isPostDisliked($_GET["n"]) != -1) echo "accentFg" ?>"><span class="material-symbols-rounded" >thumb_down</span><?php echo $post_meta->dislikes; ?></button>
+                            </form>
                         </div>
                     </div>
                     <form class="my-comment-bar" action="api/post_comment.php" method="POST">
