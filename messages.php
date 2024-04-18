@@ -34,12 +34,13 @@
                         if (file_exists($file_path)) {
                             $json_tomb = json_decode(file_get_contents($file_path), true);
                             foreach ($json_tomb as $barat) {
+                                $nev = $barat['username'];
                                 if ($barat['relationship'] === 1) {
                                     echo "<div class='messages-card-head'>
                                             <a href='profile-other.php'>
                                                 <img class='user-profile-messages-avatar' src='$default_profile_picture' alt='Profilkép'>
                                             </a>
-                                            <a href='thread.php' class='messages-card-preview'>
+                                            <a href='thread.php?username=$nev' class='messages-card-preview'>
                                                 <span>" . $barat['username'] . "</span>
                                                 <p>Az üzenet: Ugye milyen aranyosak??</p>
                                             </a>
