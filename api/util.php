@@ -74,3 +74,10 @@ function checkPassword($password) : bool|string {
     }
     return false;
 }
+
+function isGDAvailable() : bool {
+    if (get_extension_funcs("gd")) {
+        return true;
+    }
+    return false;
+}

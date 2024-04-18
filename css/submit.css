@@ -62,6 +62,11 @@
     background-color: var(--highlight);
     border: 1px var(--borders) solid;
     border-radius: 5px;
+    position: relative;
+}
+
+#suggested-boards-input.suggestionListShown {
+    border-radius: 5px 5px 0px 0px;
 }
 
 #suggested-boards-input input {
@@ -70,4 +75,27 @@
     font-size: inherit;
     border: none;
     background-color: transparent;
+    position: static;
+}
+
+#suggested-boards-input.suggestionListShown > div {
+    display: block;
+}
+
+#suggested-boards-input > div {
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    background-color: var(--highlight);
+    width: 100%;
+    z-index: 5;
+    border: 1px var(--borders) solid;
+    overflow: hidden;
+    border-radius: 0px 0px 5px 5px;
+    display: none;
+}
+
+#suggested-boards-input > div *.button {
+    justify-content: start;
+    border-radius: 0px;
 }

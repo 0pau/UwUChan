@@ -1,31 +1,5 @@
 <?php
 
-//repair_dirs();
-
-function repair_dirs() {
-    if (!is_dir("data")) {
-        mkdir("data");
-    }
-    if (!is_dir("data/users")) {
-        mkdir("data/users");
-    }
-    if (!is_dir("data/boards")) {
-        mkdir("data/boards");
-    }
-    if (!is_dir("data/threads")) {
-        mkdir("data/threads");
-    }
-    if (!is_dir("data/reports")) {
-        mkdir("data/reports");
-    }
-    if (!is_dir("data/requests")) {
-        mkdir("data/requests");
-    }
-    if (!is_dir("data/images")) {
-        mkdir("data/images");
-    }
-}
-
 function is_email_used($email): bool {
 
     if (!is_dir("data/users")) {
@@ -67,7 +41,6 @@ function create_user($user, $file): bool {
     $user->password = password_hash($user->password, PASSWORD_DEFAULT);
     $json_data = json_encode($user, JSON_UNESCAPED_UNICODE);
     file_put_contents($dir."/metadata.json", $json_data);
-    file_put_contents($dir."/threads.json", "[]");
     file_put_contents($dir."/comments.json", "[]");
     file_put_contents($dir."/followed_boards.json", "[]");
     file_put_contents($dir."/owned_boards.json", "[]");

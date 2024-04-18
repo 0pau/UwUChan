@@ -27,12 +27,6 @@
                         <a title="Üzenőfalak kezelése" class="button icon flat hide-text-on-mobile"><span class="material-symbols-rounded">dashboard</span><span>Üzenőfalak</span></span></a>
                     </div>
                     <div class="section-inset">
-                        <?php
-                            if (file_exists("data/last_update.txt")) {
-                                $build = file_get_contents("data/last_update.txt");
-                                echo "<p>Build dátuma: $build</p>";
-                            }
-                        ?>
                         <div class="admin-dashboard">
                             <div class="dashboard-item">
                                 <p>Összes felhasználó</p>

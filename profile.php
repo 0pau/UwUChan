@@ -221,8 +221,9 @@
                                 </a>
                             </div>
                         </div>
+                        <?php if (getUserField("privilege") == 1) { ?>
                         <div>
-                            <p class="card-header">Debug</p>
+                            <p class="card-header">Fejlesztői beállítások, információk</p>
                             <div class="list">
                                 <a class="profile-setting-item" href="onboarding.php">
                                     <span class="material-symbols-rounded">select_window</span>
@@ -231,8 +232,39 @@
                                         <p>A regisztráció után megjelenő beállításvarázslót futtatja.</p>
                                     </div>
                                 </a>
+                                <a class="profile-setting-item" href="api/repair_dirs.php">
+                                    <span class="material-symbols-rounded">folder_managed</span>
+                                    <div>
+                                        <p>Könyvtárak helyreállítása</p>
+                                        <p>Létrehozza az UwUChan működéséhez elengedhetetlen könyvtárakat.</p>
+                                    </div>
+                                </a>
+                                <?php if (file_exists("data/last_update.txt")) { ?>
+                                    <div class="profile-setting-item">
+                                        <span class="material-symbols-rounded">construction</span>
+                                        <div>
+                                            <p>Build-szám</p>
+                                            <p><?php echo file_get_contents("data/last_update.txt") ?></p>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <div class="profile-setting-item">
+                                    <span class="material-symbols-rounded">imagesmode</span>
+                                    <div>
+                                        <p>GD könyvtár</p>
+                                        <p><?php echo (isGDAvailable())?"Telepítve":"Nincs telepítve" ?></p>
+                                    </div>
+                                </div>
+                                <div class="profile-setting-item">
+                                    <span class="material-symbols-rounded">package_2</span>
+                                    <div>
+                                        <p>PHP verziója</p>
+                                        <p><?php echo phpversion() ?></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <?php } ?>
                     </div>
                     <?php } ?>
                 </section>

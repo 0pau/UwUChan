@@ -20,6 +20,44 @@ if (isset($_GET["board"])) {
         <link rel="stylesheet" href="css/mobile.css">
         <link rel="stylesheet" href="css/submit.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <script>
+            function refreshBoardList() {
+                let datalist = document.getElementById("boardList");
+                let q = document.getElementById("boardInput").value;
+                clearBoardList();
+                if (q.length < 3) {
+                    return;
+                }
+                document.getElementById("suggested-boards-input").classList.add("suggestionListShown");
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", "api/query_board.php?q="+q);
+                xhr.onload = function (){
+                    let resultObject = JSON.parse(xhr.response);
+                    if (resultObject.result == "success") {
+                        let items = resultObject.results;
+                        items.forEach((i)=>{
+                            datalist.innerHTML = datalist.innerHTML + "<span onclick=\"selectBoard('"+i+"', event)\" class='button flat'>"+i+"</span>";
+                        });
+                    }
+                    if (datalist.innerHTML == "") {
+                        clearBoardList();
+                    }
+                }
+                xhr.send();
+            }
+
+            function selectBoard(boardName, event) {
+                document.getElementById("boardInput").value = boardName;
+                event.stopPropagation();
+                clearBoardList();
+            }
+
+            function clearBoardList() {
+                document.getElementById("suggested-boards-input").classList.remove("suggestionListShown");
+                let datalist = document.getElementById("boardList");
+                datalist.innerHTML = "";
+            }
+        </script>
     </head>
     <body class="<?php include "api/theme.php"?>">
         <main>
@@ -32,8 +70,11 @@ if (isset($_GET["board"])) {
                     </div>
                     <form id="new-post-form" method="POST" action="api/upload_post.php" enctype="multipart/form-data">
                         <label class="card-header">Üzenőfal kiválasztása (Kötelező)</label>
-                        <div id="suggested-boards-input">
-                            <input name="board-name" required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni..." value="<?php echo $target_board ?>">
+                        <div id="suggested-boards-input" onauxclick="clearBoardList()">
+                            <input id="boardInput" onkeyup="refreshBoardList()" name="board-name" list="boardlist" required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni..." value="<?php echo $target_board ?>">
+                            <div id="boardList">
+
+                            </div>
                         </div>
                         <label class="card-header">A poszt tartalma (Kötelező)</label>
                         <fieldset id="post-body-editor">

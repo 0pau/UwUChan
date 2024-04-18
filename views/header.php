@@ -1,5 +1,11 @@
 <?php
-    include_once "api/users.php"
+    include_once "api/users.php";
+
+    $page =$_SERVER["REQUEST_URI"];
+
+    $page = explode("/", $page);
+    $page = end($page);
+
 ?>
 <header>
     <div class="color-variants header-side-element desktop">
@@ -7,11 +13,11 @@
         <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
     </div>
     <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
-    <div class="searchbar desktop">
+    <form class="searchbar" method="GET" action="search.php">
         <span class="material-symbols-rounded">search</span>
-        <input type="text" placeholder="Keresés a sok UwU-ság között">
-    </div>
-    <a href="index.html" class="flat button icon right mobile"><span class="material-symbols-rounded">search</span></a>
+        <input name="q" type="text" placeholder="Keresés a sok UwU-ság között"
+        <?php if (str_contains($page, "search.php")) echo "value=\"".$_GET["q"]."\"" ?>>
+    </form>
     <?php if (isset($_SESSION["user"])) { ?>
     <div class="header-side-element user-profile-button">
         <div>
@@ -25,8 +31,11 @@
         </div>
     </div>
     <?php } else {?>
-        <div class="header-side-element">
-            <a href="login.php" class="button cta right">Bejelentkezés</a>
-        </div>
+        <a href="login.php" class="header-side-element user-profile-button">
+            <div>
+                <p>Jelentkezz be!</p>
+            </div>
+            <img src="img/unknown.png" alt="Profilkép">
+        </a>
     <?php }?>
 </header>
