@@ -29,6 +29,7 @@
                     <?php
                         include "api/system_messages.php";
                         getSystemMessage();
+                        include "api/users.php";
                     ?>
                     <p>Majd itt lesz valami releváns kontent</p>
                     <!--

@@ -49,6 +49,7 @@
         </div>
         <?php } ?>
     </div>
+    <a href="follow-list.php" class="mobile <?php if ($page == "follow-list") echo "current" ?>"><span class="material-symbols-rounded">dashboard</span><span class="nav-item-title">Követett üzenőfalak</span></a>
     <div>
         <p class="nav-header">Információk, visszajelzés</p>
         <a href="help.php" <?php if ($page == "help") echo "class=\"current\"" ?>><span class="material-symbols-rounded">help</span><span class="nav-item-title">Tudakozó</span></a>

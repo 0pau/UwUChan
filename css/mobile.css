@@ -11,6 +11,10 @@
         display: none;
     }
 
+    nav .mobile {
+        display: flex!important;
+    }
+
     .desktop {
         display: none;
     }

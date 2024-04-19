@@ -81,3 +81,4 @@ function isGDAvailable() : bool {
     }
     return false;
 }
+

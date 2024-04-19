@@ -1,5 +1,8 @@
 <?php
     session_start();
+
+    const POST_PER_SCREEN = 10;
+
     include "api/users.php";
     include "api/boards.php";
     $board_name = "";
@@ -23,6 +26,11 @@
     $board_icon = getBoardIcon($board_name);
 
     $created_at = gmdate("Y. m. d.", $board_meta->created);
+
+    $pager = 0;
+    if (isset($_GET["p"])) {
+        $pager = intval($_GET["p"]);
+    }
 ?>
 <!doctype html>
 <html lang="hu">
@@ -71,19 +79,30 @@
                             <a href="submit.php?board=<?php echo $board_name ?>" class="button cta right"><span class="material-symbols-rounded">history_edu</span>Új poszt írása</a>
                         </div>
                         <?php
+                            $is_last = true;
+
                             if ($board_meta->post_count == 0) {
                                 include "views/no_post_placeholder.html";
                             } else {
 
                                 include "api/posts.php";
-
                                 $last_id = $board_meta->post_count;
+
+                                if ($pager != 0) {
+                                    $last_id -= $pager*POST_PER_SCREEN;
+                                }
+
                                 $shown_count = 0;
                                 $is_last = false;
 
+                                if ($last_id < 1) {
+                                    $is_last = true;
+                                    $pager = 0;
+                                }
+
                                 error_reporting(E_ALL);
 
-                                while ($shown_count < 20 && !$is_last) {
+                                while ($shown_count < POST_PER_SCREEN && !$is_last) {
 
                                     if (getPostCard("$board_name/$last_id")) {
                                         $shown_count++;
@@ -95,12 +114,17 @@
                                     }
                                 }
 
-                                if (!$is_last) {
-                                    echo "LAPOZÓ HELYE";
-                                }
-
                             }
                         ?>
+                        <?php if (!$is_last || $pager != 0) { ?>
+                                <div class="pager">
+                                    <a href="board.php?n=<?php echo $board_name."&p=".($pager-1)?>" class="button flat icon <?php if ($pager == 0) echo "disabled" ?>"><span class="material-symbols-rounded">chevron_left</span></a>
+                                    <span><?php echo $pager+1; ?>. oldal</span>
+                                    <a href="board.php?n=<?php echo $board_name."&p=".($pager+1)?>" class="button flat icon <?php if ($is_last) echo "disabled" ?>"><span class="material-symbols-rounded">chevron_right</span></a>
+                                </div>
+                        <?php } else {
+                            echo "<p class='disabled centered'>Elérted az üzenőfal végét.</p>";
+                        } ?>
                         <!--
                         <div class="post-card">
                             <div class="card-head">

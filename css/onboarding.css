@@ -42,6 +42,7 @@
 
 .onboarding-illustration img {
     width: 100%;
+    max-width: 250px;
 }
 
 .onboarding-content {
@@ -73,11 +74,23 @@ div.profile-setting-item, .board-item {
 .board-item {
     display: flex;
     flex-direction: row-reverse;
+    align-items: center;
+}
+
+.board-item label img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 100%;
 }
 
 .login-window.onboarding form .board-item label {
     margin: 0px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
 }
 
 .login-window.onboarding form .board-item input {

@@ -2,7 +2,12 @@
     include "api/users.php";
     include "api/util.php";
 
-    $error = register();
+    $error = "";
+    try {
+        register();
+    } catch (Error $err) {
+        $error = $err->getMessage();
+    }
 
     function register(): string {
         if (isset($_POST["login"]) && isset($_POST["email"]) && isset($_POST["birthday"]) && isset($_POST["pass"]) && isset($_POST["pass_again"])) {
@@ -10,36 +15,36 @@
             $username = checkUsername($_POST["login"]);
 
             if (!$username) {
-                return "A felhasználónév nem megfelelő";
+                throw new Error("A felhasználónév nem megfelelő");
             }
 
-            if (user_exists($_POST["login"])) {
-                return "A felhasználó már létezik";
+            if (userExists($_POST["login"])) {
+                throw new Error("Ez a felhasználónév már foglalt");
             }
 
             $email = checkEmail($_POST["email"]);
 
             if (!$email) {
-                return "Hibás email-cím";
+                throw new Error("Hibás e-mail cím");
             }
 
-            if (is_email_used($_POST["email"])) {
-                return "Ezzel az email-címmel már regisztráltak.";
+            if (isEmailUsed($_POST["email"])) {
+                throw new Error("Ezzel az e-mail címmel már regisztráltak");
             }
 
             $birthday = checkBirthday($_POST["birthday"]);
 
             if (!$birthday) {
-                return "13 éven aluliak nem regisztrálhatnak!";
+                throw new Error("13 éven aluliak nem regisztrálhatnak");
             }
 
             $pass = checkPassword($_POST["pass"]);
             if (!$pass) {
-                return "A jelszó formátuma nem megfelelő";
+                throw new Error("A jelszó formátuma nem megfelelő");
             }
 
             if ($pass != $_POST["pass_again"]) {
-                return "A jelszavak nem egyeznek";
+                throw new Error("A jelszavak nem egyeznek");
             }
 
             $new_user = new stdClass();
@@ -65,10 +70,10 @@
                 $filelist = $_FILES["pfp"];
             }
 
-            if (create_user($new_user, $filelist)) {
-                echo "Sikeres regisztráció! Hamarosan átirányításra kerülsz...";
+            if (createUser($new_user, $filelist)) {
                 session_start();
                 $_SESSION["user"] = $new_user->nickname;
+                setcookie("remembered-user", "", time()-60*60*24*30);
                 header("Location: onboarding.php");
             }
 
@@ -103,6 +108,9 @@
                     </div>
                     <h1 class="login-window-title">Regisztráció</h1>
                     <p>Már van fiókod? <a href="login.php">Bejelentkezés</a></p>
+                    <?php if ($error != "") { ?>
+                        <p class="error"><span class="material-symbols-rounded">error</span><?php echo $error ?></p>
+                    <?php } ?>
                     <div class="form-content">
                         <label>
                             <span>Felhasználónév</span>
@@ -131,11 +139,6 @@
                         <label class="horizontal">
                             <input type="checkbox" name="consent" id="consent" required><span>Elolvastam és elfogadom a <a href="help.php#post_rules" target="_blank">szabályzatot</a></span>
                         </label>
-                        <?php
-                        if ($error != "") {
-                            echo "<p id='login-error'>$error</p>";
-                        }
-                        ?>
                     </div>
                     <div class="button-box">
                         <button class="cta">Regisztráció</button>

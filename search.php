@@ -4,7 +4,7 @@
     include "api/boards.php";
     include "api/posts.php";
 
-    $t1 = time();
+    $t1 = microtime(true);
 
     $foundBoards = [];
     $foundPosts = [];
@@ -51,7 +51,7 @@
 
 
 
-        $searchDuration = time() - $t1;
+        $searchDuration = round(microtime(true) - $t1, 3);
     }
 
 ?>

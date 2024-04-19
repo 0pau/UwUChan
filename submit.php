@@ -1,5 +1,5 @@
 <?php
-session_start(); include "api/users.php"; include "api/acl.php"; include "api/boards.php";
+session_start(); include "api/users.php"; include "api/acl.php"; include "api/boards.php"; include "api/posts.php";
 $target_board = "";
 if (isset($_GET["board"])) {
     $target_board = $_GET["board"];
@@ -7,6 +7,17 @@ if (isset($_GET["board"])) {
         $target_board = "";
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    try {
+        ob_get_contents();
+        ob_end_clean();
+        uploadPost();
+    } catch (Error $err) {
+        $error = $err->getMessage();
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="hu">
@@ -68,7 +79,10 @@ if (isset($_GET["board"])) {
                     <div class="section-head">
                         <h1>Új poszt írása</h1>
                     </div>
-                    <form id="new-post-form" method="POST" action="api/upload_post.php" enctype="multipart/form-data">
+                    <?php if($error != "") { ?>
+                        <p class="error"><span class="material-symbols-rounded">error</span><?php echo $error ?></p>
+                    <?php } ?>
+                    <form id="new-post-form" method="POST" enctype="multipart/form-data">
                         <label class="card-header">Üzenőfal kiválasztása (Kötelező)</label>
                         <div id="suggested-boards-input" onauxclick="clearBoardList()">
                             <input id="boardInput" onkeyup="refreshBoardList()" name="board-name" list="boardlist" required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni..." value="<?php echo $target_board ?>">
@@ -86,7 +100,8 @@ if (isset($_GET["board"])) {
                             <label>Képek</label>
                             <input type="file" name="images[]" id="image-uploader" accept="image/*" multiple>
                         </fieldset>
-                        <p>A képek összmérete nem haladhatja meg a 8 MB-ot, valamint egy kép legfeljebb csak 2 MB-os lehet.</p>
+                        <p class="card-header">A következőre figyelj!</p>
+                        <p class="card-description">A poszt összmérete nem haladhatja meg a 8 megabájtot, valamint egy kép legfeljebb csak 2 megabájtos lehet.</p>
                         <button class="cta">Poszt feltöltése</button>
                     </form>
                 </section>

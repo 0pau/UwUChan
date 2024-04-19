@@ -22,7 +22,7 @@
         }
     }
 
-    function toggleFollow() {
+    function toggleFollow(): void {
         if (!isset($_POST["board"])) {
             header("HTTP/1.1 400 Bad Request");
             echo "Hibás kérés!";
@@ -38,8 +38,7 @@
         header("Location: $referer");
     }
 
-    function deleteEverything() {
-
+    function deleteEverything(): void {
         $start = time();
 
         echo "Metaadatok törlése<br>";
@@ -96,7 +95,6 @@
         unlink("../data/users/".$_SESSION["user"]."/metadata.json");
         unlink("../data/users/".$_SESSION["user"]."/owned_boards.json");
         unlink("../data/users/".$_SESSION["user"]."/posts.json");
-        unlink("../data/users/".$_SESSION["user"]."/threads.json");
         unlink("../data/users/".$_SESSION["user"]."/comments.json");
         rmdir("../data/users/".$_SESSION["user"]);
 

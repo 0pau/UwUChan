@@ -8,15 +8,18 @@
     if (isset($_GET["page"]) && $_GET["page"] == "settings") {
         $p = "settings";
     } else {
-        modifyData();
+        try {
+            $success = modifyData();
+        } catch (Error $err) {
+            $error = $err->getMessage();
+        }
     }
 
 
-    function modifyData() {
-        global $error;
+    function modifyData() : bool {
 
         if (!isset($_POST["email"]) || !isset($_POST["login"]) || !isset($_POST["birthday"]) || !isset($_POST["pfpChanged"])) {
-            return;
+            return false;
         }
 
         if ($_POST["pfpChanged"]) {
@@ -34,14 +37,12 @@
         $email = checkEmail($_POST["email"]);
 
         if (!$email) {
-            $error = "Az e-mail cím formátuma nem megfelelő.";
-            return;
+            throw new Error("Az e-mail cím formátuma nem megfelelő.");
         }
 
         if ($email != "" && $email != getUserField("email")) {
-            if (is_email_used($email)) {
-                $error = "A megadott e-mail címmel már regisztráltak.";
-                return;
+            if (isEmailUsed($email)) {
+                throw new Error("A megadott e-mail címmel már regisztráltak.");
             } else {
                 changeUserField("email", $email);
             }
@@ -49,8 +50,7 @@
 
         $birthday = checkBirthday($_POST["birthday"]);
         if (!$birthday) {
-            $error = "13 éven aluliak nem használhatják az UwUChan-t.";
-            return;
+            throw new Error("13 éven aluliak nem használhatják az UwUChan-t.");
         }
         if ($birthday != getUserField("birthday")) {
             changeUserField("birthday", $birthday);
@@ -58,20 +58,17 @@
 
         $newName = checkUsername($_POST["login"]);
         if (!$newName) {
-            $error = "A felhasználónév formátuma nem megfelelő.";
-            return;
+            throw new Error("A felhasználónév formátuma nem megfelelő.");
         }
 
         if ($newName != $_SESSION["user"]) {
-            if (user_exists($newName)) {
-                $error = "Ez a felhasználónév már foglalt.";
-                return;
+            if (userExists($newName)) {
+                throw new Error("Ez a felhasználónév már foglalt.");
             }
             changeUserName($newName);
         }
 
-        global $success;
-        $success = true;
+        return true;
     }
 
 
@@ -123,9 +120,9 @@
                     <?php if ($p == "details") { ?>
                     <div class="section-inset">
                         <?php if ($error != "") { ?>
-                            <p class="error"><?php echo $error ?></p>
+                            <p class="error"><span class="material-symbols-rounded">error</span><?php echo $error ?></p>
                         <?php } if ($success) { ?>
-                            <p class="success">Az adataidat elmentettük.</p>
+                            <p class="success"><span class="material-symbols-rounded">check_circle</span>Az adataidat elmentettük.</p>
                         <?php } ?>
                         <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="pfpChanged" id="pfpChanged" value="0">
@@ -224,6 +221,7 @@
                         <?php if (getUserField("privilege") == 1) { ?>
                         <div>
                             <p class="card-header">Fejlesztői beállítások, információk</p>
+                            <p class="card-description">Ezeket az UwUChan fejelsztőinek szánjuk hibakeresésre.</p>
                             <div class="list">
                                 <a class="profile-setting-item" href="onboarding.php">
                                     <span class="material-symbols-rounded">select_window</span>
@@ -239,6 +237,24 @@
                                         <p>Létrehozza az UwUChan működéséhez elengedhetetlen könyvtárakat.</p>
                                     </div>
                                 </a>
+                                <form action="api/modify_settings.php" method="POST" id="debugger">
+                                    <input type="hidden" name="extreme-debug-setting" value="1">
+                                    <div class="profile-setting-item">
+                                        <span class="material-symbols-rounded">bug_report</span>
+                                        <div>
+                                            <p>Extrém hibakereső mód</p>
+                                            <p>Kiír minden felmerülő hibát és figyelmeztetést.</p>
+                                        </div>
+                                        <input onchange="document.getElementById('debugger').submit()" type="checkbox" id="extreme_debug_mode" name="extreme_debug_mode" <?php if (isset($_SESSION["extreme_debug_mode"])) echo "checked" ?>>
+                                    </div>
+                                </form>
+                                <div class="profile-setting-item">
+                                    <span class="material-symbols-rounded">fingerprint</span>
+                                    <div>
+                                        <p>Munkamenet-azonosító</p>
+                                        <p><?php echo $_COOKIE["PHPSESSID"] ?></p>
+                                    </div>
+                                </div>
                                 <?php if (file_exists("data/last_update.txt")) { ?>
                                     <div class="profile-setting-item">
                                         <span class="material-symbols-rounded">construction</span>

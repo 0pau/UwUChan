@@ -1,6 +1,7 @@
 <?php
     include_once "boards.php";
     include_once "users.php";
+    include_once "util.php";
 
     function getPostCard($which, $isPreview = false, $root = ".") : bool {
 
@@ -67,10 +68,10 @@
             }
 
             echo "<div class=\"post-fragment\">
-                            <a href=\"post.php?n=$which\" class=\"post-body\">
-                                <p class=\"post-title\">$post->title</p>
+                            <div class=\"post-body\">
+                                <a href=\"post.php?n=$which\" class=\"post-title\">$post->title</a>
                                 <p class=\"post-text\">$post->body</p>
-                            </a>";
+                            </div>";
             if (!$isPreview) {
                 echo "<div class=\"reaction-bar\">
                                 <a class=\"button flat disabled\" href=\"post.php\"><span class=\"material-symbols-rounded\">forum</span>" . count($post->comments) . "</a>
@@ -88,4 +89,90 @@
             }
             echo "</div></div></div>";
         return true;
+    }
+
+    function uploadPost($root = ".") {
+
+        if ($_SERVER["CONTENT_LENGTH"] > 8388608) {
+            throw new Error("A poszt összmérete meghaladja a 8 megabájtot.");
+        }
+
+        if (!isset($_SESSION["user"])) {
+            throw new Error("Nincs hozzáférésed ehhez a végponthoz.");
+        }
+
+        if (!isset($_POST["board-name"]) || !isset($_POST["post-title"]) || !isset($_POST["post-body"])) {
+            throw new Error("Hiba történt, fordulj a fejlesztőkhöz!");
+        }
+
+        $board = $_POST["board-name"];
+        $title = trim($_POST["post-title"]);
+        $body = trim($_POST["post-body"]);
+
+        if (!boardExists($board, $root)) {
+            throw new Error("A megadott üzenőfal nem létezik.");
+        }
+
+        $words = explode(" ", $body);
+
+        $body = "";
+        foreach ($words as $word) {
+            if (str_starts_with($word, "http://")||str_starts_with($word, "https://")||str_starts_with($word, "ftp://")) {
+                $word = "<a href=\"$word\">$word</a>";
+            }
+            $body = $body." ".$word;
+        }
+
+        $post = new stdClass();
+        $post->title = $title;
+        $post->body = $body;
+        $post->author = $_SESSION["user"];
+        $post->likes = 0;
+        $post->dislikes = 0;
+        $post->posted_at = time();
+
+        $images = [];
+
+        if (count($_FILES["images"]["name"]) != 0) {
+            for ($i = 0; $i < count($_FILES["images"]["name"]); $i++) {
+
+                if ($_FILES["images"]["name"][$i] == "") {
+                    continue;
+                }
+
+                if ($_FILES["images"]["size"][$i] == 0) {
+                    throw new Error("A(z) ".$_FILES["images"]["name"][$i]." kép mérete meghaladja a 2 megabájtot.");
+                }
+
+                $img = new stdClass();
+                $img->title = $_FILES["images"]["name"][$i];
+                $fileSeparated = explode(".", $img->title);
+                $ext = end($fileSeparated);
+
+                $filenames = saveImageWithThumbnail($ext, $_FILES["images"]["tmp_name"][$i], $root);
+                $img->original = $filenames[0];
+                $img->thumbnail = $filenames[1];
+
+                $images[] = $img;
+            }
+        }
+
+        $post->images = $images;
+        $post->comments = [];
+
+        $data = json_encode($post, JSON_UNESCAPED_UNICODE);
+
+        $boardInfo = getBoardInfo($board, $root);
+        $number = $boardInfo->post_count + 1;
+        $boardInfo->post_count = $number;
+
+        saveBoardInfo($board, $boardInfo, $root);
+        savePostToUser($_SESSION["user"], "$board/$number", $root);
+
+        changeUserField("uwuness", getUserField("uwuness", $root)+1, $root);
+
+        file_put_contents("$root/data/boards/$board/$number.json", $data);
+
+        header("Location: $root/post.php?n=$board/$number");
+
     }

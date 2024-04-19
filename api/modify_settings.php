@@ -7,6 +7,14 @@
     }
     include "users.php";
 
+    if (isset($_POST["extreme-debug-setting"])) {
+        if (isset($_POST["extreme_debug_mode"])) {
+            $_SESSION["extreme_debug_mode"] = true;
+        } else {
+            unset($_SESSION["extreme_debug_mode"]);
+        }
+    }
+
     $referer = $_SERVER["HTTP_REFERER"];
 
     if (isset($_POST["darkmode"])) {
@@ -31,10 +39,9 @@
         }
     }
 
-
-
     if (str_contains($referer, "onboarding.php")) {
-        header("Location: ../index.php");
+        $stage = intval($_POST["stage"]) + 1;
+        header("Location: ../onboarding.php?stage=$stage");
     } else {
         header("Location: " . $referer);
     }

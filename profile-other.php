@@ -6,7 +6,7 @@
         die();
     }
 
-    if (!user_exists($_GET["n"])) {
+    if (!userExists($_GET["n"])) {
         include "404.html";
         die();
     }
