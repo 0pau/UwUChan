@@ -28,33 +28,56 @@
                     <div class="list">
 
                         <?php
-                        $file_path = 'data/users/'.$_SESSION["user"].'/friends.json';
+                        session_start();
+
+                        $file_path = 'data/users/' . $_SESSION["user"] . '/friends.json';
                         $default_profile_picture = 'img/default_user_avatar.png';
+                        $current_user = $_SESSION["user"];
                         $message_count = 0;
+
                         if (file_exists($file_path)) {
                             $json_tomb = json_decode(file_get_contents($file_path), true);
+
                             foreach ($json_tomb as $barat) {
                                 $nev = $barat['username'];
                                 if ($barat['relationship'] === 1) {
-                                    echo "<div class='messages-card-head'>
-                                            <a href='profile-other.php'>
-                                                <img class='user-profile-messages-avatar' src='$default_profile_picture' alt='Profilkép'>
-                                            </a>
-                                            <a href='thread.php?username=$nev' class='messages-card-preview'>
-                                                <span>" . $barat['username'] . "</span>
-                                                <p>Az üzenet: Ugye milyen aranyosak??</p>
-                                            </a>
-                                                <span class='time-since-last'>2 perce</span>
-                                            <a title='Törlés' class='right button icon flat' href=''><span class='material-symbols-rounded'>delete</span></a>
-                                            </div>";
+                                    $thread_file_path = 'data/threads/' . $barat['thread'] . '.json';
+                                    if (file_exists($thread_file_path)) {
+                                        $thread_messages = json_decode(file_get_contents($thread_file_path), true);
+
+                                        usort($thread_messages, function($a, $b) {
+                                            return $b['id'] - $a['id'];
+                                        });
+
+                                        $last_message = reset($thread_messages);
+                                        $sender_prefix = ($last_message['username'] === $current_user) ? '[Te]: ' : '';
+
+                                        echo "<div class='messages-card-head'>
+                    <a href='profile-other.php?username=$nev'>
+                    <img class='user-profile-messages-avatar' src='$default_profile_picture' alt='Profilkép'>
+                    </a>
+                    
+                    <a href='thread.php?username=$nev' class='messages-card-preview'>
+                    <span>" . $barat['username'] . "</span>
+                    <p>" . $sender_prefix . $last_message['text'] . "</p>
+                    </a>
+                    <span class='time-since-last'>2 perce</span>
+                    </div>";
+
                                         $message_count++;
+                                    }
                                 }
                             }
+
                             if ($message_count === 0) {
                                 echo "<p>Nincs egy üzeneted sem</p>";
                             }
                         }
                         ?>
+
+
+
+
                 </section>
             </div>
         </main>
