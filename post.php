@@ -137,42 +137,7 @@
                                 printComment($comment);
                             }
                         }?>
-                        <!--
-                        <div class="post-comment-card">
-                            <div class="card-head">
-                                <a href="index.php">
-                                    <img class="post-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                    <span>abc123</span>
-                                    <span class="post-profile-message-sent-time">15 perce</span>
-                                </a>
-                            </div>
-                            <p>Jaj, egyem a kis szívüket!!</p>
-                            <div class="reaction-bar">
-                                <a href="index.php"><span class="post-comments">3 válasz</span></a>
-                                <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">reply</span><span>Válasz</span></button>
-                                <button class="flat hide-text-on-mobile"><span class="material-symbols-rounded">flag</span><span>Bejelentés</span></button>
-                            </div>
-                        </div>
-                        <div class="post-comment-card">
-                            <div class="card-head">
-                                <a href="index.php">
-                                    <img class="post-profile-messages-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                    <span>abc123</span>
-                                    <span class="post-profile-message-sent-time">15 perce</span>
-                                </a>
-                            </div>
-                            <p>Jaj, egyem a kis szívüket!!</p>
-                            <div class="reaction-bar">
-                                <a href="index.php"><span class="post-comments">3 válasz</span></a>
-                                <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">reply</span><span>Válasz</span></button>
-                                <button class="flat hide-text-on-mobile"><span class="material-symbols-rounded">flag</span><span>Bejelentés</span></button>
-                            </div>
-                        </div>
-                        -->
                     </div>
-                   <!--
-
-                    -->
                 </section>
             </div>
         </main>

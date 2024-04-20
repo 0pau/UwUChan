@@ -1,8 +1,8 @@
 <?php
 
-function getRandomBoards() {
+function getRandomBoards($root = ".") {
     $allBoards = [];
-    $dir = new DirectoryIterator("data/boards");
+    $dir = new DirectoryIterator("$root/data/boards");
     foreach ($dir as $info) {
         if (!$info->isDot() && $info->isDir()) {
             $allBoards[] = $info->getBasename();

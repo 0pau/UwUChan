@@ -322,3 +322,9 @@ function changeUserName($newName, $root = "."): void {
     $_SESSION["user"] = $newName;
 }
 
+function getPostAuthor($which, $root = ".") {
+    $file = "$root/data/boards/$which.json";
+    $data = file_get_contents($file);
+    $data = json_decode($data, false);
+    return $data->author;
+}

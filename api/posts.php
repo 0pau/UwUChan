@@ -28,9 +28,14 @@
                     <img class=\"user-profile-blog-avatar\" src=\"".getBoardIcon($board_name)."\" alt=\"$board_name\">
                     <span>$board_name</span>
                 </a>
-                <span class='posted-at-text'>".gmdate("m. d. H:i", $post->posted_at)."</span>
-                <a class=\"right button icon flat\" href=\"$root/report.php?w=$which\"><span class=\"material-symbols-rounded\">emoji_flags</span></a>
-            </div>
+                <span class='posted-at-text'>".gmdate("m. d. H:i", $post->posted_at)."</span>";
+        if (!$isPreview) {
+            echo "<a class=\"right button icon flat\" href=\"$root/report.php?w=$which\"><span class=\"material-symbols-rounded\">emoji_flags</span></a>";
+        }
+        if (isset($_SESSION["extreme_debug_mode"])) {
+            echo "<span>$which</span>";
+        };
+            echo "</div>
             <div class=\"post-content\">";
             if (count($post->images)) {
                 if (count($post->images) == 1) {
@@ -172,6 +177,13 @@
         changeUserField("uwuness", getUserField("uwuness", $root)+1, $root);
 
         file_put_contents("$root/data/boards/$board/$number.json", $data);
+
+        if (!file_exists("$root/data/post_activity.dat")) {
+            file_put_contents("$root/data/post_activity.dat", "");
+        }
+        $f = file_get_contents("$root/data/post_activity.dat");
+        $f = "$board/$number\n".$f;
+        file_put_contents("$root/data/post_activity.dat", $f);
 
         header("Location: $root/post.php?n=$board/$number");
 

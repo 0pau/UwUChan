@@ -1,36 +1,48 @@
 <?php
-
     $error = "";
     $success = false;
-
     session_start(); include "api/users.php"; include "api/acl.php"; include "api/util.php";
+
     $p = "details";
     if (isset($_GET["page"]) && $_GET["page"] == "settings") {
         $p = "settings";
     } else {
-        try {
-            $success = modifyData();
-        } catch (Error $err) {
-            $error = $err->getMessage();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            try {
+                ob_get_contents();
+                ob_end_clean();
+                $success = modifyData();
+            } catch (Error $err) {
+                $error = $err->getMessage();
+            }
         }
     }
 
 
     function modifyData() : bool {
 
+        if ($_SERVER["CONTENT_LENGTH"] > 8388608) {
+            throw new Error("A kérés összmérete meghaladja a 8 megabájtot.");
+        }
+
         if (!isset($_POST["email"]) || !isset($_POST["login"]) || !isset($_POST["birthday"]) || !isset($_POST["pfpChanged"])) {
             return false;
         }
 
         if ($_POST["pfpChanged"]) {
+
+            if ($_FILES["pfpFile"]["name"] != "" && $_FILES["pfpFile"]["error"]) {
+                throw new Error("A kép mérete meghaladja a 2 megabájtot.");
+            }
+
             if (getUserField("profilePictureFilename") != "") {
                 unlink("data/images/".getUserField("profilePictureFilename"));
             }
 
-            $ext = explode(".", $_FILES["pfpFile"]["name"][0]);
+            $ext = explode(".", $_FILES["pfpFile"]["name"]);
             $ext = end($ext);
 
-            $filename = saveImage($ext, $_FILES["pfpFile"]["tmp_name"][0]);
+            $filename = saveImage($ext, $_FILES["pfpFile"]["tmp_name"]);
             changeUserField("profilePictureFilename", $filename);
         }
 
@@ -134,7 +146,7 @@
                                     <div class="button-box">
                                         <!--<button>Új profilkép feltöltése</button>-->
                                         <div class="image-upload-button button">
-                                            <input id="pfpFile" name="pfpFile[]" type="file" accept="image/*" onchange="changePfpPreview()">
+                                            <input id="pfpFile" name="pfpFile" type="file" accept="image/*" onchange="changePfpPreview()">
                                             Profilkép feltöltése
                                         </div>
                                         <span class="button" onclick="removePfp()">Profilkép törlése</span>
@@ -235,6 +247,13 @@
                                     <div>
                                         <p>Könyvtárak helyreállítása</p>
                                         <p>Létrehozza az UwUChan működéséhez elengedhetetlen könyvtárakat.</p>
+                                    </div>
+                                </a>
+                                <a class="profile-setting-item" href="api/refresh_activity.php">
+                                    <span class="material-symbols-rounded">autorenew</span>
+                                    <div>
+                                        <p>Hírfolyamok frissítése</p>
+                                        <p>Frissíti a post_activity.dat fájlt.</p>
                                     </div>
                                 </a>
                                 <form action="api/modify_settings.php" method="POST" id="debugger">

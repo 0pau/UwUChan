@@ -15,9 +15,7 @@ function saveImage($ext, $tmpFileName, $root = ".") : String {
 function saveImageWithThumbnail($ext, $tmpFileName, $root = ".") {
     $original = saveImage($ext, $tmpFileName, $root);
 
-    $hasGD = get_extension_funcs("gd");
-
-    if ($hasGD) {
+    if (isGDAvailable()) {
         $size = getimagesize($root . "/data/images/" . $original);
         $frac = $size[0] / 200;
         $w = (int)$size[0] / $frac;

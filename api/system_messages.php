@@ -7,7 +7,7 @@ function getSystemMessage() {
         $sysmsg = json_decode($sysmsg, false);
 
         echo "
-        <div class=\"post-card\">
+        <div><div class=\"post-card no-margin\">
             <div class=\"card-head\">
                 <a href=\".\">
                     <img class=\"user-profile-blog-avatar\" src=\"img/system_message_avatar.png\" alt=\"Rendszerüzenet ikonja\">
@@ -22,7 +22,7 @@ function getSystemMessage() {
                     </div>
                 </div>
             </div>
-        </div>        
+        </div></div><hr>   
         ";
     }
 }

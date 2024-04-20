@@ -81,6 +81,10 @@ section:not(.no-padding), .section-inset {
     padding: 25px;
 }
 
+.no-margin {
+    margin: 0px!important;
+}
+
 .section-head {
     margin: 0px 0px 25px;
     display: flex;
@@ -99,8 +103,7 @@ section > h1, .section-head > h1 {
 }
 
 section.help hr {
-    color: var(--borders);
-    opacity: 0.25;
+    width: 100%;
 }
 
 header:not(.login-window-head) {
@@ -117,10 +120,6 @@ header:not(.login-window-head) {
 
 header:not(.login-window-head) img.logo {
     width: 125px;
-}
-
-header .mobile, nav .mobile {
-    display: none!important;
 }
 
 a:link {
@@ -433,6 +432,10 @@ nav a[href].current {
     font-size: 12px;
 }
 
+header .mobile, nav a[href].mobile {
+    display: none;
+}
+
 .go-up {
     width: 40px;
     height: 40px;
@@ -516,7 +519,7 @@ nav a[href].current {
     width: 100%;
 }
 
-.post-body a.post-title {
+.post-body .post-title, .post-body a.post-title {
     font-size: 20px;
     font-weight: 500;
     margin: 0;
@@ -792,4 +795,13 @@ details {
 
 p.centered {
     text-align: center;
+}
+
+hr {
+    width: 250px;
+    height: 1px;
+    background-color: var(--borders);
+    display: block;
+    border: none;
+    margin: 20px auto;
 }

@@ -4,6 +4,8 @@
 
     $error = "";
     try {
+        ob_get_contents();
+        ob_end_clean();
         register();
     } catch (Error $err) {
         $error = $err->getMessage();
@@ -11,6 +13,10 @@
 
     function register(): string {
         if (isset($_POST["login"]) && isset($_POST["email"]) && isset($_POST["birthday"]) && isset($_POST["pass"]) && isset($_POST["pass_again"])) {
+
+            if ($_SERVER["CONTENT_LENGTH"] > 8388608) {
+                throw new Error("A kérés összmértéke meghaladja a 8 megabájtot.");
+            }
 
             $username = checkUsername($_POST["login"]);
 
@@ -67,6 +73,9 @@
             $filelist = null;
 
             if ($_FILES["pfp"]["name"] != "") {
+                if ($_FILES["pfp"]["error"]) {
+                    throw new Error("A profilkép mérete túl nagy");
+                }
                 $filelist = $_FILES["pfp"];
             }
 

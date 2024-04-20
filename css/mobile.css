@@ -207,10 +207,6 @@
         width: 200px;
     }
 
-    #pfp-change-ui .button-box {
-        margin: auto;
-    }
-
     .button-box button, .button-box .button {
         width: 100%;
         box-sizing: border-box;

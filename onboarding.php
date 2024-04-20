@@ -65,11 +65,11 @@
             <?php } ?>
             <?php if ($stage == 2) { ?>
             <div class="onboarding-content">
-                <h1>Üzenőfalak</h1>
-                <p>Válaszd ki az alábbi listából azon üzenőfalakat, amik a Te érdeklődési körödnek megfelelnek. Amelyik üzenőfalat kiválasztod, azonnal követésre kerül.</p>
                 <form method="POST" action="api/modify_settings.php">
                     <input type="hidden" name="stage" value="2">
                     <div class="form-content">
+                        <h1>Üzenőfalak</h1>
+                        <p>Válaszd ki az alábbi listából azon üzenőfalakat, amik a Te érdeklődési körödnek megfelelnek. Amelyik üzenőfalat kiválasztod, azonnal követésre kerül.</p>
                         <div class="list" id="boardList">
                             <?php
                                 $boardList = getRandomBoards();

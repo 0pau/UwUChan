@@ -12,9 +12,9 @@
 
     $error = "";
     if (!isset($_GET["q"]) || trim($_GET["q"]) == "") {
-        $error = "Nincs megadva keresési kifejezés.";
+        header("Location: index.php");
     } else {
-        $query = strtolower($_GET["q"]) ;
+        $query = strtolower(trim($_GET["q"]));
         $dir = new DirectoryIterator("data/boards");
         foreach ($dir as $info) {
             if (!$info->isDot() && $info->isDir()) {
@@ -48,8 +48,6 @@
                 }
             }
         }
-
-
 
         $searchDuration = round(microtime(true) - $t1, 3);
     }
