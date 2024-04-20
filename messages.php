@@ -39,7 +39,7 @@
                     $json_tomb = json_decode(file_get_contents($file_path), true);
 
                     foreach ($json_tomb as $barat) {
-                        $nev = $barat['username'];
+                        $username = $barat['username'];
                         if ($barat['relationship'] === 1) {
                             $thread_file_path = 'data/threads/' . $barat['thread'] . '.json';
                             if (file_exists($thread_file_path)) {
@@ -53,16 +53,16 @@
                                 $sender_prefix = ($last_message['username'] === $current_user) ? '[Te]: ' : '';
 
                                 echo "<div class='messages-card-head'>
-                    <a href='profile-other.php?username=$nev'>
-                    <img class='user-profile-messages-avatar' src='$default_profile_picture' alt='Profilkép'>
-                    </a>
-                    
-                    <a href='thread.php?username=$nev' class='messages-card-preview'>
-                    <span>" . $barat['username'] . "</span>
-                    <p>" . $sender_prefix . $last_message['text'] . "</p>
-                    </a>
-                    <span class='time-since-last'>2 perce</span>
-                    </div>";
+                            <a href='profile-other.php?n=$username'>
+                            <img class='user-profile-messages-avatar' src='$default_profile_picture' alt='Profilkép'>
+                            </a>
+                            
+                            <a href='thread.php?username=$username' class='messages-card-preview'>
+                            <span>" . $username . "</span>
+                            <p>" . $sender_prefix . $last_message['text'] . "</p>
+                            </a>
+                            <span class='time-since-last'>2 perce</span>
+                          </div>";
 
                                 $message_count++;
                             }
@@ -74,6 +74,8 @@
                     }
                 }
                 ?>
+
+
 
 
 

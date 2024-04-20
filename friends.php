@@ -51,7 +51,7 @@
                 if (!empty($baratkerelmek)) {
                     foreach ($baratkerelmek as $barat) {
                         $profilkep = isset($barat['profile_picture']) ? $barat['profile_picture'] : $default_profile_picture;
-                        $felhasznalonev = $barat['username'];
+                        $felhasznalonev = $barat['n'];
                         $relationship = isset($barat['relationship']) ? $barat['relationship'] : 0;
 
                         if ($relationship == 2) {
