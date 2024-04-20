@@ -59,162 +59,162 @@
             <div class="thread">
 
                 <?php
-                    session_start();
+                session_start();
 
-                    if (!isset($_SESSION["user"])) {
-                        echo "<p>Nincs bejelentkezve felhasználó.</p>";
-                        exit;
+                if (!isset($_SESSION["user"])) {
+                    echo "<p>Nincs bejelentkezve felhasználó.</p>";
+                    exit;
+                }
+
+                $active_user = $_SESSION["user"];
+                if (!isset($_GET['username'])) {
+                    echo "<p>Nem sikerült meghatározni a beszélgetés résztvevőjét.</p>";
+                    exit;
+                }
+
+                $friend_username = $_GET['username'];
+                $friendship_file = "data/users/{$active_user}/friends.json";
+
+
+                if (!file_exists($friendship_file)) {
+                    echo "<p>Nem található a felhasználó barátainak listája.</p>";
+                    exit;
+                }
+
+                $friends_data = json_decode(file_get_contents($friendship_file), true);
+                $are_friends = false;
+                $thread_id = "";
+
+                foreach ($friends_data as &$friend) {
+                    if ($friend['username'] === $friend_username && $friend['relationship'] === 1) {
+                        $are_friends = true;
+                        $thread_id = $friend['thread'];
+
+                        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+                            $friend['seen_last_reaction'] = true;
+                        }
+                        break;
                     }
 
-                    $active_user = $_SESSION["user"];
-                    if (!isset($_GET['username'])) {
-                        echo "<p>Nem sikerült meghatározni a beszélgetés résztvevőjét.</p>";
-                        exit;
+                }
+
+                file_put_contents($friendship_file, json_encode($friends_data, JSON_PRETTY_PRINT));
+
+                if (!$are_friends || $thread_id == "") {
+                    echo "<p>A két felhasználó nem barátok, vagy nem található a beszélgetés.</p>";
+                    exit;
+                }
+
+                $thread_file = "data/threads/{$thread_id}.json";
+                if (!file_exists($thread_file)) {
+                    echo "<p>Nem található a beszélgetés fájlja.</p>";
+                    exit;
+                }
+
+
+
+
+
+                $thread_data = json_decode(file_get_contents($thread_file), true);
+                usort($thread_data, function ($a, $b) {
+                    return $a['posted-at'] - $b['posted-at'];
+                });
+
+                echo "<div class='message-container'>";
+                foreach ($thread_data as $message) {
+                    $username = $message['username'];
+                    $timestamp = date('H:i', $message['posted-at']);
+                    $message_id = $message['id'];
+                    $unsent = $message['unsent'];
+                    $message_css_class = ($username === $active_user) ? 'mine' : 'away';
+
+                    echo "<div class='message $message_css_class'>";
+                    echo "<span class='bubble'>" . ($unsent ? "Törölt üzenet" : $message['text']) . "</span>";
+                    echo "<span class='sent-at'>$timestamp</span>";
+
+                    if ($username === $active_user) {
+                        if ($unsent) {
+                            echo "<form method='post'>";
+                            echo "<input type='hidden' name='restore_message_id' value='$message_id'>";
+                            echo "<button type='submit' title='Üzenet visszaállítása' class='restore-message flat round icon vsmall options'><span class='material-symbols-rounded'>undo</span></button>";
+                            echo "</form>";
+                        } else {
+                            echo "<form method='post'>";
+                            echo "<input type='hidden' name='delete_message_id' value='$message_id'>";
+                            echo "<button type='submit' title='Üzenet törlése' class='delete-message flat round icon vsmall options'><span class='material-symbols-rounded'>delete</span></button>";
+                            echo "</form>";
+                        }
                     }
 
-                    $friend_username = $_GET['username'];
-                    $friendship_file = "data/users/{$active_user}/friends.json";
+                    echo "</div>";
+                }
+                echo "</div>";
 
-
-                    if (!file_exists($friendship_file)) {
-                        echo "<p>Nem található a felhasználó barátainak listája.</p>";
-                        exit;
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    if (isset($_POST['message']) && !empty($_POST['message'])) {
+                        processNewMessage($thread_data, $thread_file, $active_user, $thread_id);
+                    } elseif (isset($_POST['delete_message_id'])) {
+                        handleDeleteMessage($_POST['delete_message_id'], $thread_data, $thread_file, $active_user);
+                    } elseif (isset($_POST['restore_message_id'])) {
+                        handleRestoreMessage($_POST['restore_message_id'], $thread_data, $thread_file, $active_user);
                     }
+                }
 
-                    $friends_data = json_decode(file_get_contents($friendship_file), true);
-                    $are_friends = false;
-                    $thread_id = "";
+                function processNewMessage(&$thread_data, $thread_file, $active_user, $thread_id) {
+                    $new_message = array(
+                        "id" => end($thread_data)['id'] + 1,
+                        "username" => $active_user,
+                        "text" => $_POST['message'],
+                        "posted-at" => time(),
+                        "unsent" => false
+                    );
+                    $thread_data[] = $new_message;
+                    file_put_contents($thread_file, json_encode($thread_data, JSON_PRETTY_PRINT));
 
-                    foreach ($friends_data as &$friend) {
-                        if ($friend['username'] === $friend_username && $friend['relationship'] === 1) {
-                            $are_friends = true;
-                            $thread_id = $friend['thread'];
+                    updateSeenLastReaction($active_user, $thread_id, false);
+                    echo "<meta http-equiv='refresh' content='0'>";
+                }
 
-                            if ($_SERVER["REQUEST_METHOD"] != "POST") {
-                                $friend['seen_last_reaction'] = true;
+                function updateSeenLastReaction($user, $thread_id, $seen) {
+                    $file = "data/users/{$user}/friends.json";
+                    if (file_exists($file)) {
+                        $friends_data = json_decode(file_get_contents($file), true);
+                        foreach ($friends_data as &$friend) {
+                            if ($friend['thread'] == $thread_id) {
+                                $friend['seen_last_reaction'] = $seen;
+                                break;
                             }
+                        }
+                        file_put_contents($file, json_encode($friends_data, JSON_PRETTY_PRINT));
+                    }
+                }
+
+                function handleDeleteMessage($message_id, &$thread_data, $thread_file, $active_user) {
+                    foreach ($thread_data as &$message) {
+                        if ($message['id'] == $message_id && $message['username'] == $active_user) {
+                            $message['unsent'] = true;
+                            $message['original_text'] = $message['text'];
+                            $message['text'] = "Törölt üzenet";
                             break;
                         }
-
                     }
+                    file_put_contents($thread_file, json_encode($thread_data, JSON_PRETTY_PRINT));
+                    echo "<meta http-equiv='refresh' content='0'>";
+                }
 
-                    file_put_contents($friendship_file, json_encode($friends_data, JSON_PRETTY_PRINT));
-
-                    if (!$are_friends || $thread_id == "") {
-                        echo "<p>A két felhasználó nem barátok, vagy nem található a beszélgetés.</p>";
-                        exit;
-                    }
-
-                    $thread_file = "data/threads/{$thread_id}.json";
-                    if (!file_exists($thread_file)) {
-                        echo "<p>Nem található a beszélgetés fájlja.</p>";
-                        exit;
-                    }
-
-
-
-
-
-                    $thread_data = json_decode(file_get_contents($thread_file), true);
-                    usort($thread_data, function ($a, $b) {
-                        return $a['posted-at'] - $b['posted-at'];
-                    });
-
-                    echo "<div class='message-container'>";
-                    foreach ($thread_data as $message) {
-                        $username = $message['username'];
-                        $timestamp = date('H:i', $message['posted-at']);
-                        $message_id = $message['id'];
-                        $unsent = $message['unsent'];
-                        $message_css_class = ($username === $active_user) ? 'mine' : 'away';
-
-                        echo "<div class='message $message_css_class'>";
-                        echo "<span class='bubble'>" . ($unsent ? "Törölt üzenet" : $message['text']) . "</span>";
-                        echo "<span class='sent-at'>$timestamp</span>";
-
-                        if ($username === $active_user) {
-                            if ($unsent) {
-                                echo "<form method='post'>";
-                                echo "<input type='hidden' name='restore_message_id' value='$message_id'>";
-                                echo "<button type='submit' title='Üzenet visszaállítása' class='restore-message flat round icon vsmall options'><span class='material-symbols-rounded'>undo</span></button>";
-                                echo "</form>";
-                            } else {
-                                echo "<form method='post'>";
-                                echo "<input type='hidden' name='delete_message_id' value='$message_id'>";
-                                echo "<button type='submit' title='Üzenet törlése' class='delete-message flat round icon vsmall options'><span class='material-symbols-rounded'>delete</span></button>";
-                                echo "</form>";
-                            }
-                        }
-
-                        echo "</div>";
-                    }
-                    echo "</div>";
-
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        if (isset($_POST['message']) && !empty($_POST['message'])) {
-                            processNewMessage($thread_data, $thread_file, $active_user, $thread_id);
-                        } elseif (isset($_POST['delete_message_id'])) {
-                            handleDeleteMessage($_POST['delete_message_id'], $thread_data, $thread_file, $active_user);
-                        } elseif (isset($_POST['restore_message_id'])) {
-                            handleRestoreMessage($_POST['restore_message_id'], $thread_data, $thread_file, $active_user);
+                function handleRestoreMessage($message_id, &$thread_data, $thread_file, $active_user) {
+                    foreach ($thread_data as &$message) {
+                        if ($message['id'] == $message_id && $message['username'] == $active_user && $message['unsent']) {
+                            $message['unsent'] = false;
+                            $message['text'] = $message['original_text'];
+                            unset($message['original_text']);
+                            break;
                         }
                     }
-
-                    function processNewMessage(&$thread_data, $thread_file, $active_user, $thread_id) {
-                        $new_message = array(
-                                "id" => end($thread_data)['id'] + 1,
-                            "username" => $active_user,
-                            "text" => $_POST['message'],
-                            "posted-at" => time(),
-                            "unsent" => false
-                        );
-                        $thread_data[] = $new_message;
-                        file_put_contents($thread_file, json_encode($thread_data, JSON_PRETTY_PRINT));
-
-                        updateSeenLastReaction($active_user, $thread_id, false);
-                        echo "<meta http-equiv='refresh' content='0'>";
-                    }
-
-                    function updateSeenLastReaction($user, $thread_id, $seen) {
-                        $file = "data/users/{$user}/friends.json";
-                        if (file_exists($file)) {
-                            $friends_data = json_decode(file_get_contents($file), true);
-                            foreach ($friends_data as &$friend) {
-                                if ($friend['thread'] == $thread_id) {
-                                    $friend['seen_last_reaction'] = $seen;
-                                    break;
-                                }
-                            }
-                            file_put_contents($file, json_encode($friends_data, JSON_PRETTY_PRINT));
-                        }
-                    }
-
-                    function handleDeleteMessage($message_id, &$thread_data, $thread_file, $active_user) {
-                        foreach ($thread_data as &$message) {
-                            if ($message['id'] == $message_id && $message['username'] == $active_user) {
-                                $message['unsent'] = true;
-                                $message['original_text'] = $message['text'];
-                                $message['text'] = "Törölt üzenet";
-                                break;
-                            }
-                        }
-                        file_put_contents($thread_file, json_encode($thread_data, JSON_PRETTY_PRINT));
-                        echo "<meta http-equiv='refresh' content='0'>";
-                    }
-
-                    function handleRestoreMessage($message_id, &$thread_data, $thread_file, $active_user) {
-                        foreach ($thread_data as &$message) {
-                            if ($message['id'] == $message_id && $message['username'] == $active_user && $message['unsent']) {
-                                $message['unsent'] = false;
-                                $message['text'] = $message['original_text'];
-                                unset($message['original_text']);
-                                break;
-                            }
-                        }
-                        file_put_contents($thread_file, json_encode($thread_data, JSON_PRETTY_PRINT));
-                        echo "<meta http-equiv='refresh' content='0'>";
-                    }
-                    ?>
+                    file_put_contents($thread_file, json_encode($thread_data, JSON_PRETTY_PRINT));
+                    echo "<meta http-equiv='refresh' content='0'>";
+                }
+                ?>
 
 
             </div>
