@@ -22,6 +22,11 @@
     align-items: center;
 }
 
+.comment-error {
+    margin: 10px 0px 0px;
+    color: var(--destructive);
+    font-weight: 500;
+}
 
 .reaction-bar{
     padding: 5px 15px;

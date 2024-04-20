@@ -2,8 +2,8 @@
     session_start();
 
     if (!isset($_SESSION["user"])) {
-        header("HTTP/1.1 403 Forbidden");
-        die("Ehhez a végponthoz nincs hozzáférésed, sorry :3");
+        header("Location: ../403.html");
+        exit;
     }
     include "users.php";
 

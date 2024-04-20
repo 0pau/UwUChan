@@ -4,6 +4,8 @@
     include "api/boards.php";
     include "api/posts.php";
 
+    $error = "";
+
     $offset = 0;
     if (isset($_GET["o"])) {
         $offset = intval($_GET["o"]);
@@ -19,7 +21,11 @@
     try {
         global $posts;
         global $last;
-        //$offset = ($p - 1) * 15;
+
+        if (!file_exists("data/post_activity.dat")) {
+            throw new Error("Nem található a posztokat tartalmazó fájl. Jelezd egy adminisztrátornak, hogy frissítse a hírfolyamokat!");
+        }
+
         $file = fopen("data/post_activity.dat", "r");
         $line_count = 0;
 
@@ -47,7 +53,7 @@
 
         fclose($file);
     } catch (Error $err) {
-        die($err);
+        $error = $err->getMessage();
     }
 
 ?>
@@ -80,9 +86,18 @@
                         getSystemMessage();
                     ?>
 
+                    <?php if ($error) { ?>
+                        <div class="no-comments-placeholder">
+                            <span class="material-symbols-rounded">sentiment_very_dissatisfied</span>
+                            <p>A hírfolyam összeomlott.</p>
+                            <p><?php echo $error ?></p>
+                        </div>
+                    <?php } ?>
+
                     <?php
-                        if (count(getFollowedBoards()) == 0 && isset($_SESSION["user"])) {
+                        if (!$error && count(getFollowedBoards()) == 0 && isset($_SESSION["user"])) {
                             include "views/not_following_placeholder.html";
+                            $last = true;
                         } else {
                             if (count($posts) != 0) {
                                 foreach ($posts as $post) {
@@ -91,9 +106,9 @@
                             }
                         }
                     ?>
-                    <?php if ($last && count(getFollowedBoards()) != 0 && isset($_SESSION["user"])) { ?>
+                    <?php if (!$error && $last && count(getFollowedBoards()) != 0 && isset($_SESSION["user"])) { ?>
                         <p class="disabled centered">Elérted a hírfolyam végét.</p>
-                    <?php } else { ?>
+                    <?php } else if (!$last && !$error) { ?>
                         <a href="index.php?o=<?php echo $lastOffset ?>" class="">További posztok betöltése</a>
                     <?php } ?>
                 </section>

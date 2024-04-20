@@ -5,8 +5,9 @@
     include "boards.php";
 
     try {
-        if (!isset($_SESSION["user"]) || intval(getUserField("privilege", "..")) < 1) {
-            die("Nincs hozzáférésed ehhez a végponthoz, sorry :3");
+        if (!isset($_SESSION["user"]) || getUserField("privilege") < 1) {
+            header("Location: ../403.html");
+            exit;
         }
 
         $file = fopen("../data/post_activity.dat", "w");

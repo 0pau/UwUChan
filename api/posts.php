@@ -28,7 +28,7 @@
                     <img class=\"user-profile-blog-avatar\" src=\"".getBoardIcon($board_name)."\" alt=\"$board_name\">
                     <span>$board_name</span>
                 </a>
-                <span class='posted-at-text'>".gmdate("m. d. H:i", $post->posted_at)."</span>";
+                <span class='posted-at-text'>".formatDateRelative($post->posted_at, true)."</span>";
         if (!$isPreview) {
             echo "<a class=\"right button icon flat\" href=\"$root/report.php?w=$which\"><span class=\"material-symbols-rounded\">emoji_flags</span></a>";
         }
@@ -111,8 +111,12 @@
         }
 
         $board = $_POST["board-name"];
-        $title = trim($_POST["post-title"]);
-        $body = trim($_POST["post-body"]);
+        $title = validateText($_POST["post-title"]);
+        $body = validateText($_POST["post-body"]);
+
+        if (!$title || !$body) {
+            throw new Error("A poszt címe és tartalma nem lehet üres és nem tartalmazhat HTML kódot.");
+        }
 
         if (!boardExists($board, $root)) {
             throw new Error("A megadott üzenőfal nem létezik.");

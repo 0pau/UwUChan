@@ -1,7 +1,10 @@
 <?php
     session_start();
     include "api/users.php";
+    include "api/util.php";
     include "api/comments.php";
+
+    $error = "";
 
     $post_meta = "";
 
@@ -19,6 +22,31 @@
     $board_name = $board[0];
     $post_meta = file_get_contents("data/boards/".$_GET["n"].".json");
     $post_meta = json_decode($post_meta, false);
+
+    function comment()
+    {
+        $text = validateText($_POST["text"]);
+        $where = $_POST["where"];
+
+        if (!$text) {
+            throw new Error("A komment nem tartalmazhat HTML kódot!");
+        }
+
+        $replyID = null;
+        if ($_POST["replyID"] != "") {
+            $replyID = $_POST["replyID"];
+        }
+        postComment($where, $text, $replyID);
+        header("Location: ". $_SERVER["HTTP_REFERER"]);
+    }
+
+    try {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            comment();
+        }
+    } catch (Error $e) {
+        $error = $e->getMessage();
+    }
 
 ?>
 <!doctype html>
@@ -67,7 +95,7 @@
                                 <span><?php echo $post_meta->author ?></span>
                             </a>
                             <span class="posted-at-text"><?php
-                                echo gmdate("Y. m. d. H:i", $post_meta->posted_at)
+                                echo formatDateRelative($post_meta->posted_at, true);
                                 ?></span>
                         </div>
                         <div class="post-content">
@@ -113,7 +141,7 @@
                             </form>
                         </div>
                     </div>
-                    <form class="my-comment-bar" action="api/post_comment.php" method="POST">
+                    <form class="my-comment-bar" method="POST">
                         <input type="hidden" name="where" value="<?php echo $_GET["n"] ?>">
                         <input type="hidden" name="replyID" value="" id="replyIDField">
                         <div id="reply-indicator">
@@ -123,6 +151,9 @@
                         <div class="reply-input">
                             <input type="text" placeholder="Ide írd a hozzászólásod" name="text" required><button class="flat"><span class="material-symbols-rounded">send</span></button>
                         </div>
+                        <?php if ($error != "") { ?>
+                            <p class="comment-error"><?php echo $error ?></p>
+                        <?php } ?>
                     </form>
                     <div id="comments" class="">
                         <?php if (count($post_meta->comments) == 0) { ?>
