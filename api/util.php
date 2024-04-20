@@ -1,4 +1,7 @@
 <?php
+
+const MONTHS = ["jan.", "feb.", "márc.", "ápr.", "máj.", "jún.", "júl.", "aug.", "szept.", "okt.", "nov.", "dec."];
+
 function saveImage($ext, $tmpFileName, $root = ".") : String {
 
     if (!is_dir($root."/data/images")) {
@@ -15,9 +18,7 @@ function saveImage($ext, $tmpFileName, $root = ".") : String {
 function saveImageWithThumbnail($ext, $tmpFileName, $root = ".") {
     $original = saveImage($ext, $tmpFileName, $root);
 
-    $hasGD = get_extension_funcs("gd");
-
-    if ($hasGD) {
+    if (isGDAvailable()) {
         $size = getimagesize($root . "/data/images/" . $original);
         $frac = $size[0] / 200;
         $w = (int)$size[0] / $frac;
@@ -41,7 +42,10 @@ function saveImageWithThumbnail($ext, $tmpFileName, $root = ".") {
 }
 
 function checkEmail($address): bool|string {
-    $address = trim($address);
+    $address = validateText($address);
+    if (!$address) {
+        return false;
+    }
     if (preg_match("/^[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z]{2,5}$/", $_POST["email"]) != 0) {
         return $address;
     }
@@ -53,14 +57,17 @@ function checkBirthday($birthday) : bool|string {
     $birthday = strtotime($birthday);
 
     if ($today-$birthday >= (13*365*24*60*60)) {
-        return gmdate("Y-m-d", $birthday);
+        return date("Y-m-d", $birthday);
     }
 
     return false;
 }
 
 function checkUsername($username) : bool|string {
-    $username = trim($username);
+    $username = validateText($username);
+    if (!$username) {
+        return false;
+    }
     if (preg_match("/[A-Za-z0-9_.-]{3,32}/", $username) != 0) {
         return $username;
     }
@@ -75,9 +82,51 @@ function checkPassword($password) : bool|string {
     return false;
 }
 
+function validateText($text) : bool|string {
+
+    $text = trim($text);
+
+    if ($text == "" || preg_match("/^(?!.*<\/?.*>).*$/m", $text) == 0) {
+        return false;
+    }
+
+    $text = str_replace("<", "&lt;", $text);
+    $text = str_replace(">", "&gt;", $text);
+    $text = str_replace("\n", "<br>", $text);
+
+    return $text;
+
+}
+
 function isGDAvailable() : bool {
     if (get_extension_funcs("gd")) {
         return true;
     }
     return false;
+}
+
+function formatDateRelative($timestamp, $showTime = true) {
+
+    $now = time();
+
+    if ($timestamp > $now) {
+        return "Valamikor a jövőben :D";
+    }
+
+    if (date("Y-m-d", $timestamp) == date("Y-m-d")) {
+        if ($now - $timestamp < 60) {
+            return "Épp most";
+        } else if ($now - $timestamp < 3600) {
+            return ((int)(($now-$timestamp)/60))." perce";
+        } else {
+            return ((int)(($now-$timestamp)/3600))." órája";
+        }
+    } else if (date("Y-m", $timestamp) == date("Y-m") && intval(date("d", $timestamp)) == intval(date("d"))-1) {
+        return "Tegnap".($showTime ? " ".date("H:i", $timestamp) : "");
+    } else if (date("Y", $timestamp) == date("Y")) {
+        return MONTHS[intval(date("m", $timestamp))-1]." ".date("j.".($showTime ? " H:i" : ""), $timestamp);
+    } else {
+        return date("Y. m. d.".($showTime ? " H:i" : ""), $timestamp);
+    }
+
 }

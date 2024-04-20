@@ -8,11 +8,21 @@
 
 ?>
 <header>
-    <div class="color-variants header-side-element desktop">
+    <a href="index.php" class="color-variants header-side-element desktop">
         <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
         <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
-    </div>
-    <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
+        <?php
+        if (isset($_SESSION["extreme_debug_mode"])) {
+            echo "<span class='material-symbols-rounded'>bug_report</span>";
+        }
+        ?>
+    </a>
+    <a href="index.php"><img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile"></a>
+    <?php
+    if (isset($_SESSION["extreme_debug_mode"])) {
+        echo "<span class='material-symbols-rounded mobile'>bug_report</span>";
+    }
+    ?>
     <form class="searchbar" method="GET" action="search.php">
         <span class="material-symbols-rounded">search</span>
         <input name="q" type="text" placeholder="Keresés a sok UwU-ság között"

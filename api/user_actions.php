@@ -3,8 +3,8 @@
     include "users.php";
     include "comments.php";
     if (!isset($_SESSION["user"])) {
-        header("HTTP/1.1 403 Forbidden");
-        die("Ehhez a végponthoz nincs hozzáférésed, sorry :3");
+        header("Location: ../403.html");
+        exit;
     }
 
     if (!isset($_POST["action"])) {
@@ -22,7 +22,7 @@
         }
     }
 
-    function toggleFollow() {
+    function toggleFollow(): void {
         if (!isset($_POST["board"])) {
             header("HTTP/1.1 400 Bad Request");
             echo "Hibás kérés!";
@@ -38,18 +38,19 @@
         header("Location: $referer");
     }
 
-    function deleteEverything() {
+    function deleteEverything(): void {
+
+        echo "Felkészülés...<br>";
+        sleep(1);
 
         $start = time();
 
-        echo "Metaadatok törlése<br>";
-
         if (getUserField("profilePictureFilename") != "") {
-            echo " -> Profilkép<br>";
+            echo "-> Profilkép<br>";
             unlink("../data/images/".getUserField("profilePictureFilename"));
         }
 
-        echo " -> Poszt interakciók<br>";
+        echo "-> Poszt interakciók<br>";
         $likedPosts = getUserField("liked_posts", "..");
         $dislikedPosts = getUserField("disliked_posts", "..");
         foreach ($likedPosts as $post) {
@@ -59,7 +60,7 @@
             interactWithPost($post, "dislike", "..");
         }
 
-        echo " -> Posztok<br>";
+        echo "-> Posztok<br>";
         $posts = getUserPosts($_SESSION["user"], "..");
 
         foreach ($posts as $post) {
@@ -73,7 +74,7 @@
             unlink($file);
         }
 
-        echo " -> Kommentek<br>";
+        echo "-> Kommentek<br>";
         $comments = getUserComments($_SESSION["user"], "..");
 
         foreach ($comments as $comment) {
@@ -90,13 +91,28 @@
             saveComments($w, $commentList, "..");
         }
 
-        echo " -> Metaadatok<br>";
+        echo "-> Kapcsolatok<br>";
+        $friends_file = "../data/users/".$_SESSION["user"]."/friends.json";
+        $friends = json_decode(file_get_contents($friends_file), false);
+        foreach ($friends as $friend) {
+            unlink("../data/threads/".$friend->thread.".json");
+            $friend_data = "../data/users/".$friend->username."/friends.json";
+            $friend_data = json_decode(file_get_contents($friend_data), false);
+            for ($i = 0; $i < count($friend_data); $i++) {
+                if ($friend_data[$i]->username == $_SESSION["user"]) {
+                    array_splice($friend_data, $i, 1);
+                    break;
+                }
+            }
+            file_put_contents("../data/users/".$friend->username."/friends.json", json_encode($friend_data));
+        }
+
+        echo "-> Metaadatok<br>";
         unlink("../data/users/".$_SESSION["user"]."/followed_boards.json");
         unlink("../data/users/".$_SESSION["user"]."/friends.json");
         unlink("../data/users/".$_SESSION["user"]."/metadata.json");
         unlink("../data/users/".$_SESSION["user"]."/owned_boards.json");
         unlink("../data/users/".$_SESSION["user"]."/posts.json");
-        unlink("../data/users/".$_SESSION["user"]."/threads.json");
         unlink("../data/users/".$_SESSION["user"]."/comments.json");
         rmdir("../data/users/".$_SESSION["user"]);
 

@@ -5,9 +5,11 @@
         header("Location: index.php");
     }
 
+    $remembered = "";
     $error = login();
 
     function login(): string {
+        global $remembered;
 
         if (isset($_POST["login"]) && isset($_POST["pass"])) {
 
@@ -20,11 +22,25 @@
             if (!password_verify($_POST["pass"], $user["password"])) {
                 return "Hibás felhasználónév, vagy jelszó";
             }
+
+            if (isset($_POST["remember-me"])) {
+                setcookie("remembered-user", $_POST["login"], time()+60*60*24*30);
+            } else {
+                setcookie("remembered-user", "", time()-60*60*24*30);
+            }
+
             $_SESSION["user"] = $_POST["login"];
             header("Location: index.php");
 
+        } else {
+            if (isset($_GET["deleted"])) {
+                setcookie("remembered-user", "", time()-60*60*24*30);
+            } else {
+                if (isset($_COOKIE["remembered-user"])) {
+                    $remembered = $_COOKIE["remembered-user"];
+                }
+            }
         }
-
         return "";
 
     }
@@ -55,24 +71,23 @@
                 </div>
                 <h1 class="login-window-title">Jelentkezz be</h1>
                 <p>Nincs fiókod? <a href="register.php">Regisztráció</a></p>
+                <?php if ($error != "") { ?>
+                    <p class="error"><span class="material-symbols-rounded">error</span><?php echo $error ?></p>
+                <?php } ?>
                 <form method="post">
                     <div class="form-content">
                         <label>
                             <span>Felhasználónév</span>
-                            <input type="text" name="login" id="login-name" required>
+                            <input type="text" name="login" id="login-name" required <?php if ($remembered != "") echo "value='$remembered'" ?>>
                         </label>
                         <label>
                             <span>Jelszó</span>
                             <input type="password" name="pass" id="password" required>
                         </label>
-                        <label class="horizontal">
-                            <input type="checkbox" name="remember"><span>Jegyezz meg</span>
+                        <label class="horizontal has-description">
+                            <input type="checkbox" name="remember-me" <?php if ($remembered != "") echo "checked"?>><span>Jegyezz meg</span>
                         </label>
-                        <?php
-                        if ($error != "") {
-                            echo "<p id='login-error'>$error</p>";
-                        }
-                        ?>
+                        <p class="card-description">A felhasználóneveded 30 napra megjegyezzük, így nem kell mindig beírnod.</p>
                     </div>
                     <div class="button-box">
                         <button class="cta">Bejelentkezés</button>

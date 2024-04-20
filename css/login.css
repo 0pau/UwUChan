@@ -89,8 +89,6 @@
 #login-error {
     color: var(--destructive);
     margin: 0px 0px 10px;
-    padding: 5px;
-    text-align: center;
 }
 
 @media screen and (max-width: 450px) {

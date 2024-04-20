@@ -11,6 +11,10 @@
         display: none;
     }
 
+    nav .mobile {
+        display: flex!important;
+    }
+
     .desktop {
         display: none;
     }
@@ -164,6 +168,10 @@
         width: 100px;
     }
 
+    .post-card .post-image-stack a {
+        width: 100px;
+    }
+
     .post-view .post-images {
         margin-bottom: 0px;
         min-width: 100%;
@@ -201,10 +209,6 @@
     .button-box {
         flex-direction: column;
         width: 200px;
-    }
-
-    #pfp-change-ui .button-box {
-        margin: auto;
     }
 
     .button-box button, .button-box .button {

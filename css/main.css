@@ -81,6 +81,10 @@ section:not(.no-padding), .section-inset {
     padding: 25px;
 }
 
+.no-margin {
+    margin: 0px!important;
+}
+
 .section-head {
     margin: 0px 0px 25px;
     display: flex;
@@ -99,8 +103,7 @@ section > h1, .section-head > h1 {
 }
 
 section.help hr {
-    color: var(--borders);
-    opacity: 0.25;
+    width: 100%;
 }
 
 header:not(.login-window-head) {
@@ -117,10 +120,6 @@ header:not(.login-window-head) {
 
 header:not(.login-window-head) img.logo {
     width: 125px;
-}
-
-header .mobile {
-    display: none;
 }
 
 a:link {
@@ -433,6 +432,10 @@ nav a[href].current {
     font-size: 12px;
 }
 
+header .mobile, nav a[href].mobile {
+    display: none;
+}
+
 .go-up {
     width: 40px;
     height: 40px;
@@ -487,6 +490,17 @@ nav a[href].current {
     padding: 15px;
 }
 
+.card-description {
+    margin-top: 0px;
+    opacity: 0.75;
+    font-size: 13px;
+}
+
+.has-description {
+    margin-bottom: 8px!important;
+}
+
+
 .card-head a{
     display: flex;
     align-items: center;
@@ -505,13 +519,15 @@ nav a[href].current {
     width: 100%;
 }
 
-.post-body p.post-title {
+.post-body .post-title, .post-body a.post-title {
     font-size: 20px;
     font-weight: 500;
     margin: 0;
+    color: var(--text);
+    display: block;
 }
 
-.post-fragment a.post-body {
+.post-fragment .post-body {
     height: 100%;
     color: inherit;
 }
@@ -743,22 +759,49 @@ details {
 
 
 .error, .success {
-    margin: auto;
-    width: fit-content;
     display: block;
-    padding: 5px 10px;
+    padding: 10px;
+    border-left-width: 3px;
+    border-left-style: solid;
+    display: flex;
+    margin: 0px 0px 15px;
+    align-items: center;
+    gap: 10px;
 }
 
 .error {
     color: var(--destructive);
     background-color: var(--accent-transparent);
-    border: 1px var(--destructive) solid;
-    border-radius: 5px;
+    border-color: var(--destructive);
 }
 
 .success {
     color: var(--green);
     background-color: var(--green-transparent);
-    border: 1px var(--green) solid;
-    border-radius: 5px;
+    border-color: var(--green);
+}
+
+.tab-bar ~ .section-inset {
+    padding-top: 0px;
+}
+
+.pager {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: fit-content;
+    gap: 10px;
+}
+
+p.centered {
+    text-align: center;
+}
+
+hr {
+    width: 250px;
+    height: 1px;
+    background-color: var(--borders);
+    display: block;
+    border: none;
+    margin: 20px auto;
 }

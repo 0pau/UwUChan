@@ -3,7 +3,11 @@
 
     $error = "";
     $completed = false;
-    changePassword();
+    try {
+        changePassword();
+    } catch (Error $err) {
+        $error = $err->getMessage();
+    }
 
     function changePassword() {
         global $error;
@@ -13,20 +17,17 @@
         }
 
         if (!password_verify($_POST["current-pass"], getUserField("password"))) {
-            $error = "Helytelen jelszó";
-            return;
+            throw new Error("Helytelen jelszó");
         }
 
         $newPass = checkPassword($_POST["new-pass"]);
 
         if (!$newPass) {
-            $error = "A jelszó formátuma nem megfelelő.";
-            return;
+            throw new Error("A jelszó formátuma nem megfelelő");
         }
 
         if ($newPass != $_POST["new-pass-again"]) {
-            $error = "A jelszavak nem egyeznek.";
-            return;
+            throw new Error("A jelszavak nem egyeznek");
         }
 
         $newPassHash = password_hash($newPass, PASSWORD_DEFAULT);
@@ -67,6 +68,9 @@
                         <h1>Jelszó módosítása</h1>
                         <p>A jelszavad módosításához add meg a mostani jelszavad és add meg kétszer az új jelszót.</p>
                         <p>Tartsd észben, hogy <a href="help.php#password" target="_blank">milyen a jó jelszó</a>!</p>
+                        <?php if ($error != "") { ?>
+                            <p class="error"><span class="material-symbols-rounded">error</span><?php echo $error ?></p>
+                        <?php } ?>
                         <label>
                             <span>Jelenlegi jelszó</span>
                             <input type="password" name="current-pass" required>
@@ -79,11 +83,6 @@
                             <span>Új jelszó mégegyszer</span>
                             <input type="password" name="new-pass-again" required>
                         </label>
-                        <?php
-                            if ($error != "") {
-                                echo "<p id='login-error'>$error</p>";
-                            }
-                        ?>
                     </div>
                     <div class="button-box">
                         <a class="button" href="profile.php">Mégse</a>
