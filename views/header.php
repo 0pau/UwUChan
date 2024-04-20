@@ -8,7 +8,7 @@
 
 ?>
 <header>
-    <div class="color-variants header-side-element desktop">
+    <a href="index.php" class="color-variants header-side-element desktop">
         <img alt="UwUChan-embléma" class="logo light-variant" src="img/logo.svg">
         <img alt="UwUChan-embléma" class="logo dark-variant" src="img/logo-dark.svg">
         <?php
@@ -16,8 +16,8 @@
             echo "<span class='material-symbols-rounded'>bug_report</span>";
         }
         ?>
-    </div>
-    <img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile">
+    </a>
+    <a href="index.php"><img alt="UwUChan-embléma" src="img/logo-fill.svg" class="logo mobile"></a>
     <?php
     if (isset($_SESSION["extreme_debug_mode"])) {
         echo "<span class='material-symbols-rounded mobile'>bug_report</span>";

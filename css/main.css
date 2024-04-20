@@ -527,7 +527,7 @@ header .mobile, nav a[href].mobile {
     display: block;
 }
 
-.post-fragment a.post-body {
+.post-fragment .post-body {
     height: 100%;
     color: inherit;
 }

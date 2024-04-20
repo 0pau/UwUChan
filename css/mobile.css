@@ -168,6 +168,10 @@
         width: 100px;
     }
 
+    .post-card .post-image-stack a {
+        width: 100px;
+    }
+
     .post-view .post-images {
         margin-bottom: 0px;
         min-width: 100%;

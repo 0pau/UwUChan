@@ -41,7 +41,7 @@
                 if (count($post->images) == 1) {
                     $th = "$root/data/images/".$post->images[0]->thumbnail;
                     $title = $post->images[0]->title;
-                    echo "<a class=\"post-images\" href=\"index.php\">
+                    echo "<a class=\"post-images\" href=\"$root/data/images/".$post->images[0]->original."\">
                     <img src=\"$th\" alt=\"$title\">
                     <p>$title</p>
                 </a>";

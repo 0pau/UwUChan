@@ -1,7 +1,9 @@
 <?php
 
+    include "users.php";
+
     session_start();
-    if (!isset($_SESSION["user"]) || getUserField("privilege") < 1) {
+    if (!isset($_SESSION["user"]) || getUserField("privilege", "..") < 1) {
         header("Location: ../403.html");
         exit;
     }

@@ -43,3 +43,31 @@
 #comments {
     padding-bottom: 20px;
 }
+
+.post-images .post-image-stack {
+    width: 150px;
+}
+
+@media screen and (max-width: 700px) {
+
+    .post-images .post-image-stack {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .post-images .post-image-stack a {
+        rotate: 0deg;
+        pointer-events: all;
+        display: block;
+    }
+
+    .post-images .post-image-stack a:not(:first-child) {
+        margin-top: 0px;
+        left: 0;
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}

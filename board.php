@@ -25,7 +25,7 @@
 
     $board_icon = getBoardIcon($board_name);
 
-    $created_at = gmdate("Y. m. d.", $board_meta->created);
+    $created_at = date("Y. m. d.", $board_meta->created);
 
     $pager = 0;
     if (isset($_GET["p"])) {

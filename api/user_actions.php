@@ -39,16 +39,18 @@
     }
 
     function deleteEverything(): void {
+
+        echo "Felkészülés...<br>";
+        sleep(1);
+
         $start = time();
 
-        echo "Metaadatok törlése<br>";
-
         if (getUserField("profilePictureFilename") != "") {
-            echo " -> Profilkép<br>";
+            echo "-> Profilkép<br>";
             unlink("../data/images/".getUserField("profilePictureFilename"));
         }
 
-        echo " -> Poszt interakciók<br>";
+        echo "-> Poszt interakciók<br>";
         $likedPosts = getUserField("liked_posts", "..");
         $dislikedPosts = getUserField("disliked_posts", "..");
         foreach ($likedPosts as $post) {
@@ -58,7 +60,7 @@
             interactWithPost($post, "dislike", "..");
         }
 
-        echo " -> Posztok<br>";
+        echo "-> Posztok<br>";
         $posts = getUserPosts($_SESSION["user"], "..");
 
         foreach ($posts as $post) {
@@ -72,7 +74,7 @@
             unlink($file);
         }
 
-        echo " -> Kommentek<br>";
+        echo "-> Kommentek<br>";
         $comments = getUserComments($_SESSION["user"], "..");
 
         foreach ($comments as $comment) {
@@ -89,7 +91,23 @@
             saveComments($w, $commentList, "..");
         }
 
-        echo " -> Metaadatok<br>";
+        echo "-> Kapcsolatok<br>";
+        $friends_file = "../data/users/".$_SESSION["user"]."/friends.json";
+        $friends = json_decode(file_get_contents($friends_file), false);
+        foreach ($friends as $friend) {
+            unlink("../data/threads/".$friend->thread.".json");
+            $friend_data = "../data/users/".$friend->username."/friends.json";
+            $friend_data = json_decode(file_get_contents($friend_data), false);
+            for ($i = 0; $i < count($friend_data); $i++) {
+                if ($friend_data[$i]->username == $_SESSION["user"]) {
+                    array_splice($friend_data, $i, 1);
+                    break;
+                }
+            }
+            file_put_contents("../data/users/".$friend->username."/friends.json", json_encode($friend_data));
+        }
+
+        echo "-> Metaadatok<br>";
         unlink("../data/users/".$_SESSION["user"]."/followed_boards.json");
         unlink("../data/users/".$_SESSION["user"]."/friends.json");
         unlink("../data/users/".$_SESSION["user"]."/metadata.json");

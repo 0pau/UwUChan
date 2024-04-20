@@ -57,7 +57,7 @@ function checkBirthday($birthday) : bool|string {
     $birthday = strtotime($birthday);
 
     if ($today-$birthday >= (13*365*24*60*60)) {
-        return gmdate("Y-m-d", $birthday);
+        return date("Y-m-d", $birthday);
     }
 
     return false;
@@ -86,12 +86,13 @@ function validateText($text) : bool|string {
 
     $text = trim($text);
 
-    if ($text == "" || preg_match("/^(?!.*<\/?.*>).*$/", $text) == 0) {
+    if ($text == "" || preg_match("/^(?!.*<\/?.*>).*$/m", $text) == 0) {
         return false;
     }
 
     $text = str_replace("<", "&lt;", $text);
     $text = str_replace(">", "&gt;", $text);
+    $text = str_replace("\n", "<br>", $text);
 
     return $text;
 
