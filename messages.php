@@ -28,8 +28,6 @@
             <div class="list">
 
                 <?php
-                session_start();
-
                 $file_path = 'data/users/' . $_SESSION["user"] . '/friends.json';
                 $default_profile_picture = 'img/default_user_avatar.png';
                 $current_user = $_SESSION["user"];

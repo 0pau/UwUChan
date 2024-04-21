@@ -22,7 +22,6 @@
                 <a title="Vissza az üzenetekre" class="button icon flat" href="messages.php"><span class="material-symbols-rounded">arrow_back</span></a>
 
                 <?php
-                session_start();
                 $active_user = isset($_SESSION["user"]) ? $_SESSION["user"] : "";
                 $friends_file = "data/users/$active_user/friends.json";
                 $current_friend = $_GET['username'];

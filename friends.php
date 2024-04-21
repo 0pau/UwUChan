@@ -45,31 +45,33 @@
             }
             ?>
 
+
             <p class="card-header">Beérkezett barátkérelmek</p>
             <div class="list">
                 <?php
                 if (!empty($baratkerelmek)) {
                     foreach ($baratkerelmek as $barat) {
                         $profilkep = isset($barat['profile_picture']) ? $barat['profile_picture'] : $default_profile_picture;
-                        $felhasznalonev = $barat['n'];
+                        $felhasznalonev = $barat['username'];
                         $relationship = isset($barat['relationship']) ? $barat['relationship'] : 0;
 
-                        if ($relationship == 2) {
-                            echo "<div class=\"messages-card-head\" style=\"color: gray;\">
-                        <img class=\"user-profile-messages-avatar\" src=\"$profilkep\" alt=\"Profilkép\">
-                        <div class=\"messages-card-preview\">
-                            <span>$felhasznalonev - LETILTVA</span>
-                        </div>
-                      </div>";
-                        } else {
+                        $style = ($relationship == 2) ? 'style="color: gray;"' : '';
 
+                        if ($relationship == 2) {
+                            echo "<div class=\"messages-card-head\" $style>
+                    <img class=\"user-profile-messages-avatar\" src=\"$profilkep\" alt=\"Profilkép\">
+                    <div class=\"messages-card-preview\">
+                        <span>$felhasznalonev - LETILTVA</span>
+                    </div>
+                </div>";
+                        } else {
                             echo "<div class=\"messages-card-head\">
-                        <a href=\"profile-other.php\">
-                        <img class=\"user-profile-messages-avatar\" src=\"$profilkep\" alt=\"Profilkép\">
-                        </a>
-                      <div class=\"messages-card-preview\">
+                    <a href=\"profile-other.php?n=" . urlencode($felhasznalonev) . "\">
+                    <img class=\"user-profile-messages-avatar\" src=\"$profilkep\" alt=\"Profilkép\">
+                    </a>
+                    <div class=\"messages-card-preview\">
                         <span>$felhasznalonev</span>
-                      </div>
+                    </div>
                     <form method=\"post\" action=\"friends.php\">
                         <input type=\"hidden\" name=\"friend_username\" value=\"$felhasznalonev\">
                         <input type=\"hidden\" name=\"action\" value=\"accept\">
@@ -87,13 +89,14 @@
                         <input type=\"hidden\" name=\"action\" value=\"block\">
                         <button type=\"submit\" title=\"Letiltás\" class=\"flat icon\"><span class=\"material-symbols-rounded\">block</span></button>
                     </form>
-                    </div>";
+                </div>";
                         }
                     }
                 } else {
                     echo "Nincs függőben lévő barátkérelmed.";
                 }
                 ?>
+
 
 
             </div>
@@ -109,7 +112,7 @@
                         $style = ($relationship == 2) ? 'style="color: gray;"' : '';
 
                         echo "<div class=\"messages-card-head\" $style>
-                <a href=\"\">
+                <a href=\"profile-other.php?n=" . urlencode($felhasznalonev) . "\">
                 <img class=\"user-profile-messages-avatar\" src=\"$profilkep\" alt=\"Profilkép\">
                 </a>
             
@@ -136,14 +139,7 @@
                 ?>
 
 
-
                 <?php
-                session_start();
-
-                if (!isset($_SESSION["user"])) {
-                    die("Nincs bejelentkezve felhasználó.");
-                }
-
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if (isset($_POST["action"]) && isset($_POST["friend_username"])) {
                         $action = $_POST["action"];
@@ -239,7 +235,37 @@
                         mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
                     );
                 }
+
+                if ($action === "send_request") {
+                    if (!file_exists($sender_file_path)) {
+                        file_put_contents($sender_file_path, json_encode([]));
+                    }
+                    $sender_json = json_decode(file_get_contents($sender_file_path), true);
+                    $exists = false;
+                    foreach ($sender_json as $entry) {
+                        if ($entry['username'] === $_SESSION['user']) {
+                            $exists = true;
+                            break;
+                        }
+                    }
+                    if (!$exists) {
+                        $sender_json[] = [
+                            "username" => $_SESSION["user"],
+                            "relationship" => 0,
+                            "thread" => "",
+                            "seen_last_reaction" => false
+                        ];
+                        file_put_contents($sender_file_path, json_encode($sender_json, JSON_PRETTY_PRINT));
+                    }
+                }
+
+
+
                 ?>
+
+
+
+
 
             </div>
         </section>
