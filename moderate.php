@@ -51,11 +51,15 @@ if ($offset < 0) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $content_status = $_POST['content_status'] ?? 'inappropriate';
 
+                if (file_exists($postPath)) {
+                    $post = json_decode(file_get_contents($postPath), true);
+                    $post['hidden'] = false;
+                    file_put_contents($postPath, json_encode($post));
+                    $message = "<p class=\"success\"><span class=\"material-symbols-rounded\">check_circle</span>A tartalom megfelelt az UwUChan szabályainak, ezért vissza lett állítva.</p>";
+                }
+
                 if ($content_status === 'appropriate') {
                     if (file_exists($postPath)) {
-                        $post = json_decode(file_get_contents($postPath), true);
-                        $post['hidden'] = false;
-                        file_put_contents($postPath, json_encode($post));
                         $message = "<p class=\"success\"><span class=\"material-symbols-rounded\">check_circle</span>A tartalom megfelelt az UwUChan szabályainak, ezért vissza lett állítva.</p>";
                     }
                 } elseif ($content_status === 'inappropriate') {

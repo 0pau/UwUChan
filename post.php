@@ -130,7 +130,6 @@
                         </div>
                         <div class="reaction-bar">
                             <a class="button flat hide-text-on-mobile" href="report.php?w=<?php echo $_GET["n"]?>"><span class="material-symbols-rounded">emoji_flags</span><span>Bejelentés</span></a>
-                            <a class="button flat hide-text-on-mobile" href="index.php"><span class="material-symbols-rounded">share</span><span>Megosztás</span></a>
                             <form class="right" action="api/post_actions.php" method="POST">
                                 <input type="hidden" name="action" value="like">
                                 <input type="hidden" name="data" value="<?php echo $_GET["n"]; ?>">

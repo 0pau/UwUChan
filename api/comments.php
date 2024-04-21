@@ -80,7 +80,6 @@
                         <span class=\"post-profile-message-sent-time\">".date("Y. m. d. H:i", $comment->posted_at)."</span>
                     </a>
                     <button onclick=\"showReplyUI('".$comment->id."', '".$comment->username."')\" class=\"flat right icon\"><span class=\"material-symbols-rounded\">reply</span></button>
-                <button class=\"flat icon\"><span class=\"material-symbols-rounded\">flag</span></button>
                 </div>
                 <p>$comment->text</p><div class='comment-thread'>";
             foreach ($comment->replies as $c) {

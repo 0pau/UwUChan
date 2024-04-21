@@ -17,9 +17,15 @@
         $post = json_decode($post, false);
 
         $user_target = ($post->author != "[törölt]")?"href=\"profile-other.php?n=$post->author\"":"";
+        $blurred = "";
+        if (isset($post->hidden)) {
+            if ($post->hidden && !$isPreview) {
+                $blurred = "blur";
+            }
+        }
 
         echo "
-        <div class=\"post-card\">
+        <div class=\"post-card $blurred\">
             <div class=\"card-head\">
                 <a $user_target>
                     <img class=\"user-profile-blog-avatar\" src=\"".getUserProfilePicture($post->author)."\" alt=\"$post->author profilképe\">

@@ -25,6 +25,7 @@
               <label class="card-header">Bejelenteni kívánt tartalom</label>
 
               <?php
+              $reported=false;
               $metadataPath = "data/reports/reportsmetadata.json";
               $metadata = json_decode(file_get_contents($metadataPath), true);
               ?>
@@ -91,14 +92,13 @@
                   $metadata = file_exists($metadataPath) ? json_decode(file_get_contents($metadataPath), true) : ['queue' => 0];
                   $metadata['queue']++;
                   if (file_put_contents($reportFilePath, json_encode($report, JSON_PRETTY_PRINT))) {
-                      echo "A bejelentést sikeresen továbbítottad a moderátoroknak!";
+                      echo "<p class=\"success\"><span class=\"material-symbols-rounded\">check_circle</span>A bejelentést sikeresen továbbítottad a moderátoroknak!</p>";
                       file_put_contents($metadataPath, json_encode($metadata, JSON_PRETTY_PRINT));
                   } else {
-                      echo "Error saving report.";
+                      echo "A report mentése nem sikerült.";
                   }
               }
               ?>
-
 
 
               <?php if (!$reportSuccess): ?>
