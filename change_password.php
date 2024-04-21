@@ -34,6 +34,8 @@
         changeUserField("password", $newPassHash);
         $completed = true;
 
+        //sendSystemMessage($_SESSION["user"], "A jelszavad megváltozott.");
+
     }
 
 

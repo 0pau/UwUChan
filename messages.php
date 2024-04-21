@@ -1,4 +1,5 @@
-<?php session_start(); include "api/users.php"; include "api/acl.php"?>
+<?php session_start(); include "api/users.php"; include "api/acl.php";
+include "api/util.php";?>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -28,17 +29,21 @@
             <div class="list">
 
                 <?php
+
                 $file_path = 'data/users/' . $_SESSION["user"] . '/friends.json';
-                $default_profile_picture = 'img/default_user_avatar.png';
                 $current_user = $_SESSION["user"];
                 $message_count = 0;
 
                 if (file_exists($file_path)) {
                     $json_tomb = json_decode(file_get_contents($file_path), true);
 
+                    usort($json_tomb, function ($a, $b) {
+                        return $a["lastInteraction"] < $b["lastInteraction"];
+                    });
+
                     foreach ($json_tomb as $barat) {
                         $username = $barat['username'];
-                        if ($barat['relationship'] === 1) {
+                        if ($barat['relationship'] === 1 || $barat['relationship'] === 2) {
                             $thread_file_path = 'data/threads/' . $barat['thread'] . '.json';
                             if (file_exists($thread_file_path)) {
                                 $thread_messages = json_decode(file_get_contents($thread_file_path), true);
@@ -48,18 +53,19 @@
                                 });
 
                                 $last_message = reset($thread_messages);
-                                $sender_prefix = ($last_message['username'] === $current_user) ? '[Te]: ' : '';
+                                $sender_prefix = ($last_message['username'] === $current_user) ? 'Te: ' : '';
+                                $seen = ($barat['seenLastInteraction'])?"":"unseen";
 
                                 echo "<div class='messages-card-head'>
                             <a href='profile-other.php?n=$username'>
-                            <img class='user-profile-messages-avatar' src='$default_profile_picture' alt='Profilkép'>
+                            <img class='user-profile-messages-avatar' src='".getUserProfilePicture($username)."' alt='Profilkép'>
                             </a>
                             
-                            <a href='thread.php?username=$username' class='messages-card-preview'>
-                            <span>" . $username . "</span>
-                            <p>" . $sender_prefix . $last_message['text'] . "</p>
+                            <a href='thread.php?username=$username' class='messages-card-preview $seen'>
+                                <span>" . $username . "</span>
+                                <p>" . $sender_prefix . $last_message['text'] . "</p>
                             </a>
-                            <span class='time-since-last'>2 perce</span>
+                            <span class='time-since-last $seen'>".formatDateRelative($barat['lastInteraction'])."</span>
                           </div>";
 
                                 $message_count++;
@@ -72,12 +78,7 @@
                     }
                 }
                 ?>
-
-
-
-
-
-
+            </div>
         </section>
     </div>
 </main>

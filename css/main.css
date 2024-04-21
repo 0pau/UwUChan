@@ -401,6 +401,7 @@ nav a[href]:link, nav a[href]:visited {
     border-radius: 7px;
     border: 1px solid transparent;
     transition: background-color 0.25s, border-color 0.25s;
+    position: relative;
 }
 
 nav a[href] img {
@@ -804,4 +805,18 @@ hr {
     display: block;
     border: none;
     margin: 20px auto;
+}
+
+.unread-badge {
+    font-size: 10px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    background-color: var(--destructive);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 100%;
 }

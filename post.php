@@ -90,7 +90,10 @@
                 <section class="no-padding">
                     <div class="post-view">
                         <div class="card-head">
-                            <a href="profile-other.php?n=<?php echo $post_meta->author ?>">
+                            <?php
+                                $user_target = ($post_meta->author != "[törölt]")?"href=\"profile-other.php?n=$post_meta->author\"":"";
+                            ?>
+                            <a <?php echo $user_target ?>>
                                 <img class="user-profile-blog-avatar" src="<?php echo getUserProfilePicture($post_meta->author) ?>" alt="Profilkép">
                                 <span><?php echo $post_meta->author ?></span>
                             </a>
@@ -117,7 +120,6 @@
                                         echo "<a href=\"data/images/$image->original\"><img src=\"$th\" alt=\"$title\"></a>";
                                     }
                                     $count = count($post_meta->images);
-
                                     echo "</div><p>$count kép</p></div>";
                                 }
                             } ?>

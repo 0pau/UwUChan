@@ -101,7 +101,7 @@
                         } else {
                             if (count($posts) != 0) {
                                 foreach ($posts as $post) {
-                                    getPostCard($post);
+                                    getPostCard($post, "post.php?n=$post");
                                 }
                             }
                         }

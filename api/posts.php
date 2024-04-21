@@ -3,7 +3,7 @@
     include_once "users.php";
     include_once "util.php";
 
-    function getPostCard($which, $isPreview = false, $root = ".") : bool {
+    function getPostCard($which, $target, $isPreview = false, $root = ".") : bool {
 
         $file = $root."/data/boards/$which.json";
         if (!file_exists($file)) {
@@ -16,10 +16,12 @@
         $post = file_get_contents($file);
         $post = json_decode($post, false);
 
+        $user_target = ($post->author != "[törölt]")?"href=\"profile-other.php?n=$post->author\"":"";
+
         echo "
         <div class=\"post-card\">
             <div class=\"card-head\">
-                <a href=\"profile-other.php?n=$post->author\">
+                <a $user_target>
                     <img class=\"user-profile-blog-avatar\" src=\"".getUserProfilePicture($post->author)."\" alt=\"$post->author profilképe\">
                     <span>$post->author</span>
                 </a>
@@ -74,7 +76,7 @@
 
             echo "<div class=\"post-fragment\">
                             <div class=\"post-body\">
-                                <a href=\"post.php?n=$which\" class=\"post-title\">$post->title</a>
+                                <a href=\"$target\" class=\"post-title\">$post->title</a>
                                 <p class=\"post-text\">$post->body</p>
                             </div>";
             if (!$isPreview) {
@@ -96,7 +98,7 @@
         return true;
     }
 
-    function uploadPost($root = ".") {
+    function uploadPost($root = "."): void {
 
         if ($_SERVER["CONTENT_LENGTH"] > 8388608) {
             throw new Error("A poszt összmérete meghaladja a 8 megabájtot.");
@@ -191,4 +193,20 @@
 
         header("Location: $root/post.php?n=$board/$number");
 
+    }
+
+    function deletePost($post, $root) : void{
+        $file = "$root/data/boards/$post.json";
+        $data = file_get_contents($file);
+        $data = json_decode($data, false);
+        foreach ($data->images as $image) {
+            unlink("../data/images/$image->original");
+            unlink("../data/images/$image->thumbnail");
+        }
+        $data->title = "[törölt]";
+        $data->body = "[törölt]";
+        $data->author = "[törölt]";
+        $data->images = [];
+        $data->comments = [];
+        file_put_contents($file, json_encode($data, JSON_UNESCAPED_UNICODE));
     }

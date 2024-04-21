@@ -18,6 +18,14 @@
     width: 100%;
 }
 
+.messages-card-preview.blocked {
+    opacity: 0.5;
+}
+
+.messages-card-preview.unseen {
+    color: var(--destructive)!important;
+}
+
 .messages-card-head p{
     margin: 0;
 }
@@ -30,4 +38,16 @@
     opacity: 0.75;
     font-size: smaller;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.time-since-last.unseen::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: var(--destructive);
+    display: block;
+    border-radius: 100%;
 }

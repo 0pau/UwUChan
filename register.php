@@ -82,6 +82,7 @@
             if (createUser($new_user, $filelist)) {
                 session_start();
                 $_SESSION["user"] = $new_user->nickname;
+                sendSystemMessage($_SESSION["user"], "Üdvözöl az UwUChan! Ez egy rendszerüzenet.", ".");
                 setcookie("remembered-user", "", time()-60*60*24*30);
                 header("Location: onboarding.php");
             }

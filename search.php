@@ -82,7 +82,7 @@
                         <div class="list">
                             <?php
                             foreach ($foundPosts as $post) {
-                                getPostCard($post, true);
+                                getPostCard($post, "post.php?n=$post", true);
                             }
                             ?>
                         </div>
@@ -93,13 +93,7 @@
                         <?php
                             foreach ($foundBoards as $board) {
                                 $boardIcon = getBoardIcon($board->name);
-                                echo "<div class=\"messages-card-head\">
-                                            <img class=\"user-profile-messages-avatar\" src=\"$boardIcon\" alt=\"$board->name ikonja\">
-                                            <a href=\"board.php?n=$board->name\" class=\"messages-card-preview\">
-                                                <span>$board->name</span>
-                                                <p>$board->bio</p>
-                                            </a>
-                                            </div>";
+                                echo "<div class=\"messages-card-head\"><img class=\"user-profile-messages-avatar\" src=\"$boardIcon\" alt=\"$board->name ikonja\"><a href=\"board.php?n=$board->name\" class=\"messages-card-preview\"><span>$board->name</span><p>$board->bio</p></a></div>";
                             }
                         ?>
                     </div>

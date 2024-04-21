@@ -38,71 +38,42 @@ $posts = getUserPosts($profileUsername);
                 <img alt="Profilkép" class="board-backdrop" src="<?php echo getUserProfilePicture($profileUsername); ?>">
                 <img alt="Profilkép" class="board-head-image" src="<?php echo getUserProfilePicture($profileUsername); ?>">
                 <div class="board-head-details">
-                    <h1><?php echo htmlspecialchars($profileUsername); ?></h1>
+                    <h1><?php echo $profileUsername; ?></h1>
                 </div>
 
                 <?php
-                $current_user = $_SESSION['user'];
-                $profile_user = $_GET['n'];
+
+                $current_user = $_SESSION["user"];
+                $profile_user = $profileUsername;
 
                 if ($current_user === $profile_user) {
                     echo "Saját magad nem tudod bejelölni!";
-                    exit;
                 }
 
                 $current_user_file = "data/users/{$current_user}/friends.json";
                 $profile_user_file = "data/users/{$profile_user}/friends.json";
-                $relationship_status = null;
-                $request_pending = false;
+                $relationship_status = getRelationship($profileUsername, true);
 
-                if (file_exists($current_user_file)) {
-                    $friends = json_decode(file_get_contents($current_user_file), true);
-                    foreach ($friends as $friend) {
-                        if ($friend['username'] === $profile_user) {
-                            $relationship_status = $friend['relationship'];
+                if ($current_user != $profile_user) {
+                    switch ($relationship_status) {
+                        case -2:
+                            echo '<form action="api/user_actions.php" method="post"><input type="hidden" name="username" value="' . $profileUsername . '"><input type="hidden" name="action" value="sendFriendRequest"><button type="submit">Barátkérelem küldése</button></form>';
                             break;
-                        }
+                        case -1:
+                            echo '<form action="api/user_actions.php" method="post"><input type="hidden" name="username" value="' . $profileUsername . '"><input type="hidden" name="action" value="removeFriend"><button type="submit">Barátkérelem visszavonása</button></form>';
+                            break;
+                        case 0:
+                            echo '<form action="api/user_actions.php" method="post"><input type="hidden" name="username" value="' . $profileUsername . '"><input type="hidden" name="action" value="acceptRequest"><button type="submit">Barátkérelem elfogadása</button></form>';
+                            break;
+                        case 1:
+                            echo '<form action="api/user_actions.php" method="post"><input type="hidden" name="username" value="' . $profile_user . '"><input type="hidden" name="action" value="removeFriend"><button type="submit">Barát eltávolítása</button></form><form action="api/user_actions.php" method="post"><input type="hidden" name="username" value="' . $profile_user . '"><input type="hidden" name="action" value="blockUser"><button type="submit">Letiltás</button></form>';
+                            break;
+                        case 2:
+                            echo '<form action="api/user_actions.php" method="post"><input type="hidden" name="username" value="' . $profileUsername . '"><input type="hidden" name="action" value="unblockUser"><button type="submit">Tiltás visszavonása</button></form>';
+                            break;
                     }
                 }
-
-                if (file_exists($profile_user_file)) {
-                    $profile_friends = json_decode(file_get_contents($profile_user_file), true);
-                    foreach ($profile_friends as $friend) {
-                        if ($friend['username'] === $current_user && $friend['relationship'] === 0) {
-                            $request_pending = true;
-                            break;
-                        }
-                    }
-                }
-
-                if ($relationship_status === 1) {
-                    echo '<form action="friends.php" method="post">
-                            <input type="hidden" name="friend_username" value="' . htmlspecialchars($profile_user) . '">
-                            <input type="hidden" name="action" value="remove">
-                            <button type="submit">Barát eltávolítása</button>
-                        </form>
-                        <form action="friends.php" method="post">
-                            <input type="hidden" name="friend_username" value="' . htmlspecialchars($profile_user) . '">
-                            <input type="hidden" name="action" value="block">
-                            <button type="submit">Barát blokkolása</button>
-                        </form>';
-                                } elseif ($relationship_status === 0) {
-                                    echo 'Barátkérelem már elküldve.';
-                                } elseif ($request_pending) {
-                                    echo '<form action="friends.php" method="post">
-                            <input type="hidden" name="friend_username" value="' . htmlspecialchars($profile_user) . '">
-                            <input type="hidden" name="action" value="accept">
-                            <button type="submit">Barátkérelem Elfogadása</button>
-                        </form>';
-                                } else {
-                                    echo '<form action="friends.php" method="post">
-                            <input type="hidden" name="friend_username" value="' . htmlspecialchars($profile_user) . '">
-                            <input type="hidden" name="action" value="send_request">
-                            <button type="submit">Barátkérelem küldése</button>
-                        </form>';
-                                }
-                                ?>
-
+                ?>
 
             </div>
             <div class="section-inset">
@@ -114,7 +85,7 @@ $posts = getUserPosts($profileUsername);
                 <?php } else {
                     include_once "api/posts.php";
                     foreach ($posts as $post) {
-                        getPostCard($post);
+                        getPostCard($post, "post.php?n=$post");
                     }
                 } ?>
             </div>

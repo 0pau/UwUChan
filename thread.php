@@ -1,4 +1,41 @@
-<?php session_start(); include "api/users.php"; include "api/acl.php"?>
+<?php
+    session_start();
+    include "api/users.php";
+    include "api/acl.php";
+
+    if (!isset($_GET["username"]) || !trim($_GET["username"]) || !userExists($_GET["username"])) {
+        include "404.html";
+        die();
+    }
+
+    $friend = trim($_GET["username"]);
+    $friends_file = "data/users/".$_SESSION["user"]."/friends.json";
+
+    $relationship_status = -1;
+
+    if ($friend == "SYSTEM") {
+        $relationship_status = 2;
+    } else {
+        $relationship_status = getRelationship($friend);
+    }
+
+
+    $active_user = $_SESSION["user"];
+    $friend_username = $_GET['username'];
+    $friendship_file = "data/users/{$active_user}/friends.json";
+
+    $friends_data = json_decode(file_get_contents($friendship_file), true);
+    $thread_id = "";
+
+    for ($i = 0; $i < count($friends_data); $i++) {
+        if ($friends_data[$i]['username'] == $friend_username) {
+            $friends_data[$i]['seenLastInteraction'] = true;
+            break;
+        }
+    }
+    file_put_contents($friendship_file, json_encode($friends_data, JSON_PRETTY_PRINT));
+
+?>
 <!doctype html>
 <html lang="hu">
 <head>
@@ -11,8 +48,14 @@
     <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/thread.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <script>
+        function scrollToLast() {
+            let message = document.querySelector('.message:last-of-type');
+            message.scrollIntoView(false);
+        }
+    </script>
 </head>
-<body class="<?php include "api/theme.php"?>">
+<body class="<?php include "api/theme.php"?>" onload="scrollToLast()">
 <main>
     <?php include "views/header.php" ?>
     <div class="main-flex">
@@ -22,71 +65,37 @@
                 <a title="Vissza az üzenetekre" class="button icon flat" href="messages.php"><span class="material-symbols-rounded">arrow_back</span></a>
 
                 <?php
-                $active_user = isset($_SESSION["user"]) ? $_SESSION["user"] : "";
-                $friends_file = "data/users/$active_user/friends.json";
-                $current_friend = $_GET['username'];
-
-                if(file_exists($friends_file)) {
                     $friends_json = file_get_contents($friends_file);
                     $friends_data = json_decode($friends_json, true);
 
-                    if($current_friend) {
-                        echo "<span class='user-name'>$current_friend</span>";
-                        if(!isset($_GET['username'])) {
-                            $_GET['username'] = $current_friend;
-                            $redirect_url = http_build_query($_GET);
-                            header("Location: thread.php?$redirect_url");
-                            exit;
-                        }
+                    if($friend) {
+                        echo "<span class='user-name'>$friend</span>";
                     } else {
                         echo "<p>Nincs olyan barát, akivel a felhasználó beszélget.</p>";
                     }
-                } else {
-                    echo "<p>Nincs adat a friends.json fájlban.</p>";
-                }
-
                 ?>
 
-                <?php
-                echo "<form method='post'>";
-                echo "<input type='hidden' name='block_user' value='1'>";
-                echo "<button type='submit' title='Felhasználó tiltása' class='right flat icon'>";
-                echo "<span class='material-symbols-rounded'>block</span></button>";
-                echo "</form>";
-                ?>
+                <?php if ($friend != "SYSTEM" && $relationship_status != 2) { ?>
+                <form method='post' action='api/user_actions.php'>
+                    <input type='hidden' name='action' value='blockUser'>
+                    <input type='hidden' name='username' value='<?php echo $friend ?>'>
+                    <button type='submit' title='Felhasználó tiltása' class='right flat icon'>
+                    <span class='material-symbols-rounded'>block</span></button>
+                </form>
+                <?php } else if ($friend != "SYSTEM" && $relationship_status == 2) { ?>
+                    <form method='post' action='api/user_actions.php'>
+                        <input type='hidden' name='action' value='unblockUser'>
+                        <input type='hidden' name='username' value='<?php echo $friend ?>'>
+                        <button type='submit' title='Tiltás visszavonása' class='right flat icon'>
+                            <span class='material-symbols-rounded'>undo</span></button>
+                    </form>
+                <?php } ?>
             </div>
             <div class="thread">
-
                 <?php
-                session_start();
-
-                if (!isset($_SESSION["user"])) {
-                    echo "<p>Nincs bejelentkezve felhasználó.</p>";
-                    exit;
-                }
-
-                $active_user = $_SESSION["user"];
-                if (!isset($_GET['username'])) {
-                    echo "<p>Nem sikerült meghatározni a beszélgetés résztvevőjét.</p>";
-                    exit;
-                }
-
-                $friend_username = $_GET['username'];
-                $friendship_file = "data/users/{$active_user}/friends.json";
-
-
-                if (!file_exists($friendship_file)) {
-                    echo "<p>Nem található a felhasználó barátainak listája.</p>";
-                    exit;
-                }
-
-                $friends_data = json_decode(file_get_contents($friendship_file), true);
-                $are_friends = false;
-                $thread_id = "";
 
                 foreach ($friends_data as &$friend) {
-                    if ($friend['username'] === $friend_username && $friend['relationship'] === 1) {
-                        $are_friends = true;
+                    if ($friend['username'] === $friend_username) {
                         $thread_id = $friend['thread'];
 
                         if ($_SERVER["REQUEST_METHOD"] != "POST") {
@@ -94,26 +103,8 @@
                         }
                         break;
                     }
-
                 }
-
-                file_put_contents($friendship_file, json_encode($friends_data, JSON_PRETTY_PRINT));
-
-                if (!$are_friends || $thread_id == "") {
-                    echo "<p>A két felhasználó nem barátok, vagy nem található a beszélgetés.</p>";
-                    exit;
-                }
-
                 $thread_file = "data/threads/{$thread_id}.json";
-                if (!file_exists($thread_file)) {
-                    echo "<p>Nem található a beszélgetés fájlja.</p>";
-                    exit;
-                }
-
-
-
-
-
                 $thread_data = json_decode(file_get_contents($thread_file), true);
                 usort($thread_data, function ($a, $b) {
                     return $a['posted-at'] - $b['posted-at'];
@@ -159,7 +150,8 @@
                     }
                 }
 
-                function processNewMessage(&$thread_data, $thread_file, $active_user, $thread_id) {
+                function processNewMessage(&$thread_data, $thread_file, $active_user) {
+                    global $friend;
                     $new_message = array(
                         "id" => end($thread_data)['id'] + 1,
                         "username" => $active_user,
@@ -170,22 +162,29 @@
                     $thread_data[] = $new_message;
                     file_put_contents($thread_file, json_encode($thread_data, JSON_PRETTY_PRINT));
 
-                    updateSeenLastReaction($active_user, $thread_id, false);
-                    echo "<meta http-equiv='refresh' content='0'>";
-                }
-
-                function updateSeenLastReaction($user, $thread_id, $seen) {
-                    $file = "data/users/{$user}/friends.json";
-                    if (file_exists($file)) {
-                        $friends_data = json_decode(file_get_contents($file), true);
-                        foreach ($friends_data as &$friend) {
-                            if ($friend['thread'] == $thread_id) {
-                                $friend['seen_last_reaction'] = $seen;
-                                break;
-                            }
+                    $firend_file = "data/users/".$friend["username"]."/friends.json";
+                    $friend_data = json_decode(file_get_contents($firend_file), true);
+                    for ($i = 0; $i < count($friend_data); $i++) {
+                        if ($friend_data[$i]['username'] == $_SESSION["user"]) {
+                            $friend_data[$i]['seenLastInteraction'] = false;
+                            $friend_data[$i]['lastInteraction'] = time();
+                            break;
                         }
-                        file_put_contents($file, json_encode($friends_data, JSON_PRETTY_PRINT));
                     }
+
+                    $my_data_file = "data/users/".$_SESSION["user"]."/friends.json";
+                    $my_data = json_decode(file_get_contents($my_data_file), true);
+                    for ($i = 0; $i < count($my_data); $i++) {
+                        if ($my_data[$i]['username'] == $friend["username"]) {
+                            $my_data[$i]['lastInteraction'] = time();
+                            break;
+                        }
+                    }
+
+                    file_put_contents($firend_file, json_encode($friend_data, JSON_PRETTY_PRINT));
+                    file_put_contents($my_data_file, json_encode($my_data, JSON_PRETTY_PRINT));
+
+                    echo "<meta http-equiv='refresh' content='0'>";
                 }
 
                 function handleDeleteMessage($message_id, &$thread_data, $thread_file, $active_user) {
@@ -214,54 +213,16 @@
                     echo "<meta http-equiv='refresh' content='0'>";
                 }
                 ?>
-
-
             </div>
 
-            <?php
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['block_user'])) {
-                blockUser($friends_data, $friendship_file, $active_user, $friend_username);
-            }
-
-            function blockUser(&$friends_data, $friendship_file, $active_user, $blocked_user) {
-                foreach ($friends_data as &$friend) {
-                    if ($friend['username'] === $blocked_user) {
-                        $friend['relationship'] = 2;
-                        file_put_contents($friendship_file, json_encode($friends_data, JSON_PRETTY_PRINT));
-                        echo "<div class='thread-toolbar bottom my-comment-bar'>";
-                        echo "<form method='post' action='thread.php?username=" . "'>";
-                        echo "<p>Erre a beszélgetésre nem válaszolhatsz!</p>";
-                        echo "</form>";
-                        echo "</div>";
-                        exit;
-                    }
-                }
-            }
-
-
-            $relationship_status = 1;
-
-            foreach ($friends_data as $friend) {
-                if ($friend['username'] === $friend_username) {
-                    $relationship_status = $friend['relationship'];
-                    break;
-                }
-            }
-
-
-            if ($relationship_status == 2) {
-                echo "<p>Erre a beszélgetésre nem válaszolhatsz.</p>";
-            } else {
-                echo "<div class='thread-toolbar bottom my-comment-bar'>";
-                echo "<form method='post' action='thread.php?username=" . htmlspecialchars($friend_username) . "'>";
-                echo "<input type='text' placeholder='Ide írd az üzenetet' id='message' name='message' required>";
-                echo "<button type='submit' class='flat'><span class='material-symbols-rounded'>send</span></button>";
-                echo "</form>";
-                echo "</div>";
-
-            }
-            ?>
+            <?php if ($relationship_status == 2) { ?>
+                <div class='thread-toolbar bottom my-comment-bar'><p>Erre a beszélgetésre nem válaszolhatsz.</p></div>
+            <?php } else { ?>
+                <form class='thread-toolbar bottom my-comment-bar' method='post' action='thread.php?username=<?php echo $friend_username?>'>
+                    <input type='text' placeholder='Ide írd az üzenetet' id='message' name='message' required>
+                    <button type='submit' class='flat'><span class='material-symbols-rounded'>send</span></button>
+                </form>
+            <?php } ?>
 
         </section>
     </div>

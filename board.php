@@ -104,7 +104,7 @@
 
                                 while ($shown_count < POST_PER_SCREEN && !$is_last) {
 
-                                    if (getPostCard("$board_name/$last_id")) {
+                                    if (getPostCard("$board_name/$last_id", "post.php?n=$board_name/$last_id")) {
                                         $shown_count++;
                                     }
                                     $last_id--;
@@ -125,104 +125,6 @@
                         <?php } else {
                             echo "<p class='disabled centered'>Elérted az üzenőfal végét.</p>";
                         } ?>
-                        <!--
-                        <div class="post-card">
-                            <div class="card-head">
-                                <a href="profile-other.php">
-                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                    <span>randomUser52</span>
-                                </a>
-                                <span class="material-symbols-rounded">arrow_right</span>
-                                <a href="board.html">
-                                    <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                    <span>macskak</span>
-                                </a>
-                                <a class="right button icon flat" href="index.php"><span class="material-symbols-rounded">emoji_flags</span></a>
-                            </div>
-                            <div class="post-content">
-                                <a class="post-images" href="index.php">
-                                    <img src="./img/blog_macska.jpg" alt="macska">
-                                    <p>DSC_3829.jpg</p>
-                                </a>
-                                <div class="post-fragment">
-                                    <a href="post.php" class="post-body">
-                                        <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
-                                        <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
-                                            A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
-                                    </a>
-                                    <div class="reaction-bar">
-                                        <a class="button flat" href="post.php"><span class="material-symbols-rounded">forum</span>18</a>
-                                        <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
-                                        <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-card">
-                            <div class="card-head">
-                                <a href="profile-other.php">
-                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                    <span>randomUser52</span>
-                                </a>
-                                <span class="material-symbols-rounded">arrow_right</span>
-                                <a href="board.html">
-                                    <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                    <span>macskak</span>
-                                </a>
-                                <a class="right button icon flat" href="index.php"><span class="material-symbols-rounded">emoji_flags</span></a>
-                            </div>
-                            <div class="post-content">
-                                <a class="post-images" href="index.php">
-                                    <img src="./img/blog_macska.jpg" alt="macska">
-                                    <p>DSC_3829.jpg</p>
-                                </a>
-                                <div class="post-fragment">
-                                    <a href="post.php" class="post-body">
-                                        <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
-                                        <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
-                                            A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
-                                    </a>
-                                    <div class="reaction-bar">
-                                        <a class="button flat" href="index.php"><span class="material-symbols-rounded">forum</span>18</a>
-                                        <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
-                                        <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-card">
-                            <div class="card-head">
-                                <a href="profile-other.php">
-                                    <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                    <span>randomUser52</span>
-                                </a>
-                                <span class="material-symbols-rounded">arrow_right</span>
-                                <a href="board.html">
-                                    <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                    <span>macskak</span>
-                                </a>
-                                <a class="right button icon flat" href="index.php"><span class="material-symbols-rounded">emoji_flags</span></a>
-                            </div>
-                            <div class="post-content">
-                                <a class="post-images" href="index.php">
-                                    <img src="./img/blog_macska.jpg" alt="macska">
-                                    <p>DSC_3829.jpg</p>
-                                </a>
-                                <div class="post-fragment">
-                                    <a href="post.php" class="post-body">
-                                        <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
-                                        <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról.
-                                            A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
-                                    </a>
-                                    <div class="reaction-bar">
-                                        <a class="button flat" href="index.php"><span class="material-symbols-rounded">forum</span>18</a>
-                                        <button class="flat right"><span class="material-symbols-rounded">thumb_up</span>2,6E</button>
-                                        <button class="flat"><span class="material-symbols-rounded" >thumb_down</span>10</button>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
-                        </div>
                     </div>
                 </section>
             </div>

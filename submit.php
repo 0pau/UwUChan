@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form id="new-post-form" method="POST" enctype="multipart/form-data">
                         <label class="card-header">Üzenőfal kiválasztása (Kötelező)</label>
                         <div id="suggested-boards-input" onauxclick="clearBoardList()">
-                            <input id="boardInput" onkeyup="refreshBoardList()" name="board-name" list="boardlist" required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni..." value="<?php echo $target_board ?>">
+                            <input id="boardInput" onkeyup="refreshBoardList()" name="board-name" required type="text" placeholder="Kezdd el egy üzenőfal nevét gépelni..." value="<?php echo $target_board ?>">
                             <div id="boardList">
 
                             </div>

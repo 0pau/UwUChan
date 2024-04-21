@@ -28,6 +28,11 @@ function isEmailUsed($email): bool {
 }
 
 function userExists($name, $root = "."): bool {
+
+    if ($name == "SYSTEM") {
+        return true;
+    }
+
     return (file_exists("$root/data/users/".$name));
 }
 
@@ -78,6 +83,11 @@ function changeUserField($field, $value, $root = "."): void {
 }
 
 function getUserProfilePicture($name): string {
+
+    if ($name == "SYSTEM") {
+        return "img/system.png";
+    }
+
     if ($name != "" && userExists($name)) {
         if (getUserField("profilePictureFilename", ".", $name) != "") {
             return "data/images/" . getUserField("profilePictureFilename", ".", $name);
@@ -327,4 +337,242 @@ function getPostAuthor($which, $root = ".") {
     $data = file_get_contents($file);
     $data = json_decode($data, false);
     return $data->author;
+}
+
+function sendFriendRequest($to, $root = ".") {
+    if (!userExists($to, $root)) {
+        throw new Error("A felhasználó nem létezik.");
+    }
+
+    $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
+    $myFriendsData = json_decode(file_get_contents($my_friends), false);
+    $other_friends = "$root/data/users/$to/friends.json";
+    $otherFriendsData = json_decode(file_get_contents($other_friends), false);
+
+    $myEntry = new stdClass();
+    $myEntry->username = $to;
+    $myEntry->relationship = -1;
+    $myEntry->thread = "";
+    $myEntry->seenLastReaction = true;
+    $myFriendsData[] = $myEntry;
+
+    $otherEntry = new stdClass();
+    $otherEntry->username = $_SESSION["user"];
+    $otherEntry->relationship = 0;
+    $otherEntry->thread = "";
+    $otherEntry->seenLastReaction = false;
+    $otherFriendsData[] = $otherEntry;
+
+    file_put_contents($my_friends, json_encode($myFriendsData, JSON_UNESCAPED_UNICODE));
+    file_put_contents($other_friends, json_encode($otherFriendsData, JSON_UNESCAPED_UNICODE));
+
+}
+
+function removeFriend($who, $root = ".") {
+    if (!userExists($who, $root)) {
+        throw new Error("A felhasználó nem létezik.");
+    }
+
+    $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
+    $myFriendsData = json_decode(file_get_contents($my_friends), false);
+    $other_friends = "$root/data/users/$who/friends.json";
+    $otherFriendsData = json_decode(file_get_contents($other_friends), false);
+
+    for ($i = 0; $i < count($myFriendsData); $i++) {
+        if ($myFriendsData[$i]->username == $who) {
+            if ($myFriendsData[$i]->thread != "") {
+                unlink("$root/data/threads/".$myFriendsData[$i]->thread.".json");
+            }
+            array_splice($myFriendsData, $i, 1);
+            break;
+        }
+    }
+
+    for ($i = 0; $i < count($otherFriendsData); $i++) {
+        if ($otherFriendsData[$i]->username == $_SESSION["user"]) {
+            array_splice($otherFriendsData, $i, 1);
+            break;
+        }
+    }
+
+    file_put_contents($my_friends, json_encode($myFriendsData, JSON_UNESCAPED_UNICODE));
+    file_put_contents($other_friends, json_encode($otherFriendsData, JSON_UNESCAPED_UNICODE));
+
+}
+
+function acceptFriendRequest($who, $root = ".") {
+
+    if (!userExists($who, $root)) {
+        throw new Error("A felhasználó nem létezik.");
+    }
+
+    $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
+    $myFriendsData = json_decode(file_get_contents($my_friends), false);
+    $other_friends = "$root/data/users/$who/friends.json";
+    $otherFriendsData = json_decode(file_get_contents($other_friends), false);
+
+    $threadId = createThread($root);
+
+    for ($i = 0; $i < count($myFriendsData); $i++) {
+        if ($myFriendsData[$i]->username == $who) {
+            $myFriendsData[$i]->relationship = 1;
+            $myFriendsData[$i]->thread = $threadId;
+            $myFriendsData[$i]->seenLastInteraction = false;
+            $myFriendsData[$i]->lastInteraction = time();
+            break;
+        }
+    }
+    for ($i = 0; $i < count($otherFriendsData); $i++) {
+        if ($otherFriendsData[$i]->username == $_SESSION["user"]) {
+            $otherFriendsData[$i]->relationship = 1;
+            $otherFriendsData[$i]->thread = $threadId;
+            $otherFriendsData[$i]->seenLastInteraction = false;
+            $otherFriendsData[$i]->lastInteraction = time();
+            break;
+        }
+    }
+
+    file_put_contents($my_friends, json_encode($myFriendsData, JSON_UNESCAPED_UNICODE));
+    file_put_contents($other_friends, json_encode($otherFriendsData, JSON_UNESCAPED_UNICODE));
+
+}
+
+function blockUser($who, $unblock = false, $root = ".") {
+    if (!userExists($who, $root)) {
+        throw new Error("A felhasználó nem létezik.");
+    }
+
+    $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
+    $myFriendsData = json_decode(file_get_contents($my_friends), false);
+
+    for ($i = 0; $i < count($myFriendsData); $i++) {
+        if ($myFriendsData[$i]->username == $who) {
+            $myFriendsData[$i]->relationship = ($unblock ? 1 : 2);
+            break;
+        }
+    }
+
+    file_put_contents($my_friends, json_encode($myFriendsData, JSON_UNESCAPED_UNICODE));
+
+}
+
+function createThread($root = ".") : string {
+    $id = uniqid();
+    file_put_contents("$root/data/threads/$id.json", "[]");
+    return $id;
+}
+
+function getRelationship($with, $relative = false, $root = ".") : int {
+    $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
+    $myFriendsData = json_decode(file_get_contents($my_friends), false);
+
+    $other_friends = "$root/data/users/$with/friends.json";
+    $otherFriendsData = json_decode(file_get_contents($other_friends), false);
+
+    $friend = false;
+    for ($i = 0; $i < count($myFriendsData); $i++) {
+
+        if ($relative && $myFriendsData[$i]->username == $with) {
+            return $myFriendsData[$i]->relationship;
+        }
+
+        if ($myFriendsData[$i]->relationship == 1 && $myFriendsData[$i]->username == $with) {
+            $friend = true;
+        }
+        if ($myFriendsData[$i]->relationship == 2 && $myFriendsData[$i]->username == $with) {
+            return 2;
+        }
+    }
+    if ($relative) {
+        return -2;
+    }
+    for ($i = 0; $i < count($otherFriendsData); $i++) {
+        if ($otherFriendsData[$i]->relationship == 2 && $otherFriendsData[$i]->username == $_SESSION["user"]) {
+            return 2;
+        }
+        if ($otherFriendsData[$i]->relationship != 1 && $otherFriendsData[$i]->username == $_SESSION["user"]) {
+            $friend = false;
+        }
+    }
+    return $friend ? 1 : 0;
+}
+
+function getUnreadCount($root = ".") {
+    $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
+    $myFriendsData = json_decode(file_get_contents($my_friends), false);
+    $unread = 0;
+    for ($i = 0; $i < count($myFriendsData); $i++) {
+        if ($myFriendsData[$i]->relationship == 0 || ($myFriendsData[$i]->relationship == 1 && !$myFriendsData[$i]->seenLastInteraction)) {
+            $unread++;
+        }
+    }
+    return $unread;
+}
+
+function sendSystemMessage($to, $msg, $root = ".") {
+
+    error_reporting(E_ALL);
+
+    $friends_file = "$root/data/users/$to/friends.json";
+
+    if (!file_exists($friends_file)) {
+        throw new Error("A fájl nem létezik!");
+    }
+
+    $friends_data = json_decode(file_get_contents($friends_file), false);
+
+    $systemThread = "";
+    $hasSystemAsFriend = false;
+    foreach ($friends_data as $friend) {
+        if ($friend->username == "SYSTEM") {
+            $systemThread = $friend->thread;
+            $hasSystemAsFriend = true;
+            break;
+        }
+    }
+
+    $friend_detail = new stdClass();
+    $friend_detail->username = "SYSTEM";
+    $friend_detail->relationship = 1;
+    $friend_detail->lastInteraction = time();
+    $friend_detail->seenLastInteraction = false;
+
+
+    if ($systemThread == "") {
+        $systemThread = createThread($root);
+        $friend_detail->thread = $systemThread;
+    } else {
+        $friend_detail->thread = $systemThread;
+    }
+
+    if (!$hasSystemAsFriend) {
+        $friends_data[] = $friend_detail;
+    } else {
+        for ($i = 0; $i < count($friends_data); $i++) {
+            if ($friends_data[$i]->username == "SYSTEM") {
+                $friends_data[$i] = $friend_detail;
+                break;
+            }
+        }
+    }
+
+    file_put_contents($friends_file, json_encode($friends_data, JSON_UNESCAPED_UNICODE));
+
+    $thread_data = json_decode(file_get_contents("$root/data/threads/$systemThread.json"), false);
+    if ($thread_data == null) {
+        $thread_data = [];
+    }
+
+    $message = new stdClass();
+    $message->id = uniqid();
+    $message->username = "SYSTEM";
+    $message->text = $msg;
+    $postedAtField = "posted-at";
+    $message->$postedAtField = time();
+    $message->unsent = false;
+
+    $thread_data[] = $message;
+
+    file_put_contents("$root/data/threads/$systemThread.json", json_encode($thread_data,JSON_UNESCAPED_UNICODE));
+
 }

@@ -24,11 +24,10 @@
         <form id="new-post-form">
           <label class="card-header">Bejelenteni kívánt tartalom</label>
             <?php include "api/posts.php";
-
                 if (!isset($_GET["w"])) {
                     die("<p>Nincs megadva a bejelenteni kívánt tartalom.</p>");
                 } else {
-                    getPostCard($_GET["w"], true);
+                    getPostCard($_GET["w"], "post.php?n=".$_GET["w"],true);
                 }
             ?>
           <label class="card-header">Szabályszegés kiválasztása</label>

@@ -1,6 +1,7 @@
 <?php
     session_start();
     include "users.php";
+    include "posts.php";
     include "comments.php";
     if (!isset($_SESSION["user"])) {
         header("Location: ../403.html");
@@ -12,14 +13,48 @@
         die("Hibás kérés!");
     }
 
+    $redirect_to_referer = false;
+
     switch ($_POST["action"]) {
         case "toggle-follow": {
             toggleFollow();
+            $redirect_to_referer = true;
             break;
         }
         case "delete": {
             deleteEverything();
+            break;
         }
+        case "sendFriendRequest": {
+            sendFriendRequest($_POST["username"],"..");
+            $redirect_to_referer = true;
+            break;
+        }
+        case "removeFriend": {
+            removeFriend($_POST["username"],"..");
+            $redirect_to_referer = true;
+            break;
+        }
+        case "acceptRequest": {
+            acceptFriendRequest($_POST["username"],"..");
+            $redirect_to_referer = true;
+            break;
+        }
+        case "blockUser": {
+            blockUser($_POST["username"], false,"..");
+            $redirect_to_referer = true;
+            break;
+        }
+        case "unblockUser": {
+            blockUser($_POST["username"],true,"..");
+            $redirect_to_referer = true;
+            break;
+        }
+    }
+
+    if ($redirect_to_referer) {
+        $referer = $_SERVER["HTTP_REFERER"];
+        header("Location: $referer");
     }
 
     function toggleFollow(): void {
@@ -34,8 +69,6 @@
         } else {
             followBoard($board_name, "..");
         }
-        $referer = $_SERVER["HTTP_REFERER"];
-        header("Location: $referer");
     }
 
     function deleteEverything(): void {
@@ -64,14 +97,7 @@
         $posts = getUserPosts($_SESSION["user"], "..");
 
         foreach ($posts as $post) {
-            $file = "../data/boards/$post.json";
-            $data = file_get_contents($file);
-            $data = json_decode($data, false);
-            foreach ($data->images as $image) {
-                unlink("../data/images/$image->original");
-                unlink("../data/images/$image->thumbnail");
-            }
-            unlink($file);
+            deletePost($post, "..");
         }
 
         echo "-> Kommentek<br>";
@@ -95,16 +121,11 @@
         $friends_file = "../data/users/".$_SESSION["user"]."/friends.json";
         $friends = json_decode(file_get_contents($friends_file), false);
         foreach ($friends as $friend) {
-            unlink("../data/threads/".$friend->thread.".json");
-            $friend_data = "../data/users/".$friend->username."/friends.json";
-            $friend_data = json_decode(file_get_contents($friend_data), false);
-            for ($i = 0; $i < count($friend_data); $i++) {
-                if ($friend_data[$i]->username == $_SESSION["user"]) {
-                    array_splice($friend_data, $i, 1);
-                    break;
-                }
+            if ($friend->username != "SYSTEM") {
+                removeFriend($friend->username, "..");
+            } else {
+                unlink("../data/threads/" . $friend->thread . ".json");
             }
-            file_put_contents("../data/users/".$friend->username."/friends.json", json_encode($friend_data));
         }
 
         echo "-> Metaadatok<br>";

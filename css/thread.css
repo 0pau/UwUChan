@@ -1,3 +1,7 @@
+* {
+    scroll-behavior: unset!important;
+}
+
 .thread-view {
     display: flex;
     flex-direction: column;
@@ -67,6 +71,7 @@
     display: block;
     max-width: 250px;
     z-index: 2;
+    word-wrap: break-word;
 }
 
 .message.mine .bubble {

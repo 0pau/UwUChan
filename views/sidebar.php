@@ -1,5 +1,7 @@
 <?php
 
+    include_once "api/user.php";
+
     $page = $_SERVER["REQUEST_URI"];
     $page = explode("/", $page);
     $page = end($page);
@@ -13,10 +15,17 @@
 
 ?>
 <nav>
+
     <div>
         <a href="index.php" <?php if ($page == "index") echo "class=\"current\"" ?>><span class="material-symbols-rounded">home</span><span class="nav-item-title">Hírfolyam</span></a>
         <?php if (isset($_SESSION["user"])) { ?>
-        <a href="messages.php" <?php if ($page == "messages" || $page == "friends" || $page == "thread") echo "class=\"current\"" ?>><span class="material-symbols-rounded">3p</span><span class="nav-item-title">Üzenetek és barátok</span></a>
+        <a href="messages.php" <?php if ($page == "messages" || $page == "friends" || $page == "thread") echo "class=\"current\"" ?>>
+            <span class="material-symbols-rounded">3p</span>
+            <span class="nav-item-title">Üzenetek és barátok</span>
+            <?php if (getUnreadCount() != 0) { ?>
+                <span class="unread-badge"><?php echo getUnreadCount(); ?></span>
+            <?php } ?>
+        </a>
         <?php } ?>
         <?php if (isset($_SESSION["user"]) && getUserField("privilege") == 1) { ?>
         <a href="admincenter.php" <?php if ($page == "admincenter") echo "class=\"current\"" ?>><span class="material-symbols-rounded">build</span><span class="nav-item-title">Admin Központ</span></a>
