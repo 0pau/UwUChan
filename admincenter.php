@@ -1,4 +1,11 @@
-<?php session_start(); include "api/users.php"; include "api/acl.php"?>
+<?php session_start();
+include "api/users.php";
+include "api/acl.php";
+include "api/acl.php";
+include "api/boards.php";
+include "api/posts.php";
+?>
+
 <!doctype html>
 <html lang="hu">
     <head>
@@ -27,108 +34,140 @@
                         <a title="Üzenőfalak kezelése" class="button icon flat hide-text-on-mobile"><span class="material-symbols-rounded">dashboard</span><span>Üzenőfalak</span></span></a>
                     </div>
                     <div class="section-inset">
+
+                        <?php
+                        $metadataPath = "data/reports/reportsmetadata.json";
+                        $metadata = json_decode(file_get_contents($metadataPath), true);
+                        ?>
+
+                        <?php
+                        $root = ".";
+                        function updateReportMetadata($root) {
+                            $reportsDirectory = "$root/data/reports";
+                            $metadataPath = "$root/data/reports/reportsmetadata.json";
+                            $metadata = json_decode(file_get_contents($metadataPath), true);
+
+                            $totalModerated = 0;
+                            $totalUnmoderated = 0;
+
+                            $boards = scandir($reportsDirectory);
+                            foreach ($boards as $board) {
+                                if ($board === '.' || $board === '..') continue;
+
+                                $boardDir = $reportsDirectory . '/' . $board;
+                                $posts = scandir($boardDir);
+                                foreach ($posts as $postID) {
+                                    if ($postID === '.' || $postID === '..') continue;
+
+                                    $postReportsDir = $boardDir . '/' . $postID;
+                                    $reports = scandir($postReportsDir);
+                                    foreach ($reports as $reportNumber) {
+                                        if ($reportNumber === '.' || $reportNumber === '..') continue;
+
+                                        $reportFile = $postReportsDir . '/' . $reportNumber . '/report.json';
+                                        if (file_exists($reportFile)) {
+                                            $reportData = json_decode(file_get_contents($reportFile), true);
+                                            if (isset($reportData['moderate']) && $reportData['moderate']) {
+                                                $totalModerated++;
+                                            } else {
+                                                $totalUnmoderated++;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            $metadata['done'] = $totalModerated;
+                            $metadata['queue'] = $totalUnmoderated;
+                            file_put_contents($metadataPath, json_encode($metadata, JSON_UNESCAPED_UNICODE));
+                        }
+                        updateReportMetadata($root);
+                        $metadataPath = "$root/data/reports/reportsmetadata.json";
+                        $metadata = json_decode(file_get_contents($metadataPath), true);
+                        ?>
+
                         <div class="admin-dashboard">
                             <div class="dashboard-item">
                                 <p>Összes felhasználó</p>
-                                <p><?php echo getUserCount() ?></p>
+                                <p><?php echo getUserCount(); ?></p>
                             </div>
                             <div class="dashboard-item blue">
                                 <p>Bírálatra váró tartalmak</p>
-                                <p>0</p>
+                                <p><?php echo $metadata['queue']; ?></p>
                             </div>
                             <div class="dashboard-item green">
                                 <p>Moderált tartalom</p>
-                                <p>0</p>
+                                <p><?php echo $metadata['done']; ?></p>
                             </div>
                             <div class="dashboard-item orange">
                                 <p>Üzenőfal-létrehozási kérelmek</p>
-                                <p>0</p>
+                                <p><?php echo $metadata['requests']; ?></p>
                             </div>
                         </div>
                         <div class="tab-bar">
-                            <button class="active">Bírálatra vár</button>
-                            <button>Moderált elemek</button>
-                            <button>Üzenőfal-kérelmek</button>
+                            <a href="admincenter.php" class="button <?php echo (!isset($_GET['page']) ? 'active' : ''); ?>">Bírálatra vár</a>
+                            <a href="admincenter.php?page=moderalt" class="button <?php echo (isset($_GET['page']) && $_GET['page'] == 'moderalt' ? 'active' : ''); ?>">Moderált elemek</a>
+                            <a href="admincenter.php?page=uzenofal" class="button <?php echo (isset($_GET['page']) && $_GET['page'] == 'uzenofal' ? 'active' : ''); ?>">Üzenőfal-kérelmek</a>
                         </div>
-                        <!--
-                        <div id="reports">
-                            <div class="post-card">
-                                <div class="card-head">
-                                    <a href="profile-other.php">
-                                        <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                        <span>randomUser52</span>
-                                    </a>
-                                    <span class="material-symbols-rounded">arrow_right</span>
-                                    <a href="board.php">
-                                        <img class="user-profile-blog-avatar" src="img/minta_macsek.jpg" alt="macskak">
-                                        <span>macskak</span>
-                                    </a>
-                                    <span class="right">#123456</span>
-                                </div>
-                                <div class="post-content">
-                                    <a class="post-images" href="index.php">
-                                        <img src="./img/blog_macska.jpg" alt="macska">
-                                        <p>DSC_3829.jpg</p>
-                                    </a>
-                                    <div class="post-fragment">
-                                        <a href="post.php" class="post-body">
-                                            <p class="post-title">“Doktor úr, ezek a fényre jönnek!”</p>
-                                            <p class="post-text">Ahogy ígértem, itt van a kép az új, gyönyörűséges alomról. A tündérbogárkáim már rendesen szopiznak és nőttön nőnek</p>
-                                        </a>
-                                        <div class="reaction-bar">
-                                            <span>Bejelentés oka: tiltott szó (szop)</span>
-                                            <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
-                                            <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-card">
-                                <div class="card-head">
-                                    <a href="index.php">
-                                        <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                        <span>xd43783f</span>
-                                    </a>
-                                    <span class="material-symbols-rounded">arrow_right</span>
-                                    <a href="board.php">
-                                        <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="macskak">
-                                        <span>politika</span>
-                                    </a>
-                                    <span class="right">#123456</span>
-                                </div>
-                                <div class="post-content">
-                                    <div class="post-fragment">
-                                        <a href="post.php" class="post-body">
-                                            <p class="post-text">A k** anyukád!</p>
-                                        </a>
-                                        <div class="reaction-bar">
-                                            <span>Bejelentés oka: személyeskedés</span>
-                                            <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
-                                            <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-card">
-                                <div class="card-head">
-                                    <a href="index.php">
-                                        <img class="user-profile-blog-avatar" src="img/default_user_avatar.png" alt="Profilkép">
-                                        <span>kaltika</span>
-                                    </a>
-                                    <span class="right">#123456</span>
-                                </div>
-                                <div class="post-content">
-                                    <div class="post-fragment">
-                                        <div class="reaction-bar">
-                                            <span>Bejelentés oka: pedofil tartalom terjesztése az oldalon</span>
-                                            <button class="flat right hide-text-on-mobile"><span class="material-symbols-rounded">undo</span><span>Visszaállítás</span></button>
-                                            <button class="flat hide-text-on-mobile destructive"><span class="material-symbols-rounded">delete</span><span>Törlés</span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="section-content">
+
+                            <?php
+                            function getReportsByModeration($root = ".", $moderationStatus) {
+                                $moderatedReports = [];
+                                $unmoderatedReports = [];
+                                $reportsDirectory = "$root/data/reports";
+
+                                $boards = scandir($reportsDirectory);
+                                foreach ($boards as $board) {
+                                    if ($board === '.' || $board === '..') continue;
+
+                                    $boardDir = $reportsDirectory . '/' . $board;
+                                    $posts = scandir($boardDir);
+                                    foreach ($posts as $postID) {
+                                        if ($postID === '.' || $postID === '..') continue;
+
+                                        $postReportsDir = $boardDir . '/' . $postID;
+                                        $reports = scandir($postReportsDir);
+                                        foreach ($reports as $reportNumber) {
+                                            if ($reportNumber === '.' || $reportNumber === '..') continue;
+
+                                            $reportFile = $postReportsDir . '/' . $reportNumber . '/report.json';
+                                            if (file_exists($reportFile)) {
+                                                $reportData = json_decode(file_get_contents($reportFile), true);
+                                                if (isset($reportData['moderate']) && $reportData['moderate']) {
+                                                    $moderatedReports[] = ["board" => $board, "postID" => $postID, "reportNumber" => $reportNumber];
+                                                } else {
+                                                    $unmoderatedReports[] = ["board" => $board, "postID" => $postID, "reportNumber" => $reportNumber];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                return $moderationStatus ? $moderatedReports : $unmoderatedReports;
+                            }
+
+                            function displayReports($reports, $root) {
+                                foreach ($reports as $report) {
+                                    if ($report['moderate']) {
+                                        deletePost("{$report['board']}/{$report['postID']}", $root);
+                                    }
+                                    getPostCard("{$report['board']}/{$report['postID']}", "moderate.php?board={$report['board']}&postID={$report['postID']}&reportNumber={$report['reportNumber']}", $root);
+                                }
+                            }
+
+                            if (!isset($_GET['page'])) {
+                                $unmoderatedReports = getReportsByModeration('.', false);
+                                displayReports($unmoderatedReports, '.');
+                            } elseif ($_GET['page'] == 'moderalt') {
+                                $moderatedReports = getReportsByModeration('.', true);
+                                foreach ($moderatedReports as &$report) {
+                                    $report['moderate'] = true;
+                                }
+                                displayReports($moderatedReports, '.');
+                            } elseif ($_GET['page'] == 'uzenofal') {
+                            }
+                            ?>
+
                         </div>
-                        -->
                     </div>
                     <?php } else { ?>
                         <p>Az oldal megtekintéséhez rendszergazdai jogosultság szükséges.</p>

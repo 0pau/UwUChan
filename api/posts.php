@@ -195,18 +195,33 @@
 
     }
 
-    function deletePost($post, $root) : void{
-        $file = "$root/data/boards/$post.json";
-        $data = file_get_contents($file);
-        $data = json_decode($data, false);
-        foreach ($data->images as $image) {
-            unlink("../data/images/$image->original");
-            unlink("../data/images/$image->thumbnail");
-        }
-        $data->title = "[törölt]";
-        $data->body = "[törölt]";
-        $data->author = "[törölt]";
-        $data->images = [];
-        $data->comments = [];
-        file_put_contents($file, json_encode($data, JSON_UNESCAPED_UNICODE));
+function getViolationReason($code) {
+    $reasons = [
+        0 => "Kendőzetlen erőszak",
+        1 => "Személyeskedés",
+        2 => "Személyiségi jogok sértése",
+        3 => "A tartalom nem illik az üzenőfalra",
+        4 => "Gyermekpornográfia",
+        5 => "Kábítószerfogyasztás, -előállítás",
+        6 => "Államhatalom puccsal történő átvétele"
+    ];
+    return $reasons[$code] ?? "Ismeretlen ok";
+}
+function deletePost($post, $root) : void{
+    $file = "$root/data/boards/$post.json";
+    $data = file_get_contents($file);
+    $data = json_decode($data, false);
+    foreach ($data->images as $image) {
+        unlink("../data/images/$image->original");
+        unlink("../data/images/$image->thumbnail");
     }
+    $data->title = "[törölt]";
+    $data->body = "[törölt]";
+    $data->author = "[törölt]";
+    $data->images = [];
+    $data->comments = [];
+    file_put_contents($file, json_encode($data, JSON_UNESCAPED_UNICODE));
+}
+
+?>
+
