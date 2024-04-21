@@ -152,6 +152,9 @@
             $comment->username = "";
             $comment->text = "[törölt]";
         }
+        if (!isset($comment->replies)) {
+            return;
+        }
         for ($i = 0; $i < count($comment->replies); $i++) {
             if ($comment->replies[$i]->username == $name) {
                 $comment->replies[$i]->username = "";
