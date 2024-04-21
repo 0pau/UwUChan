@@ -1,6 +1,6 @@
 .admin-dashboard {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
 }
 
@@ -60,49 +60,34 @@
     margin: 0px;
 }
 
-
-
-
-
 .report-container {
-    font-family: Arial, sans-serif;
     background-color: var(--highlight);
-    border: 1px var(--borders);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    color: black;
-}
-
-.report-header {
-    margin-bottom: 20px;
+    border: 1px var(--borders) solid;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
 }
 
 .report-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
     padding: 10px;
-    background-color: #fff;
     border-radius: 8px;
 }
 
-.report-label {
-    font-weight: bold;
-    color: #333;
-}
 
-.report-value {
-    color: #666;
+.report-label {
+    font-weight: 550;
+    margin: 0px;
 }
 
 .comment-box {
     padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    min-height: 60px;
+}
+
+.comment-box p {
+    margin: 0px;
 }
 
 .content-moderation {
@@ -114,77 +99,17 @@
     margin-bottom: 20px;
 }
 
-.content-moderation .moderation-header {
-    margin-bottom: 20px;
-}
-
-.content-moderation .moderation-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 8px;
-}
-
-.content-moderation .moderation-label {
-    font-weight: bold;
-    color: #333;
-}
-
-.content-moderation .moderation-value {
-    color: #666;
-}
-
-.content-moderation .comment-box {
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    min-height: 60px;
-}
-
-.moderation-form {
-    font-family: Arial, sans-serif;
-    color: #333;
-}
-
 .radio-group {
-    background-color: #fff;
-    padding: 10px;
     border-radius: 8px;
-    margin-bottom: 10px;
-
 }
 
 .radio-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-.submit-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.submit-btn:hover {
-    background-color: #45a049;
-}
-
-.button-group {
     display: flex;
-    justify-content: space-between;
-margin-top: 10px;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
 }
 
-.submit-btn {
-    flex: 1;
-margin: 0 5px;
+.report-container .button-box {
+    padding: 10px;
 }

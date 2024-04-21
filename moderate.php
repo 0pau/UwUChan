@@ -13,49 +13,6 @@ if (isset($_GET["o"])) {
 if ($offset < 0) {
     $offset = 0;
 }
-
-$posts = [];
-$last = false;
-$lastOffset = 0;
-
-try {
-    global $posts;
-    global $last;
-
-    if (!file_exists("data/post_activity.dat")) {
-        throw new Error("Nem található a posztokat tartalmazó fájl. Jelezd egy adminisztrátornak, hogy frissítse a hírfolyamokat!");
-    }
-
-    $file = fopen("data/post_activity.dat", "r");
-    $line_count = 0;
-
-    while (!feof($file) && $line_count != $offset + 15) {
-        $line = fgets($file);
-        $lastOffset++;
-        if ($line_count < $offset) {
-            $line_count++;
-            continue;
-        }
-        $line_count++;
-        if ($line == "") {
-            continue;
-        }
-        if (!isset($_SESSION["user"]) || (isBoardFollowed(explode("/", $line)[0]) && getPostAuthor(trim($line)) != $_SESSION["user"])) {
-            $posts[] = trim($line);
-        } else {
-            $line_count--;
-        }
-    }
-
-    if (feof($file)) {
-        $last = true;
-    }
-
-    fclose($file);
-} catch (Error $err) {
-    $error = $err->getMessage();
-}
-
 ?>
 <!doctype html>
 <html lang="hu">
@@ -80,12 +37,13 @@ try {
                 <h1>Bejelentés részletei</h1>
             </div>
 
-
             <?php
             $root = ".";
             $board = $_GET['board'] ?? 'defaultBoard';
             $postID = $_GET['postID'] ?? 'defaultPost';
             $reportNumber = $_GET['reportNumber'] ?? '1';
+
+            $message = "";
 
             $reportFile = "$root/data/reports/$board/$postID/$reportNumber/report.json";
             $postPath = "$root/data/boards/$board/$postID.json";
@@ -98,18 +56,22 @@ try {
                         $post = json_decode(file_get_contents($postPath), true);
                         $post['hidden'] = false;
                         file_put_contents($postPath, json_encode($post));
-                        $message = "A tartalom megfelelt az UwUChan szabályainak, ezért vissza lett állítva.";
+                        $message = "<p class=\"success\"><span class=\"material-symbols-rounded\">check_circle</span>A tartalom megfelelt az UwUChan szabályainak, ezért vissza lett állítva.</p>";
                     }
                 } elseif ($content_status === 'inappropriate') {
-                    if (file_exists($reportFile)) {
-                        $reportData = json_decode(file_get_contents($reportFile), true);
-                        $reportData['moderate'] = true;
-                        file_put_contents($reportFile, json_encode($reportData));
-                    }
-                    $message = "A tartalom megsértette az UwUChan szabályait, a jelentés megjelölve lett.";
+                    deletePost("$board/$postID", $root);
+                    $message = "<p class=\"success\"><span class=\"material-symbols-rounded\">check_circle</span>A tartalom megsértette az UwUChan szabályait, a posztot töröltük.</p>";
                 }
 
-                echo $message;
+                if (file_exists($reportFile)) {
+                    $reportData = json_decode(file_get_contents($reportFile), true);
+                    $reportData['moderate'] = true;
+                    file_put_contents($reportFile, json_encode($reportData));
+                }
+
+                if ($message) {
+                    echo $message;
+                }
                 return;
             }
 
@@ -117,6 +79,7 @@ try {
                 $reportData = json_decode(file_get_contents($reportFile), true);
                 $reportedUsername = $reportData['username'];
                 if (file_exists($postPath)) {
+                    echo "<p class='card-header'>Bejelentett tartalom</p>";
                     getPostCard("$board/$postID", true, $root);
                 } else {
                     echo "<p>Poszt nem található.</p>";
@@ -124,6 +87,7 @@ try {
 
                 ?>
                 <div class='report-details'>
+                    <p class='card-header'>Részletek</p>
                     <div class='report-container'>
                         <div class='report-header'>
                             <div class='report-row'><span class='report-label'>Bejelentő:</span> <span class='report-value'><?= htmlspecialchars($reportedUsername) ?></span></div>
@@ -135,11 +99,11 @@ try {
                     <div class="report-container">
                         <form action='moderate.php?board=<?= urlencode($board) ?>&postID=<?= urlencode($postID) ?>&reportNumber=<?= urlencode($reportNumber) ?>' method='post' class='moderation-form'>
                             <div class='radio-group'>
-                                <label class='radio-label'><input type='radio' name='content_status' value='appropriate'> A tartalom megfelel az UwUChan szabályainak (visszaállítás)</label><br>
+                                <label class='radio-label'><input type='radio' name='content_status' value='appropriate'> A tartalom megfelel az UwUChan szabályainak (visszaállítás)</label>
                                 <label class='radio-label'><input type='radio' name='content_status' value='inappropriate' checked> A bejelentés jogos</label>
                             </div>
-                            <div class="button-group">
-                                <button type='submit' class='submit-btn cta'>Moderálás végrehajtása</button>
+                            <div class="button-box">
+                                <button class='button cta right'>Moderálás végrehajtása</button>
                             </div>
                         </form>
                     </div>

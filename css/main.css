@@ -820,3 +820,8 @@ hr {
     color: white;
     border-radius: 100%;
 }
+
+.no-comments-placeholder.easter img {
+    max-width: 100%;
+    width: 250px;
+}

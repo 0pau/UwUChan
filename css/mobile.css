@@ -261,5 +261,12 @@
         border: none;
         border-radius: 100px;
     }
+
+    body section .thread-head {
+        padding: 0px 15px 0px;
+        gap: 5px;
+        background-color: transparent;
+        border-bottom: none;
+    }
 }
 

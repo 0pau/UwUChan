@@ -25,15 +25,13 @@ include "api/posts.php";
             <?php include "views/header.php" ?>
             <div class="main-flex">
                 <?php include "views/sidebar.php"?>
-                <section class="no-padding">
-                    <?php if (getUserField("privilege") == 1) { ?>
-                    <div class="thread-toolbar top">
-                        <b>Admin Központ</b>
-                        <a title="Módosíthatod az éppen kiírt rendszerüzenetet" class="button icon flat right hide-text-on-mobile"><span class="material-symbols-rounded">edit_note</span><span>Rendszerüzenet</span></a>
-                        <a title="Adminok listája" class="button icon flat hide-text-on-mobile"><span class="material-symbols-rounded">supervisor_account</span><span>Adminok</span></span></a>
-                        <a title="Üzenőfalak kezelése" class="button icon flat hide-text-on-mobile"><span class="material-symbols-rounded">dashboard</span><span>Üzenőfalak</span></span></a>
+                <section>
+
+                    <div class="section-head">
+                        <h1>Admin központ</h1>
                     </div>
-                    <div class="section-inset">
+
+                    <?php if (getUserField("privilege") == 1) { ?>
 
                         <?php
                         $metadataPath = "data/reports/reportsmetadata.json";
@@ -98,45 +96,45 @@ include "api/posts.php";
                                 <p>Moderált tartalom</p>
                                 <p><?php echo $metadata['done']; ?></p>
                             </div>
-                            <div class="dashboard-item orange">
-                                <p>Üzenőfal-létrehozási kérelmek</p>
-                                <p><?php echo $metadata['requests']; ?></p>
-                            </div>
                         </div>
                         <div class="tab-bar">
                             <a href="admincenter.php" class="button <?php echo (!isset($_GET['page']) ? 'active' : ''); ?>">Bírálatra vár</a>
                             <a href="admincenter.php?page=moderalt" class="button <?php echo (isset($_GET['page']) && $_GET['page'] == 'moderalt' ? 'active' : ''); ?>">Moderált elemek</a>
-                            <a href="admincenter.php?page=uzenofal" class="button <?php echo (isset($_GET['page']) && $_GET['page'] == 'uzenofal' ? 'active' : ''); ?>">Üzenőfal-kérelmek</a>
                         </div>
                         <div class="section-content">
 
                             <?php
-                            function getReportsByModeration($root = ".", $moderationStatus) {
+
+                            error_reporting(E_ALL);
+
+                            function getReportsByModeration($moderationStatus, $root = ".") {
                                 $moderatedReports = [];
                                 $unmoderatedReports = [];
+
                                 $reportsDirectory = "$root/data/reports";
 
                                 $boards = scandir($reportsDirectory);
                                 foreach ($boards as $board) {
-                                    if ($board === '.' || $board === '..') continue;
+
+                                    if (str_starts_with("$board", ".") || is_file("$reportsDirectory/$board")) continue;
 
                                     $boardDir = $reportsDirectory . '/' . $board;
                                     $posts = scandir($boardDir);
                                     foreach ($posts as $postID) {
-                                        if ($postID === '.' || $postID === '..') continue;
+                                        if (str_starts_with("$postID", ".") || is_file("$reportsDirectory/$board")) continue;
 
                                         $postReportsDir = $boardDir . '/' . $postID;
                                         $reports = scandir($postReportsDir);
                                         foreach ($reports as $reportNumber) {
-                                            if ($reportNumber === '.' || $reportNumber === '..') continue;
+                                            if (str_starts_with("$postID", ".") || is_file("$reportsDirectory/$board")) continue;
 
                                             $reportFile = $postReportsDir . '/' . $reportNumber . '/report.json';
                                             if (file_exists($reportFile)) {
                                                 $reportData = json_decode(file_get_contents($reportFile), true);
                                                 if (isset($reportData['moderate']) && $reportData['moderate']) {
-                                                    $moderatedReports[] = ["board" => $board, "postID" => $postID, "reportNumber" => $reportNumber];
+                                                    $moderatedReports[] = ["board" => $board, "postID" => $postID, "reportNumber" => $reportNumber, "moderate" => $reportData["moderate"]];
                                                 } else {
-                                                    $unmoderatedReports[] = ["board" => $board, "postID" => $postID, "reportNumber" => $reportNumber];
+                                                    $unmoderatedReports[] = ["board" => $board, "postID" => $postID, "reportNumber" => $reportNumber, "moderate" => $reportData["moderate"]];
                                                 }
                                             }
                                         }
@@ -147,18 +145,15 @@ include "api/posts.php";
 
                             function displayReports($reports, $root) {
                                 foreach ($reports as $report) {
-                                    if ($report['moderate']) {
-                                        deletePost("{$report['board']}/{$report['postID']}", $root);
-                                    }
                                     getPostCard("{$report['board']}/{$report['postID']}", "moderate.php?board={$report['board']}&postID={$report['postID']}&reportNumber={$report['reportNumber']}", $root);
                                 }
                             }
 
                             if (!isset($_GET['page'])) {
-                                $unmoderatedReports = getReportsByModeration('.', false);
+                                $unmoderatedReports = getReportsByModeration(false, ".");
                                 displayReports($unmoderatedReports, '.');
                             } elseif ($_GET['page'] == 'moderalt') {
-                                $moderatedReports = getReportsByModeration('.', true);
+                                $moderatedReports = getReportsByModeration(true, ".");
                                 foreach ($moderatedReports as &$report) {
                                     $report['moderate'] = true;
                                 }
@@ -168,7 +163,6 @@ include "api/posts.php";
                             ?>
 
                         </div>
-                    </div>
                     <?php } else { ?>
                         <p>Az oldal megtekintéséhez rendszergazdai jogosultság szükséges.</p>
                     <?php } ?>

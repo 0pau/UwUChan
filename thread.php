@@ -61,8 +61,8 @@
     <div class="main-flex">
         <?php include "views/sidebar.php" ?>
         <section class="no-padding thread-view">
-            <div class="thread-toolbar top">
-                <a title="Vissza az üzenetekre" class="button icon flat" href="messages.php"><span class="material-symbols-rounded">arrow_back</span></a>
+            <div class="section-head thread-head">
+                <a title="Vissza az üzenetekre" class="button icon flat" href="messages.php"><span class="material-symbols-rounded">chevron_left</span></a>
 
                 <?php
                     $friends_json = file_get_contents($friends_file);

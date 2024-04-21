@@ -2,7 +2,7 @@
 session_start();
 include "api/users.php";
 
-if (!isset($_GET["n"])) {
+if (!isset($_GET["n"]) || trim($_GET["n"]) == "") {
     include "404.html";
     die();
 }
@@ -13,7 +13,11 @@ if (!userExists($_GET["n"])) {
 }
 
 $profileUsername = $_GET["n"];
-$posts = getUserPosts($profileUsername);
+$posts = [];
+if ($profileUsername != "SYSTEM") {
+    $posts = getUserPosts($profileUsername);
+}
+
 ?>
 <!doctype html>
 <html lang="hu">
@@ -50,11 +54,13 @@ $posts = getUserPosts($profileUsername);
                     echo "Saját magad nem tudod bejelölni!";
                 }
 
-                $current_user_file = "data/users/{$current_user}/friends.json";
-                $profile_user_file = "data/users/{$profile_user}/friends.json";
-                $relationship_status = getRelationship($profileUsername, true);
+                $relationship_status = 999;
+                if (isset($_SESSION["user"])) {
+                    $relationship_status = getRelationship($profileUsername, true);
+                }
 
-                if ($current_user != $profile_user) {
+
+                if ($current_user != $profile_user && $profile_user != "SYSTEM") {
                     switch ($relationship_status) {
                         case -2:
                             echo '<form action="api/user_actions.php" method="post"><input type="hidden" name="username" value="' . $profileUsername . '"><input type="hidden" name="action" value="sendFriendRequest"><button type="submit">Barátkérelem küldése</button></form>';
@@ -77,17 +83,21 @@ $posts = getUserPosts($profileUsername);
 
             </div>
             <div class="section-inset">
-                <?php if (count($posts) == 0) { ?>
+                <?php if (count($posts) == 0 && $profileUsername != "SYSTEM") { ?>
                     <div class="no-comments-placeholder">
                         <span class="material-symbols-rounded">asterisk</span>
                         <p>Ennek a felhasználónak nincsenek posztjai.</p>
                     </div>
-                <?php } else {
+                <?php } else if ($profileUsername == "SYSTEM") {
+                    include "views/easter_egg.html";
+                 } else {
+                    error_reporting(E_ALL);
                     include_once "api/posts.php";
+
                     foreach ($posts as $post) {
                         getPostCard($post, "post.php?n=$post");
                     }
-                } ?>
+                }?>
             </div>
         </section>
     </div>
