@@ -1,4 +1,11 @@
 <?php
+
+/**
+ <p><b>API végpont: </b><i>HTML formból, vagy JavaScriptből hívható</i></p>
+ <h1>Modify settings</h1>
+ Egy felhasználó profilbeállításait módosítja.
+ */
+
     session_start();
 
     if (!isset($_SESSION["user"])) {

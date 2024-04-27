@@ -3,6 +3,16 @@
     include_once "users.php";
     include_once "util.php";
 
+    /**
+     * Renderel HTML-ben egy poszt kártyát, ami beágyazható a hírfolyamba, a report és admincenter oldalakra, valamint
+     * egy üzenőfalra.
+     * @param $which: A poszt azonosítója üzenőfal/poszt_száma formátumban
+     * @param $target: Az a cím, amire a poszt címében található hivatkozás mutat. Pl. ha a poszt egy üzenőfalon jelenik
+     * meg, akkor a post.php?... használatos, míg ha az admincenterben, akkor a moderate.php?... használatos.
+     * @param $isPreview: Ha igaz, akkor a poszt csak egy előnézetként jelenik meg, és nem tartalmazza a reakciógombokat.
+     * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+     * @return bool
+     */
     function getPostCard($which, $target, $isPreview = false, $root = ".") : bool {
 
         $file = $root."/data/boards/$which.json";
@@ -104,6 +114,14 @@
         return true;
     }
 
+/**
+ * Poszt feltöltésére szolgáló metódus. Ellenőrzi a poszt méretét, a bejelentkezett felhasználó jogosultságágát, azt, hogy
+ * a poszt címe és tartalma nem üres, és hogy nem tartalmaz -e HTML kódot. A poszt tartalmában található linkeket
+ * kattinthatóvá teszi. A posztot JSON formátumban menti a megadott üzenőfalra, a posztot a felhasználó profiljában
+ * is elmenti, és hozzáfűzi a posts_activity.dat fájlhoz. Végül átirányít a poszt oldalára.
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return void
+ */
     function uploadPost($root = "."): void {
 
         if ($_SERVER["CONTENT_LENGTH"] > 8388608) {
@@ -201,6 +219,11 @@
 
     }
 
+    /**
+     * Megadja string formátumban a megfelelő szöveges magyarázatot egy bejelentés okához.
+     * @param $code: A bejelentés okának kódja
+     * @return string
+     */
 function getViolationReason($code) {
     $reasons = [
         0 => "Kendőzetlen erőszak",
@@ -213,7 +236,15 @@ function getViolationReason($code) {
     ];
     return $reasons[$code] ?? "Ismeretlen ok";
 }
-function deletePost($post, $root) : void{
+
+/**
+ * Törli a posztot, viszont ez nem teljes fizikai törlés a tárhely töredezettségének elkerülése érdekében.
+ * A poszt címét, tartalmát és szerzőjét törli, és a hozzászólásokat, valamint a képeket is törli.
+ * @param $post: A poszt azonosítója üzenőfal/poszt_száma formátumban
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return void
+ */
+function deletePost($post, $root) : void {
     $file = "$root/data/boards/$post.json";
     $data = file_get_contents($file);
     $data = json_decode($data, false);

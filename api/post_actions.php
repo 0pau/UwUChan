@@ -1,5 +1,11 @@
 <?php
 
+/**
+<p><b>API végpont: </b><i>HTML formból, vagy JavaScriptből hívható</i></p>
+<h1>Post actions</h1>
+Egy posztra reagálás like vagy dislike formájában. lásd: users.php/interactWithPost
+ */
+
     session_start();
 
     include "users.php";

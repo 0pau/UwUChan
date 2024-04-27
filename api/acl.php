@@ -1,7 +1,7 @@
 <?php
 
-    /*
-    "ACL" php szkript
+    /**
+    <h1>"ACL" php szkript</h1>
     Azon oldalakra kell beágyazni, amikhez felhasználói
     azonosítás kell. Ha nincs bejelentkezve, akkor
     átirányítjuk a bejelentkezésre.

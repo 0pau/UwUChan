@@ -1,7 +1,17 @@
 <?php
 
+/**
+ * A hónapneveket magyarul rövidítve tartalmazó tömb.
+ */
 const MONTHS = ["jan.", "feb.", "márc.", "ápr.", "máj.", "jún.", "júl.", "aug.", "szept.", "okt.", "nov.", "dec."];
 
+/**
+ * Kép mentéséért felelős metódus. Ha sikeres volt a mentés, akkor a kép nevét adja vissza, egyébként üres stringet.
+ * @param $ext: A kép kiterjesztése
+ * @param $tmpFileName: Az ideiglenes fájl neve, ami a $_POST["file"]-ban található
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return String
+ */
 function saveImage($ext, $tmpFileName, $root = ".") : String {
 
     if (!is_dir($root."/data/images")) {
@@ -15,6 +25,16 @@ function saveImage($ext, $tmpFileName, $root = ".") : String {
     return "";
 }
 
+/**
+ * Kép mentéséért felelős metódus, ami egy thumbnail-t is készít a képből.
+ * Ha sikeres volt a mentés, akkor egy kételemű tömböt ad vissza,
+ * amiben az első elem az eredeti kép neve, a második pedig a thumbnail neve. HA nem sikerült a thumbnail készítése,
+ * akkor az eredeti kép nevét adja vissza kétszer.
+ * @param $ext: A kép kiterjesztése
+ * @param $tmpFileName: Az ideiglenes fájl neve, ami a $_POST["file"]-ban található
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return array|String[]
+ */
 function saveImageWithThumbnail($ext, $tmpFileName, $root = ".") {
     $original = saveImage($ext, $tmpFileName, $root);
 
@@ -41,6 +61,12 @@ function saveImageWithThumbnail($ext, $tmpFileName, $root = ".") {
     return [$original, $original];
 }
 
+/**
+ * A paraméterben kapott e-mail címet ellenőrzi regex alapján. Ha az e-mail cím megfelelő, visszatér az e-mail címmel
+ * egyébként false-ot ad vissza.
+ * @param $address: Az e-mail cím
+ * @return bool|string
+ */
 function checkEmail($address): bool|string {
     $address = validateText($address);
     if (!$address) {
@@ -52,6 +78,12 @@ function checkEmail($address): bool|string {
     return false;
 }
 
+/**
+ * Ellenőrzi, hogy a paraméterben kapott születésnap szerint a felhasználó 13 éves elmúlt -e.
+ * Ha igen, akkor a születésnapot adja vissza, egyébként false-ot.
+ * @param $birthday
+ * @return bool|string
+ */
 function checkBirthday($birthday) : bool|string {
     $today = strtotime(date("Y-m-d"));
     $birthday = strtotime($birthday);
@@ -63,6 +95,12 @@ function checkBirthday($birthday) : bool|string {
     return false;
 }
 
+/**
+ * Ellenőrzi, hogy a paraméterben kapott felhasználónév megfelel-e a követelményeknek. Ha igen, akkor a felhasználónevet
+ * adja vissza, egyébként false-ot.
+ * @param $username: A felhasználónév
+ * @return bool|string
+ */
 function checkUsername($username) : bool|string {
     $username = validateText($username);
     if (!$username) {
@@ -74,6 +112,12 @@ function checkUsername($username) : bool|string {
     return false;
 }
 
+/**
+ * Ellenőrzi, hogy a paraméterben kapott jelszó megfelel-e a követelményeknek. Ha igen, akkor a jelszót adja vissza,
+ * egyébként false-ot.
+ * @param $password: A jelszó
+ * @return bool|string
+ */
 function checkPassword($password) : bool|string {
     $password = trim($password);
     if (preg_match("/^[A-Za-z0-9#&@.,:?\"+_-]{8,64}$/", $password) != 0) {
@@ -82,6 +126,12 @@ function checkPassword($password) : bool|string {
     return false;
 }
 
+/**
+ * Ellenőrzi, hogy a paraméterben kapott szöveg nem -e üres, és nem tartalmaz-e HTML kódot.
+ * Ha megfelelő, akkor kicseréli az egyes speciális karaktereket HTML kódokra, és a sortöréseket <br> tagokra.
+ * @param $text: A szöveg
+ * @return bool|string
+ */
 function validateText($text) : bool|string {
 
     $text = trim($text);
@@ -98,6 +148,10 @@ function validateText($text) : bool|string {
 
 }
 
+/**
+ * Ellenőrzi, hogy a PHP GD könyvtára elérhető-e, ami a képek feldolgozásához szükséges.
+ * @return bool
+ */
 function isGDAvailable() : bool {
     if (get_extension_funcs("gd")) {
         return true;
@@ -105,6 +159,17 @@ function isGDAvailable() : bool {
     return false;
 }
 
+/**
+ * A megadott unix időbélyeget formázza a pillanatnyi időhöz képesti relatív módon, tehát:
+ * - Ha a timestamp a jövőben van, akkor "Valamikor a jövőben :D"
+ * - Ha a timestamp ma van, akkor: "Épp most", "x perce", "x órája"
+ * - Ha a timestamp tegnap volt, akkor: "Tegnap {óra perc}"
+ * - Ha a timestamp az idén volt, akkor: "hónap nap {óra perc}"
+ * - Egyébként: "év. hónap. nap. {óra perc}"
+ * @param $timestamp: A timestamp
+ * @param bool $showTime: Ha true, akkor a dátum után kiírja az időt is
+ * @return bool
+ */
 function formatDateRelative($timestamp, $showTime = true) {
 
     $now = time();
