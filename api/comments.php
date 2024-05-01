@@ -46,7 +46,9 @@ function postComment($where, $text, $replyTo, $root = ".") {
 /**
  * Rekurzív függvény, amely végigjárja a kommenteket, és ha megtalálja a megfelelőt, akkor hozzáfűzi a választ, emiatt
  * a paraméterek referenciaként vannak átadva.
- * <br><b>FONTOS: Hiányzik a replies-hoz egy null check, így ha nem létezik a replies tömb, akkor hibára fut!</b>
+ *  <p><b>BUG</b><br>
+ *  Hiányzik a replies-hoz egy null check, így ha nem létezik a replies tömb, akkor hibára fut!
+ *  <ul><li>Verzió: v1.0-20240421</li></ul></p>
  * @param $id: A komment azonosítója (uniqid)
  * @param $comment: Az adott komment objektum, amiben keressük azt a kommentet, amire válaszolni akarunk
  * @param $newComment: A komment szövege

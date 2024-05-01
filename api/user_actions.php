@@ -1,4 +1,24 @@
 <?php
+
+/**
+* <p><b>API végpont: </b><i>HTML formból, vagy JavaScriptből hívható</i></p>
+* <h1>User actions</h1>
+* Egy, a felhasználó által triggerelt akciót indít el, ami a következők egyike lehet:
+* <p>
+* toggle-follow: Üzenőfal követési állapotának megváltoztatása (ha követi, akkor kiköveti és vice versa)<br>
+* delete: Fióktörlés kezdeményezése<br>
+* sendFriendRequest: Barátkérelmet küld egy másik felhasználónak<br>
+* removeFriend: Eltávolít egy barátot<br>
+* acceptRequest: Elfogad egy barátkérelmet<br>
+* blockUser: Letilt egy másik felhasználót<br>
+* unblockUser: Feloldja a tiltást</p>
+* <p><b>Megjegyzés: </b>Bizonyos akciók plusz POST-paramétereket igényelnek (pl. a barátkérelemhez kell egy felhasználónév
+is, ami a barátnak jelölendő ember felhasználóneve.</p>
+<p><b>Megjegyzés (2): </b>Minden akció végrehajtása után visszairányítjuk a felhasználót arra az oldalra, ahonnan jött, így
+megteremtve a fluid működés illúzióját. (Kivéve az adattörlés esetében)
+</p>
+ */
+
     session_start();
     include "users.php";
     include "posts.php";
@@ -71,6 +91,20 @@
         }
     }
 
+/**
+ * Végrehajtja a felhasználó fiókjának törlését. A törlés a következő lépésekből áll:
+ * 1. Töröljük a profilképet, ha van
+ * 2. Levesszük a reakciókat azokról a posztokról, amikre a felhasználó reagált
+ * 3. Töröljük a felhasználó által létrehozott posztokat
+ * 4. Töröljük a felhasználó kommentjeit
+ * 5. Töröljük a barátainak a barátlistájából
+ * 6. Végül az összes metaadatot is eltávolítjuk és kijelentkeztetjük.
+ * <p><b>BUG</b> (hivatalosan nem tesztelve)<br>
+ *  Ha nincs telepítve a GD könyvtár és a posztok képeinél az original lett a thumbnail is, akkor a rendszer azt
+ *  2x próbálja majd kitörölni, ami nem lehetséges!
+ *  <ul><li>Verzió: v1.0-20240421</li></ul></p>
+ * @return void
+ */
     function deleteEverything(): void {
 
         echo "Felkészülés...<br>";
@@ -147,6 +181,13 @@
 
     }
 
+/**
+ * Rekurzív metódus, ami a kommentek törlésére szolgál. Hasonlóan működik, mint a postComment metódusból hívott rekurzív
+ * metódus.
+ * @param $name
+ * @param $comment
+ * @return void
+ */
     function purgeComments(&$name, &$comment) {
         if ($comment->username == $name) {
             $comment->username = "";

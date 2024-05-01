@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Az "Extrém hibakereső mód" beállításait végzi el.
+ * Ha be van állítva a hibakereső, akkor minden hiba (E_ALL) megjelenik, különben csak a súlyosabbak (E_ERROR).
+ * <p><b>BUG</b><br>
+ * Ha a hibakereső ki van kapcsolva, akkor a display_errors és a
+ * display_startup_errors értékének 0-nak kéne lennie.
+ * <ul><li>Verzió: v1.0-20240421</li></ul></p>
+ */
 if (isset($_SESSION["extreme_debug_mode"])) {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
@@ -10,7 +18,12 @@ if (isset($_SESSION["extreme_debug_mode"])) {
     ini_set('display_startup_errors', 1);
 }
 
-
+/**
+ * Ellenőrzi, hogy az adott e-mail címmel regisztrált -e már valaki.
+ * <p><b>FONTOS: </b>A metódus feltételezi, hogy helyes e-mail címet kap.</p>
+ * @param $email: Az e-mail cím
+ * @return bool
+ */
 function isEmailUsed($email): bool {
     if (!is_dir("data/users")) {
         return false;
@@ -27,6 +40,12 @@ function isEmailUsed($email): bool {
     return false;
 }
 
+/**
+ * Ellenőrzi, hogy létezik -e a felhasználó.
+ * @param $name: Felhasználó neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return bool
+ */
 function userExists($name, $root = "."): bool {
 
     if ($name == "SYSTEM") {
@@ -36,6 +55,12 @@ function userExists($name, $root = "."): bool {
     return (file_exists("$root/data/users/".$name));
 }
 
+/**
+ * Felhasználó adatait mentő metódus.
+ * @param $user: Felhasználó adatait tartalmazó stdClass
+ * @param $file: A $_FILES tömbből vett profilkép
+ * @return bool: Ha sikeres volt akkor true
+ */
 function createUser($user, $file): bool {
     if (!is_dir("data")) {
         mkdir("data");
@@ -61,6 +86,13 @@ function createUser($user, $file): bool {
     return true;
 }
 
+/**
+ * Lekér egy mezőt a felhasználó metadata.json fájljából (pl. e-mail cím).
+ * @param $field: Mező neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @param $name: Ha egy másik felhasználó adatát szeretnénk kérni, akkor annak a neve.
+ * @return null
+ */
 function getUserField($field, $root = ".", $name = "\\") {
     $n = $name;
     if ($name == "\\") {
@@ -73,6 +105,13 @@ function getUserField($field, $root = ".", $name = "\\") {
     return null;
 }
 
+/**
+ * Megváltoztat egy mezőt a felhasználó metadata.json fájljában.
+ * @param $field: Mező neve
+ * @param $value: Mező új értéke
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return void
+ */
 function changeUserField($field, $value, $root = "."): void {
     $file = $root."/data/users/".$_SESSION["user"]."/metadata.json";
     $userdata = file_get_contents($file);
@@ -82,6 +121,15 @@ function changeUserField($field, $value, $root = "."): void {
     file_put_contents($file, $newdata);
 }
 
+/**
+ * Lekéri egy felhasználónév profilképét beágyazható útvonalként. 4 viszatérési érték lehetséges:
+ * 1. Ha a rendszerfelhasználó képét kérjük le, akkor egy fogaskereket ábrázoló kép útvonala
+ * 2. Ha a felhasználó létezik és van képe, akkor az a kép.
+ * 3. Ha a felhasználó létezik, de nincs képe, akkor az alap avatar.
+ * 4. Ha a felhasználó nem létezik, akkor egy kérdőjelet ábrázoló kép útvonala
+ * @param $name: A felhasználó neve
+ * @return string
+ */
 function getUserProfilePicture($name): string {
 
     if ($name == "SYSTEM") {
@@ -98,6 +146,10 @@ function getUserProfilePicture($name): string {
     return "img/default_user_avatar.png";
 }
 
+/**
+ * Visszaadja az összes regisztrált felhasználó számát
+ * @return int
+ */
 function getUserCount() : int {
     if (!is_dir("data/users")) {
         return 0;
@@ -112,6 +164,11 @@ function getUserCount() : int {
     return $users;
 }
 
+/**
+ * Visszaadja azt, hogy az aktuális felhasználó mennyi üzenőfalat követ.
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return int
+ */
 function getFollowedCount($root = ".") : int {
     if (!isset($_SESSION["user"])) {
         return 0;
@@ -122,6 +179,12 @@ function getFollowedCount($root = ".") : int {
     return count($followed);
 }
 
+/**
+ * Visszaad egy rendezett tömböt a felhasználó által követett üzenőfalak neveivel. A rendezési elv az, hogy a felhasználó
+ * mennyiszer látogatta meg az adott üzenőfalat (visits mező értéke alapján)
+ * @param $root
+ * @return array|mixed
+ */
 function getMostRankedBoards($root = ".") {
     if (!isset($_SESSION["user"])) {
         return [];
@@ -133,6 +196,12 @@ function getMostRankedBoards($root = ".") {
     return $followed;
 }
 
+/**
+ * Két üzenőfal rangsorolásához szükséges metódus. A rendezési elv alapja a visits mező.
+ * @param $a: Az egyik üzenőfal
+ * @param $b: A másik üzenőfal
+ * @return int
+ */
 function rankcmp($a, $b): int {
     if ($a->visits < $b->visits) {
         return 1;
@@ -142,6 +211,11 @@ function rankcmp($a, $b): int {
     return 0;
 }
 
+/**
+ * Visszaad egy tömböt a követett üzenőfalak stdObject-jeivel. Itt nincs rendezés.
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return array|mixed
+ */
 function getFollowedBoards($root = ".") {
     if (!isset($_SESSION["user"])) {
         return [];
@@ -151,6 +225,12 @@ function getFollowedBoards($root = ".") {
     return json_decode($followed, false);
 }
 
+/**
+ * Visszaadja, hogy az aktuális felhasználó követi -e az adott üzenőfalat
+ * @param $name: Az üzenőfal neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return bool
+ */
 function isBoardFollowed($name, $root = ".") : bool {
     if (!isset($_SESSION["user"])) {
         return false;
@@ -166,6 +246,11 @@ function isBoardFollowed($name, $root = ".") : bool {
     return false;
 }
 
+/**
+ * Megnöveli eggyel az aktuális felhasználó followed_boards.json fájljában az adott üzenőfalhoz tartozó visits számlálót.
+ * @param $name: Az üzenőfal neve
+ * @return void
+ */
 function saveBoardVisit($name): void {
     if (!isset($_SESSION["user"])) {
         return;
@@ -183,6 +268,12 @@ function saveBoardVisit($name): void {
     file_put_contents($file, $followed);
 }
 
+/**
+ * Hozzáadja az adott nevű üzenőfalat a felhasználó folllowed_boards.json fájljához.
+ * @param $name: Az üzenőfal neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return void
+ */
 function followBoard($name, $root = "."): void {
     if (isBoardFollowed($name, $root)) {
         return;
@@ -198,6 +289,12 @@ function followBoard($name, $root = "."): void {
     file_put_contents($file, $followed);
 }
 
+/**
+ * Törli az adott nevű üzenőfalat a felhasználó folllowed_boards.json fájljából.
+ * @param $name: Az üzenőfal neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return void
+ */
 function unfollowBoard($name, $root = "."): void {
     $file = $root."/data/users/".$_SESSION["user"]."/followed_boards.json";
     $followed = file_get_contents($file);
@@ -212,6 +309,12 @@ function unfollowBoard($name, $root = "."): void {
     file_put_contents($file, $followed);
 }
 
+/**
+ * Lekéri egy felhasználó összes posztját üzenőfal/poszt_szám formában.
+ * @param $name: A felhasználó neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozások hiánya miatt.
+ * @return array
+ */
 function getUserPosts($name, $root = ".") {
     $file = "$root/data/users/$name/posts.json";
     if (!file_exists($file)) {
@@ -221,12 +324,26 @@ function getUserPosts($name, $root = ".") {
     return json_decode($data, false);
 }
 
+/**
+ * Lekéri az összes kommentet, amit a felhasználó írt. A kommentek "üzenőfal/poszt_szám@komment_szám" formában vannak.
+ * @param $name: A felhasználó neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return mixed
+ */
 function getUserComments($name, $root = ".") {
     $file = "$root/data/users/$name/comments.json";
     $data = file_get_contents($file);
     return json_decode($data, false);
 }
 
+/**
+ * Amikor egy felhasználó posztot hoz létre, akkor azt el kell menteni a magához a felhasználóhoz is, hogy később az
+ * adattörlésénél tudjuk, mely posztokat kell törölni.
+ * @param $name: A felhasználó neve
+ * @param $post_id: A poszt azonosítója üzenőfal/poszt_szám formában
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function savePostToUser($name, $post_id, $root = "."): void {
     $file = "$root/data/users/$name/posts.json";
     $data = getUserPosts($name, $root);
@@ -235,6 +352,14 @@ function savePostToUser($name, $post_id, $root = "."): void {
     file_put_contents($file, $data);
 }
 
+/**
+ * Amikor egy felhasználó kommentet hoz létre, akkor azt el kell menteni a magához a felhasználóhoz is, hogy később az
+ * adattörlésénél tudjuk, mely kommenteket kell törölni.
+ * @param $where: A poszt, ahol a komment van üzenőfal/poszt_szám formában
+ * @param $comment_id: A komment azonosítója
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function saveCommentToUser($where, $comment_id, $root = "."): void {
     $file = "$root/data/users/".$_SESSION["user"]."/comments.json";
     $data = getUserComments($_SESSION["user"], $root);
@@ -243,6 +368,14 @@ function saveCommentToUser($where, $comment_id, $root = "."): void {
     file_put_contents($file, $data);
 }
 
+/**
+ * Ellenőrzi és visszaadja, hogy az adott poszt szerepel -e a felhasználó kedvelt posztjai között.
+ * Ha igen, akkor a poszt indexét adja vissza, egyébként -1-et. Azért kell az index, mert a kedvelt posztokat egy tömbben
+ * tároljuk, és így könnyen tudjuk törölni is, amikor a felhasználó már nem kedveli a posztot. (lásd. interactWithPost)
+ * @param $which: A poszt azonosítója üzenőfal/poszt_szám formában
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return int|string
+ */
 function isPostLiked($which, $root = "."): int|string {
     $liked_posts = getUserField("liked_posts", $root);
     if ($liked_posts == null) {
@@ -256,6 +389,14 @@ function isPostLiked($which, $root = "."): int|string {
     }
 }
 
+/**
+ * Ellenőrzi és visszaadja, hogy az adott poszt szerepel -e a felhasználó nem kedvelt posztjai között.
+ * Ha igen, akkor a poszt indexét adja vissza, egyébként -1-et. Azért kell az index, mert a nem kedvelt posztokat egy tömbben
+ * tároljuk, és így könnyen tudjuk törölni is, amikor a felhasználó törli a dislike-ot. (lásd. interactWithPost)
+ * @param $which: A poszt azonosítója üzenőfal/poszt_szám formában
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return int|string
+ */
 function isPostDisliked($which, $root = "."): int|string {
     $liked_posts = getUserField("disliked_posts", $root);
     if ($liked_posts == null) {
@@ -269,6 +410,16 @@ function isPostDisliked($which, $root = "."): int|string {
     }
 }
 
+/**
+ * Egy posztra való reakció (like/dislike) esetén a felhasználó adatait és a poszt adatait is módosítani kell.
+ * A felhasználó metaadatai között tároljuk, hogy mely posztokat kedveli, illetve melyeket nem.
+ * Amikor egy posztot like-ol a felhasználó, de a poszt már dislike-olva van, akkor a dislike-ot törölni kell és
+ * vice versa.
+ * @param $where: A poszt azonosítója üzenőfal/poszt_szám formában
+ * @param $action: A reakció típusa (like/dislike)
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function interactWithPost($where, $action, $root = "."): void {
     $post_list = getUserField($action."d_posts", $root);
     if ($post_list == null) {
@@ -305,6 +456,17 @@ function interactWithPost($where, $action, $root = "."): void {
     file_put_contents($file, $data);
 }
 
+/**
+ * Lehetőséget ad a felhasználónak, hogy megváltoztassa a felhasználónevét. A metódus átírja a felhasználó összes
+ * posztjának és kommentjének a szerzőjét az új névre, valamint a felhasználó mappáját is átnevezi.
+ * <p><b>BUG</b><br>
+ * A metódus nem ellenőrzi, hogy az új név már létezik -e, így ha igen, akkor a másik felhasználó elveszíti az összes
+ * posztját és kommentjét, valamint a felhasználó barátainál is eltűnik a kapcsolat.
+ * <ul><li>Verzió: v1.0-20240421</li></ul></p>
+ * @param $newName: Az új felhasználónév
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function changeUserName($newName, $root = "."): void {
     $currentName = $_SESSION["user"];
     $postList = getUserPosts($_SESSION["user"], $root);
@@ -332,6 +494,12 @@ function changeUserName($newName, $root = "."): void {
     $_SESSION["user"] = $newName;
 }
 
+/**
+ * Lekéri egy poszt szerzőjét.
+ * @param $which: A poszt azonosítója üzenőfal/poszt_szám formában
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return mixed
+ */
 function getPostAuthor($which, $root = ".") {
     $file = "$root/data/boards/$which.json";
     $data = file_get_contents($file);
@@ -339,6 +507,17 @@ function getPostAuthor($which, $root = ".") {
     return $data->author;
 }
 
+/**
+ * Barátkérelmet küld egy felhasználónak. A kapcsolatokat a felhasználók friends.json fájljában tároljuk.
+ * A kapcsolatokat a következőképpen kezeljük:
+ * -1: Kiküldött barátkérelem
+ * 0: Bejövő barátkérelem
+ * 1: Elfogadott barátkérelem
+ * 2: Blokkolt felhasználó
+ * @param $to: A felhasználó, akinek küldjük a barátkérelmet
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function sendFriendRequest($to, $root = ".") {
     if (!userExists($to, $root)) {
         throw new Error("A felhasználó nem létezik.");
@@ -368,6 +547,13 @@ function sendFriendRequest($to, $root = ".") {
 
 }
 
+/**
+ * Törli a kapcsolatot a felhasználó friends.json fájljából és a másikéból is, így megszűnik a kapcsolat. Ezen
+ * kívül törli a kapcsolathoz tartozó üzeneteket is.
+ * @param $who: A felhasználó, akivel megszűnik a kapcsolat
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function removeFriend($who, $root = ".") {
     if (!userExists($who, $root)) {
         throw new Error("A felhasználó nem létezik.");
@@ -400,6 +586,12 @@ function removeFriend($who, $root = ".") {
 
 }
 
+/**
+ * Elfogadja a barátkérelmet és létrehoz egy új beszélgetést a felhasználóval.
+ * @param $who: A felhasználó, akinek a barátkérelmét elfogadjuk
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function acceptFriendRequest($who, $root = ".") {
 
     if (!userExists($who, $root)) {
@@ -437,6 +629,13 @@ function acceptFriendRequest($who, $root = ".") {
 
 }
 
+/**
+ * Blokkolja a felhasználót, így a két fél a tiltás feloldásáig nem tud egymással kommunikálni.
+ * @param $who: A felhasználó, akit blokkolunk
+ * @param $unblock: Ha igaz, akkor a felhasználó blokkolását feloldja
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function blockUser($who, $unblock = false, $root = ".") {
     if (!userExists($who, $root)) {
         throw new Error("A felhasználó nem létezik.");
@@ -456,12 +655,26 @@ function blockUser($who, $unblock = false, $root = ".") {
 
 }
 
+/**
+ * Létrehoz egy véletlen uuid-nevű fájlt a threads mappában, amelyben a beszélgetés adatait tároljuk.
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return string: A beszélgetés azonosítója
+ */
 function createThread($root = ".") : string {
     $id = uniqid();
     file_put_contents("$root/data/threads/$id.json", "[]");
     return $id;
 }
 
+/**
+ * Lekéri, hogy a felhasználó milyen kapcsolatban van a másik felhasználóval.
+ * Ha a relative igaz, akkor csak azt adja vissza, hogy mi milyen kapcsolatban vagyunk a másikkal. Például, ha a másik
+ * felhasználó letiltott minket, de mi őt nem, akkor 1-et ad vissza, mert a mi szemszögünkből ő a barátunk, viszont, ha
+ * a relative hamis, akkor a másik felhasználó szemszögéből is vizsgálja a kapcsolatot.
+ * @param $name: A felhasználó neve
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return mixed
+ */
 function getRelationship($with, $relative = false, $root = ".") : int {
     $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
     $myFriendsData = json_decode(file_get_contents($my_friends), false);
@@ -497,6 +710,12 @@ function getRelationship($with, $relative = false, $root = ".") : int {
     return $friend ? 1 : 0;
 }
 
+/**
+ * Lekéri, hogy hány olvasatlan üzenete van a felhasználónak. Az olvasatlan üzenetekbe
+ * beleértendők a barátkérelmek is.
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return int
+ */
 function getUnreadCount($root = ".") {
     $my_friends = "$root/data/users/".$_SESSION["user"]."/friends.json";
     $myFriendsData = json_decode(file_get_contents($my_friends), false);
@@ -509,6 +728,17 @@ function getUnreadCount($root = ".") {
     return $unread;
 }
 
+/**
+ * Küld egy üzenetet a rendszer (SYSTEM) felhasználótól a megadott felhasználónak.
+ * Ez a metódus akkor használatos, amikor a rendszer automatikusan küld üzenetet a felhasználónak, például
+ * ha egy posztját bejelentették (nem lett implementálva), vagy éppen regisztrált a felhasználó.
+ * A metódus lényegében létrehoz egy kapcsolatot SYSTEM és a felhasználó között, ha még nem létezik, majd
+ * létrehoz egy új beszélgetést a felhasználóval, amelyben elküldi az üzenetet.
+ * @param $to: A címzett felhasználó
+ * @param $msg: Az üzenet szövege
+ * @param $root: a gyökérkönyvtár, ahonnan el kell indulni az abszulút hivatkozás hiánya miatt.
+ * @return void
+ */
 function sendSystemMessage($to, $msg, $root = ".") {
 
     error_reporting(E_ALL);

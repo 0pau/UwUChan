@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Lekér egy HTML-kártyát, ami tartalmazza az éppen aktuális rendszerüzenetet. Ha nincs rendszerüzenet, akkor
+ * nem tesz semmit.
+ * @return void
+ */
 function getSystemMessage() {
     if (file_exists("data/system_message.json")) {
 

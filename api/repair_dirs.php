@@ -1,4 +1,9 @@
 <?php
+/**
+<p><b>API végpont: </b><i>HTML formból, vagy JavaScriptből hívható</i></p>
+<h1>Repair dirs</h1>
+Létrehozza az összes, UwUChan működéséhez elengedhetetlen könyvtárat a fájlrendszerben.
+ */
 
     include "users.php";
 

@@ -1,5 +1,14 @@
 <?php
 
+/**
+<p><b>API végpont: </b><i>HTML formból, vagy JavaScriptből hívható</i></p>
+<h1>Refresh activity</h1>
+A post_activity.dat fájl tartalmazza az UwUChan összes posztját időrendben (legújabbtól a legrégebbiig). Ez az API-végpont
+e fájl frissítésére szolgál.
+<p>Működés: Végigmegy az összes üzenőfal összes posztján, majd ezeket időrendben rendezi (compare_posts) és elmenti a
+post_activity.dat fájlba.</p>
+ */
+
     session_start();
     include "users.php";
     include "boards.php";
